@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Hierarchy - Ashish Sinha</title>
+
+<!-- ✅ Google Fonts (CORRECT) -->
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Architects+Daughter&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --panel-bg: #000;
+    --page-bg: #000;
+    --ink-black: #9e9e9e;
+    --ai-blue: #4da3ff;
+    --border-width: 3px;
+}
+
+/* ===== BASE ===== */
+
+body {
+    background-color: var(--page-bg);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 18px;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.comic-canvas {
+    max-width: 100%;
+    margin: 0;
+    background: var(--panel-bg);
+    padding: 40px;
+}
+
+
+/* ===== HEADER (YOUR ORIGINAL STYLE) ===== */
+header {
+    border-bottom: var(--border-width) solid var(--ink-black);
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+}
+
+h1 {
+    font-family: 'Bangers', cursive;
+    font-size: 60px;
+    letter-spacing: 2px;
+    margin: 0;
+    color: var(--ai-blue);
+    text-transform: uppercase;
+    -webkit-text-stroke: 1px var(--ink-black);
+}
+
+.author-tag {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+/* ===== FANCY LINK TABS (NOT BUTTONS) ===== */
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin: 30px 0;
+}
+
+.nav-links a {
+    font-family: 'Bangers', cursive;
+    font-size: 22px;
+    color: #aaa;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--ai-blue);
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 3px;
+    background: var(--ai-blue);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* ===== LAYOUT (SINGLE COLUMN – NO EMPTY SPACE) ===== */
+.main-layout {
+    display: block;
+}
+
+/* ===== TAB CONTENT ===== */
+.tab-section {
+    display: none;
+    min-height: calc(100vh - 300px);
+}
+
+.tab-section.active {
+    display: block;
+}
+
+/* ===== CONTENT BLOCK (COMIC STYLE) ===== */
+.content-block {
+    background: #000;
+    border: 1px solid var(--ink-black);
+    padding: 20px;
+    box-shadow: 5px 5px 0px #444;
+    white-space: pre-wrap;
+}
+
+.branch-title {
+    font-family: 'Bangers', cursive;
+    font-size: 24px;
+    background: #111;
+    display: inline-block;
+    padding: 6px 18px;
+    margin-bottom: 10px;
+}
+
+/* ===== IFRAME (INTRODUCTION) ===== */
+iframe {
+    width: 100%;
+    height: 1400vh;
+    border: 0px solid var(--ink-black);
+    box-shadow: 5px 5px 0px #444;
+}
+
+/* =====================================================
+   ✅ FUTURE SPACE (ADS) — PRESENT BUT HIDDEN
+   ===================================================== */
+.right-space {
+    display: none; /* remove this line later to show ads */
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 38px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="comic-canvas">
+
+<header>
+    <h1>Thinking Machines of Today</h1>
+    <div class="author-tag">Author: Ashish Sinha · AI Developer</div>
+</header>
+
+<!-- ===== TABS ===== -->
+<nav class="nav-links">
+    <a class="active" onclick="openTab('intro', this)">Introduction</a>
+    <a onclick="openTab('ml', this)">ML</a>
+    <a onclick="openTab('dl', this)">Deep Learning</a>
+    <a onclick="openTab('llm', this)">LLMs</a>
+    <a onclick="openTab('rag', this)">RAG</a>
+    <a onclick="openTab('tools', this)">AI Tools</a>
+    <a onclick="openTab('career', this)">Career</a>
+</nav>
+
+<div class="main-layout">
+
+<!-- ===== INTRODUCTION (EXTERNAL PAGE) ===== -->
+<div id="intro" class="tab-section active">
+    <iframe
+        src="file:///C:/Users/2000117980/Desktop/AILearning.html"
+        loading="lazy">
+    </iframe>
+</div>
+
+<!-- ===== FUTURE TABS (EMPTY FOR NOW) ===== -->
+<div id="ml" class="tab-section"></div>
+<div id="dl" class="tab-section"></div>
+<div id="llm" class="tab-section"></div>
+<div id="rag" class="tab-section"></div>
+<div id="tools" class="tab-section"></div>
+<div id="career" class="tab-section"></div>
+
+
+<aside class="right-space">
+    <div class="branch-title">◆ Future Space</div>
+    <div class="content-block">
+▸ Ads  
+▸ AI News  
+▸ Downloads  
+▸ Announcements
+    </div>
+</aside>
+
+</div>
+</div>
+
+<script>
+function openTab(id, el) {
+    document.querySelectorAll('.tab-section')
+        .forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-links a')
+        .forEach(a => a.classList.remove('active'));
+
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+}
+</script>
+
+</body>
+</html>
