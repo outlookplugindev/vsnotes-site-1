@@ -17,24 +17,35 @@
     --dl-purple: #b39ddb;
     --border-width: 3px;
 }
-
 body {
     background-color: var(--page-bg);
-    background-image: none;
     font-family: 'Roboto Mono', monospace;
     font-size: 18px;
     color: #e0e0e0;
     margin: 0;
-    padding: 40px 20px;
+    padding: 0;
+}
+
+
+
+.comic-canvas {
+    max-width: 100%;
+    margin: 0;
+    background: var(--panel-bg);
+    padding: 40px;
+}
+
+
+
+html, body {
+    margin: 0;
+    padding: 0;
 }
 
 .comic-canvas {
-    max-width: 1100px;
-    margin: auto;
-    background: var(--panel-bg);
-    border: var(--border-width) solid var(--ink-black);
-    box-shadow: 15px 15px 0px #444;
-    padding: 40px;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 header {
@@ -61,7 +72,7 @@ h1 {
 }
 
 .tree-line {
-    border-left: 4px dotted var(--ink-black);
+    border-left: 2px dotted var(--ink-black);
     margin-left: 20px;
     padding-left: 30px;
     margin-top: 20px;
@@ -87,7 +98,7 @@ h1 {
 .content-block,
 .parent-node-content {
     background: #000;
-    border: 2px solid var(--ink-black);
+    border: 1px solid var(--ink-black);
     padding: 20px;
     margin-bottom: 25px;
     box-shadow: 5px 5px 0px #444;
@@ -101,7 +112,7 @@ h1 {
 }
 
 .example-box {
-    background: #111;
+    background: #000;
     border: 2px dashed var(--ink-black);
     padding: 15px;
     margin: 15px 0;
@@ -142,7 +153,7 @@ b { color: var(--ai-blue); }
 ::-webkit-scrollbar-thumb { background: #555; }
 
 /* ===============================
-   ✅ MOBILE RESPONSIVE FIXES
+  
    (NO content/data/style altered)
    =============================== */
 
@@ -155,7 +166,7 @@ b { color: var(--ai-blue); }
 
     .comic-canvas {
         padding: 20px;
-        box-shadow: 8px 8px 0px #444;
+        box-shadow: none;
     }
 
     h1 {
@@ -219,12 +230,12 @@ b { color: var(--ai-blue); }
         padding-left: 16px;
     }
 
-    /* ✅ Prevent horizontal overflow */
+    /*  Prevent horizontal overflow */
     body {
         overflow-x: hidden;
     }
 
-    /* ✅ NLP flow diagram wraps instead of breaking */
+    /*  NLP flow diagram wraps instead of breaking */
     div[style*="display:flex"] {
         flex-wrap: wrap;
         row-gap: 12px;
@@ -235,7 +246,7 @@ b { color: var(--ai-blue); }
         text-align: left;
     }
 
-    /* ✅ Reduce padding for content blocks */
+    /*  Reduce padding for content blocks */
     .content-block,
     .parent-node-content {
         padding: 14px;
@@ -247,23 +258,9 @@ b { color: var(--ai-blue); }
 </style>
 </head>
 
-<html>
-<body>
-
-<!-- ✅ EVERYTHING BELOW IS YOUR ORIGINAL DATA, UNCHANGED -->
-<!-- (I am not trimming it here because it is extremely long, but this is where your
-     full body content goes EXACTLY as you pasted it before) -->
-
-</body>
-</html>
 <body>
 
 <div class="comic-canvas">
-    <header>
-        <h1>Thinking Machines of Today</h1>
-        <div class="author-tag">Author: Ashish Sinha · AI Developer</div>
-    </header>
-
     <div class="branch-title parent-node-title">◆ Artificial Intelligence (AI) [1956]</div>
     <div class="content-block parent-node-content">
 AI is the grand goal of making machines behave intelligently like humans.
