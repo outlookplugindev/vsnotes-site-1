@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -136,6 +137,7 @@ iframe {
 
 <!-- ===== NAVIGATION ===== -->
 <nav class="nav-links">
+    <a class="active" onclick="openTab('aitree', this)">AI Tree</a>
     <a class="active" onclick="openTab('intro', this)">Introduction</a>
     <a onclick="openTab('ml', this)">ML</a>
     <a onclick="openTab('dl', this)">Deep Learning</a>
@@ -158,6 +160,7 @@ iframe {
 </div>
 
 <!-- ===== OTHER TABS (READY) ===== -->
+<div id="aitree" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
 <div id="dl" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
 <div id="llm" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
 <div id="rag" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
@@ -183,9 +186,10 @@ function openTab(id, el) {
     el.classList.add('active');
 
     // Map tabs to files
-    debugger;
+  
     const pageMap = {
-        intro: "file:///C:/Users/2000117980/Desktop/AILearning.html",
+        aitree: "tree.html",
+        intro: "AILearning.html",
         ml: "Ml.html",
         dl: "Deep Learning.html",
         llm: "LLM.html",
@@ -202,7 +206,7 @@ function openTab(id, el) {
 		}
 
 }
-window.onload = () => openTab('intro', document.querySelector('.nav-links a.active'));
+window.onload = () => openTab('aitree', document.querySelector('.nav-links a.active'));
 </script>
 
 </body>
