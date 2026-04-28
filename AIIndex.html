@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Hierarchy - Ashish Sinha</title>
 
-<!-- ✅ Google Fonts (CORRECT) -->
+<!-- ✅ Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Architects+Daughter&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -18,7 +18,6 @@
 }
 
 /* ===== BASE ===== */
-
 body {
     background-color: var(--page-bg);
     font-family: 'Roboto Mono', monospace;
@@ -28,8 +27,6 @@ body {
     padding: 0;
 }
 
-
-
 .comic-canvas {
     max-width: 100%;
     margin: 0;
@@ -37,8 +34,7 @@ body {
     padding: 40px;
 }
 
-
-/* ===== HEADER (YOUR ORIGINAL STYLE) ===== */
+/* ===== HEADER ===== */
 header {
     border-bottom: var(--border-width) solid var(--ink-black);
     margin-bottom: 30px;
@@ -62,7 +58,7 @@ h1 {
     color: #ff6b6b;
 }
 
-/* ===== FANCY LINK TABS (NOT BUTTONS) ===== */
+/* ===== NAV TABS ===== */
 .nav-links {
     display: flex;
     flex-wrap: wrap;
@@ -100,59 +96,31 @@ h1 {
     width: 100%;
 }
 
-/* ===== LAYOUT (SINGLE COLUMN – NO EMPTY SPACE) ===== */
+/* ===== MAIN LAYOUT ===== */
 .main-layout {
     display: block;
 }
 
-/* ===== TAB CONTENT ===== */
+/* ===== TAB SECTIONS ===== */
 .tab-section {
     display: none;
-    min-height: calc(100vh - 300px);
 }
 
 .tab-section.active {
     display: block;
 }
 
-/* ===== CONTENT BLOCK (COMIC STYLE) ===== */
-.content-block {
-    background: #000;
-    border: 1px solid var(--ink-black);
-    padding: 20px;
-    box-shadow: 5px 5px 0px #444;
-    white-space: pre-wrap;
-}
-
-.branch-title {
-    font-family: 'Bangers', cursive;
-    font-size: 24px;
-    background: #111;
-    display: inline-block;
-    padding: 6px 18px;
-    margin-bottom: 10px;
-}
-
-/* ===== IFRAME (INTRODUCTION) ===== */
+/* ===== IFRAME ===== */
 iframe {
     width: 100%;
     height: 1400vh;
-    border: 0px solid var(--ink-black);
+    border: 0;
     box-shadow: 5px 5px 0px #444;
-}
-
-/* =====================================================
-   ✅ FUTURE SPACE (ADS) — PRESENT BUT HIDDEN
-   ===================================================== */
-.right-space {
-    display: none; /* remove this line later to show ads */
 }
 
 /* ===== MOBILE ===== */
 @media (max-width: 600px) {
-    h1 {
-        font-size: 38px;
-    }
+    h1 { font-size: 38px; }
 }
 </style>
 </head>
@@ -166,7 +134,7 @@ iframe {
     <div class="author-tag">Author: Ashish Sinha · AI Developer</div>
 </header>
 
-<!-- ===== TABS ===== -->
+<!-- ===== NAVIGATION ===== -->
 <nav class="nav-links">
     <a class="active" onclick="openTab('intro', this)">Introduction</a>
     <a onclick="openTab('ml', this)">ML</a>
@@ -179,46 +147,62 @@ iframe {
 
 <div class="main-layout">
 
-<!-- ===== INTRODUCTION (EXTERNAL PAGE) ===== -->
+<!-- ===== INTRO TAB ===== -->
 <div id="intro" class="tab-section active">
-    <iframe
-        src="AILearning.html"
-        loading="lazy">
-    </iframe>
+    <iframe src="AILearning.html" loading="lazy"></iframe>
 </div>
 
-<!-- ===== FUTURE TABS (EMPTY FOR NOW) ===== -->
-<div id="ml" class="tab-section"></div>
-<div id="dl" class="tab-section"></div>
-<div id="llm" class="tab-section"></div>
-<div id="rag" class="tab-section"></div>
-<div id="tools" class="tab-section"></div>
-<div id="career" class="tab-section"></div>
+<!-- ===== ML TAB ===== -->
+<div id="ml" class="tab-section">
+    <iframe src="" loading="lazy"></iframe>
+</div>
 
-
-<aside class="right-space">
-    <div class="branch-title">◆ Future Space</div>
-    <div class="content-block">
-▸ Ads  
-▸ AI News  
-▸ Downloads  
-▸ Announcements
-    </div>
-</aside>
+<!-- ===== OTHER TABS (READY) ===== -->
+<div id="dl" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
+<div id="llm" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
+<div id="rag" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
+<div id="tools" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
+<div id="career" class="tab-section"><iframe src="" loading="lazy"></iframe></div>
 
 </div>
 </div>
 
 <script>
 function openTab(id, el) {
+
+    // Hide all tabs
     document.querySelectorAll('.tab-section')
         .forEach(s => s.classList.remove('active'));
+
+    // Remove active link
     document.querySelectorAll('.nav-links a')
         .forEach(a => a.classList.remove('active'));
 
+    // Activate selected
     document.getElementById(id).classList.add('active');
     el.classList.add('active');
+
+    // Map tabs to files
+    debugger;
+    const pageMap = {
+        intro: "file:///C:/Users/2000117980/Desktop/AILearning.html",
+        ml: "Ml.html",
+        dl: "Dl.html",
+        llm: "Llm.html",
+        rag: "Rag.html",
+        tools: "Tools.html",
+        career: "Career.html"
+    };
+
+    const iframe = document.querySelector(`#${id} iframe`);
+
+    
+		if (iframe && pageMap[id]) {
+		    iframe.src = pageMap[id];
+		}
+
 }
+window.onload = () => openTab('intro', document.querySelector('.nav-links a.active'));
 </script>
 
 </body>
