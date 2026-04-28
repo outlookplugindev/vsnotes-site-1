@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retrieval-Augmented Generation (RAG)</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Architects+Daughter&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --panel-bg: #000000;
+    --page-bg: #000000;
+    --ink-black: #9e9e9e;
+    --ai-blue: #4da3ff;
+    --border-width: 3px;
+}
+
+body {
+    background-color: var(--page-bg);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 18px;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+.comic-canvas {
+    max-width: 100%;
+    margin: 0;
+    background: var(--panel-bg);
+    padding: 40px;
+}
+
+.branch-title {
+    font-family: 'Bangers', cursive;
+    font-size: 36px;
+    background: #111;
+    color: #fff;
+    display: inline-block;
+    padding: 5px 20px;
+    transform: rotate(-1deg);
+    margin-bottom: 15px;
+}
+
+.content-block {
+    background: #000;
+    border: 1px solid var(--ink-black);
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 5px 5px 0px #444;
+    white-space: pre-wrap;
+}
+
+.tree-line {
+    border-left: 2px dotted var(--ink-black);
+    margin-left: 20px;
+    padding-left: 30px;
+    margin-top: 20px;
+}
+
+strong { color: #ff6b6b; }
+b { color: var(--ai-blue); }
+</style>
+</head>
+
+<body>
+<div class="comic-canvas">
+
+<div class="branch-title">◆ Retrieval‑Augmented Generation (RAG)</div>
+<div class="content-block">
+LLMs are very good at language.
+But language alone is not enough.
+
+They talk fluently.
+They sound confident.
+But confidence is not correctness.
+
+<b>RAG exists to fix this gap.</b>
+
+Simple feeling:
+→ Language answers well.
+→ Knowledge answers correctly.
+→ RAG connects both.
+
+RAG lets AI **look up information before replying**.
+</div>
+
+<div class="branch-title">◇ Why RAG Became Necessary</div>
+<div class="content-block">
+LLMs are trained once and frozen.
+
+That means:
+• They don’t know today’s updates
+• They don’t know your private data
+• They may guess when unsure
+
+Human expectation:
+🧑 “Use my documents.”
+🤖 LLM: “I never saw them.”
+
+RAG was created so AI can:
+• Read your PDFs
+• Access your internal knowledge
+• Answer with evidence
+
+<b>RAG does not teach the model.</b>
+It gives the model reading material.
+</div>
+
+<div class="branch-title">◇ RAG High‑Level Pipeline (See This First)</div>
+<div class="content-block">
+Data collection (PDFs, docs, sites)
+↓
+Data cleaning (noise removal)
+↓
+Chunking (break into small parts)
+↓
+Tokenization (text → tokens)
+↓
+Embedding (tokens → meaning vectors)
+↓
+Vector Database (store meanings)
+↓
+User question (Prompt)
+↓
+Question embedding
+↓
+Similarity search (meaning‑based)
+↓
+Relevant chunks retrieved
+↓
+Context added to prompt
+↓
+LLM generates final answer
+</div>
+
+<div class="tree-line">
+
+<div class="branch-title">◇ Step 1: Data Collection (Knowledge Gathering)</div>
+<div class="content-block">
+This step decides quality.
+
+<b>Common data sources:</b>
+• PDFs
+• PowerPoint slides
+• Word files
+• Wikis
+• Web pages
+• Databases
+• Internal tools
+
+Think like a human:
+“What would I read before answering this question?”
+
+That material becomes RAG data.
+</div>
+
+<div class="branch-title">◇ Step 2: Data Cleaning (Remove Noise)</div>
+<div class="content-block">
+Raw documents are messy.
+
+Cleaning removes:
+• Page numbers
+• Headers and footers
+• Duplicate text
+• Broken characters
+• Irrelevant sections
+
+Garbage in → garbage out.
+
+Clean knowledge makes calm answers.
+</div>
+
+<div class="branch-title">◇ Step 3: Chunking (Smart Breaking)</div>
+<div class="content-block">
+LLMs cannot read entire books at once.
+
+So documents are broken into chunks.
+
+<b>Why chunking matters:</b>
+• Small chunks = clear meaning
+• Large chunks = confusion
+
+Example:
+100‑page PDF →
+300 small chunks →
+300 focused ideas
+</div>
+
+<div class="branch-title">◇ Step 4: Tokens & Vocabulary (AI Language Units)</div>
+<div class="content-block">
+AI does not read characters.
+It reads tokens.
+
+<b>Tokenizer:</b>
+Breaks chunk text into tokens (small pieces)
+
+<b>Token:</b>
+A unit AI understands
+
+<b>Vocabulary:</b>
+All tokens the model knows
+
+Everything must become numbers before learning.
+</div>
+
+<div class="branch-title">◇ Step 5: Embeddings (Meaning Conversion)</div>
+<div class="content-block">
+Tokens alone have no meaning.
+
+Embeddings convert tokens into vectors
+(numbers that represent meaning).
+
+Similar meanings → nearby vectors  
+Different meanings → far vectors  
+
+This allows searching by sense,
+not by keyword.
+</div>
+
+<div class="branch-title">◇ Step 6: Vector Database (Meaning Storage)</div>
+<div class="content-block">
+Embeddings are stored in a Vector Database.
+
+Examples:
+• Azure AI Search
+• Pinecone
+• Weaviate
+• FAISS
+
+<b>Vector DB does:</b>
+• Meaning‑based search
+• Fast similarity matching
+• Large‑scale storage
+
+Query becomes:
+“What is similar in meaning?”
+</div>
+
+<div class="branch-title">◇ Step 7: User Question Processing</div>
+<div class="content-block">
+User asks a question (Prompt).
+
+The question is:
+• Tokenized
+• Embedded
+• Converted into a vector
+
+Now question and documents
+live in the same meaning space.
+</div>
+
+<div class="branch-title">◇ Step 8: Retrieval (Finding the Right Knowledge)</div>
+<div class="content-block">
+Vector DB finds:
+Top‑N most similar chunks.
+
+These chunks are:
+• Most relevant
+• Closest in meaning
+• Contextually aligned
+
+This is factual grounding.
+</div>
+
+<div class="branch-title">◇ Step 9: Prompt Augmentation (Context Injection)</div>
+<div class="content-block">
+Retrieved chunks are attached to prompt.
+
+Instruction becomes:
+“Answer ONLY using this context.”
+
+LLM is guided.
+Not allowed to invent.
+</div>
+
+<div class="branch-title">◇ Step 10: Generation Using OpenAI / Azure OpenAI</div>
+<div class="content-block">
+The final prompt goes to:
+• OpenAI GPT models
+• Azure OpenAI (enterprise‑safe)
+
+LLM now:
+• Reads context
+• Applies language skill
+• Produces grounded answer
+
+LLM speaks.
+RAG guides.
+</div>
+
+<div class="branch-title">◇ Deployment & Monitoring</div>
+<div class="content-block">
+After deployment, monitor:
+
+• Hallucinations
+• Missing answers
+• Slow search
+• Wrong chunks
+
+Improve via:
+• Better chunking
+• Better prompts
+• Better data coverage
+</div>
+
+<div class="branch-title">◇ Maintenance (Never Skip This)</div>
+<div class="content-block">
+RAG systems age silently.
+
+Maintenance includes:
+• Adding new documents
+• Removing outdated content
+• Re‑embedding changed data
+• Versioning data sources
+
+Living knowledge needs care.
+</div>
+
+</div>
+
+<div class="branch-title">◇ Final Friendly Thought</div>
+<div class="content-block">
+LLMs are storytellers.
+RAG is the fact‑checker.
+
+RAG does not make AI smarter.
+It makes AI honest.
+
+Good AI systems are not loud.
+They are reliable.
+</div>
+
+</div>
+</body>
+</html>
