@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI → ML → DL → LLM Hierarchy (Colored)</title>
+
+<style>
+body{
+  background:#000;
+  color:#ddd;
+  font-family: Consolas, 'Roboto Mono', monospace;
+  padding:30px;
+  font-size:15px;
+  line-height:1.4;
+}
+
+/* ROOT */
+.ai { color:#ff4d4d; font-weight:bold; }
+.ai-line { color:#ff4d4d; }
+
+/* ML */
+.ml { color:#ffd166; font-weight:bold; }
+.ml-line { color:#ffd166; }
+
+/* DL */
+.dl { color:#6bcf63; font-weight:bold; }
+.dl-line { color:#6bcf63; }
+
+/* NN / Architectures */
+.nn { color:#9b5de5; }
+
+/* NLP */
+.nlp { color:#ef476f; }
+
+/* LLM */
+.llm { color:#4d96ff; font-weight:bold; }
+
+/* Internal concepts */
+.inner { color:#bbbbbb; }
+
+/* CV */
+.cv { color:#14c7e0; }
+
+/* Classical / Non-learning */
+.rule { color:#9fa4a9; }
+</style>
+</head>
+
+<body>
+
+<pre>
+<span class="ai">Artificial Intelligence (AI)</span>
+<span class="ai-line">│</span>
+<span class="ai-line">├──</span> <span class="ml">Machine Learning (ML)</span>
+<span class="ml-line">│   │</span>
+<span class="ml-line">│   ├──</span> <span class="rule">Classical Machine Learning</span>
+<span class="ml-line">│   │   ├──</span> <span class="rule">Rules + Features</span>
+<span class="ml-line">│   │   ├──</span> <span class="rule">Regression, Classification</span>
+<span class="ml-line">│   │   └──</span> <span class="rule">Decision Trees, SVM, etc.</span>
+<span class="ml-line">│   │</span>
+<span class="ml-line">│   └──</span> <span class="dl">Deep Learning (DL)</span>
+<span class="dl-line">│       │</span>
+<span class="dl-line">│       ├──</span> <span class="nn">Neural Networks (NN)</span>
+<span class="dl-line">│       │   │</span>
+<span class="dl-line">│       │   ├──</span> <span class="inner">Layers (Core Concept)</span>
+<span class="dl-line">│       │   │   ├──</span> <span class="inner">Input Layer</span>
+<span class="dl-line">│       │   │   ├──</span> <span class="inner">Hidden Layers</span>
+<span class="dl-line">│       │   │   └──</span> <span class="inner">Output Layer</span>
+<span class="dl-line">│       │   │</span>
+<span class="dl-line">│       │   ├──</span> <span class="nn">CNN (Convolutional Neural Network)</span>
+<span class="dl-line">│       │   │   ├──</span> <span class="inner">Used for Images / Video</span>
+<span class="dl-line">│       │   │   ├──</span> <span class="inner">Convolution Layers</span>
+<span class="dl-line">│       │   │   ├──</span> <span class="inner">Pooling Layers</span>
+<span class="dl-line">│       │   │   └──</span> <span class="inner">Fully Connected Layers</span>
+<span class="dl-line">│       │   │</span>
+<span class="dl-line">│       │   ├──</span> <span class="nn">RNN / LSTM</span>
+<span class="dl-line">│       │   │   └──</span> <span class="inner">Used for sequences</span>
+<span class="dl-line">│       │   │</span>
+<span class="dl-line">│       │   └──</span> <span class="nn">Transformer Networks</span>
+<span class="dl-line">│       │       │</span>
+<span class="dl-line">│       │       ├──</span> <span class="inner">Attention Mechanism</span>
+<span class="dl-line">│       │       ├──</span> <span class="inner">Self‑Attention</span>
+<span class="dl-line">│       │       └──</span> <span class="inner">Multi‑Head Attention</span>
+<span class="dl-line">│</span>
+<span class="dl-line">│       ├──</span> <span class="nlp">Natural Language Processing (NLP)</span>
+<span class="dl-line">│       │   ├──</span> <span class="inner">Text Processing</span>
+<span class="dl-line">│       │   ├──</span> <span class="inner">Speech Processing</span>
+<span class="dl-line">│       │   └──</span> <span class="inner">Language Understanding</span>
+<span class="dl-line">│</span>
+<span class="dl-line">│       └──</span> <span class="llm">Large Language Models (LLMs)</span>
+<span class="dl-line">│           │</span>
+<span class="dl-line">│           ├──</span> <span class="inner">Tokenizer</span>
+<span class="dl-line">│           │   ├──</span> <span class="inner">Tokens</span>
+<span class="dl-line">│           │   └──</span> <span class="inner">Vocabulary</span>
+<span class="dl-line">│           │</span>
+<span class="dl-line">│           ├──</span> <span class="inner">Embeddings</span>
+<span class="dl-line">│           ├──</span> <span class="inner">Transformer Layers</span>
+<span class="dl-line">│           ├──</span> <span class="inner">Prompt (Instruction + Context)</span>
+<span class="dl-line">│           └──</span> <span class="inner">Chatbots / AI Assistants</span>
+
+<span class="ai-line">│</span>
+<span class="ai-line">├──</span> <span class="cv">Computer Vision (CV)</span>
+<span class="ai-line">│   ├──</span> <span class="inner">Uses CNN heavily</span>
+<span class="ai-line">│   ├──</span> <span class="inner">Image Recognition</span>
+<span class="ai-line">│   └──</span> <span class="inner">Video Analysis</span>
+<span class="ai-line">│</span>
+<span class="ai-line">└──</span> <span class="rule">Non‑Learning AI</span>
+    <span class="rule">├── Rule‑Based Systems</span>
+    <span class="rule">├── Logic Engines</span>
+    <span class="rule">└── Automation Scripts</span>
+</pre>
+
+</body>
+</html>
