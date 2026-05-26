@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>.NET RAG + Agentic AI with Semantic Kernel | AI Cycle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --panel-bg: #fffef5;
+    --dotnet: #512bd4;
+    --dotnet-light: #ede9fe;
+    --dotnet-dark: #3b21b0;
+    --accent1: #fb8500;
+    --accent2: #06d6a0;
+    --accent3: #ffe66d;
+    --border: 3px solid #1a1a2e;
+    --shadow: 5px 5px 0 #1a1a2e;
+    --font-title: 'Bangers', cursive;
+    --font-comic: 'Comic Neue', cursive;
+    --font-body: 'Space Grotesk', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f5f0ff;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, #ddd6f7 39px, #ddd6f7 40px),
+                      repeating-linear-gradient(90deg, transparent, transparent 39px, #ddd6f7 39px, #ddd6f7 40px);
+    font-family: var(--font-body);
+    color: var(--ink);
+  }
+  nav { background: var(--ink); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--dotnet); }
+  .nav-logo { font-family: var(--font-title); font-size: 2rem; color: var(--accent3); letter-spacing: 2px; padding: 0.5rem 0; }
+  .nav-logo span { color: var(--dotnet); }
+  .nav-links { display: flex; gap: 0.25rem; flex-wrap: wrap; padding: 0.5rem 0; }
+  .nav-links a { color: #fff; text-decoration: none; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 20px; border: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; }
+  .nav-links a:hover, .nav-links a.active { background: var(--dotnet); color: #fff; border-color: var(--dotnet); }
+  .nav-links a.new-badge::after { content: 'NEW'; background: var(--accent2); color: var(--ink); font-size: 0.55rem; padding: 1px 4px; border-radius: 3px; margin-left: 4px; vertical-align: top; }
+
+  .page-hero { background: var(--dotnet); padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 0, transparent 50%); background-size: 20px 20px; }
+  .page-hero h1 { font-family: var(--font-title); font-size: 3.2rem; color: #fff; letter-spacing: 3px; position: relative; }
+  .page-hero h1 em { color: var(--accent3); font-style: normal; }
+  .page-hero .sub { color: rgba(255,255,255,0.85); font-size: 1rem; max-width: 650px; margin: 0.8rem auto 0; position: relative; }
+  .page-hero .badge { display: inline-block; background: var(--accent3); color: var(--ink); font-family: var(--font-title); font-size: 1rem; letter-spacing: 2px; padding: 0.3rem 1.2rem; border-radius: 20px; border: 2px solid var(--ink); margin-bottom: 0.8rem; }
+
+  .content-grid { max-width: 1100px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: 1fr 220px; gap: 2rem; align-items: start; }
+  .main-col { display: flex; flex-direction: column; gap: 2rem; }
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .section-title { font-family: var(--font-title); font-size: 1.8rem; letter-spacing: 2px; padding: 0.4rem 1rem; border: var(--border); display: inline-block; box-shadow: var(--shadow); border-radius: 4px; margin-bottom: 1rem; }
+
+  .step-card { background: var(--panel-bg); border: var(--border); border-radius: 4px; box-shadow: var(--shadow); overflow: hidden; }
+  .step-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-bottom: 2.5px solid var(--ink); }
+  .step-num { width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--ink); background: var(--dotnet); color: #fff; font-family: var(--font-title); font-size: 1.4rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 3px 3px 0 var(--ink); }
+  .step-title { font-family: var(--font-title); font-size: 1.4rem; letter-spacing: 1px; }
+  .step-subtitle { font-size: 0.78rem; color: #555; }
+  .step-body { padding: 1.2rem; }
+  .step-body p { font-size: 0.85rem; line-height: 1.7; margin-bottom: 0.8rem; }
+  .step-body ul, .step-body ol { font-size: 0.83rem; line-height: 1.8; padding-left: 1.2rem; margin-bottom: 0.8rem; }
+
+  /* C# CODE THEME */
+  .code-box { background: #1e1e2e; border: var(--border); border-radius: 4px; box-shadow: var(--shadow); overflow-x: auto; font-size: 0.78rem; line-height: 1.7; margin: 0.8rem 0; }
+  .code-header { background: #181825; color: var(--accent3); font-family: var(--font-title); font-size: 0.9rem; letter-spacing: 1px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1.5px solid #313244; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .code-body { padding: 1rem 1.2rem; font-family: 'Courier New', monospace; color: #cdd6f4; }
+  .kw { color: #cba6f7; }   /* purple - keywords */
+  .str { color: #a6e3a1; }  /* green - strings */
+  .cm { color: #6c7086; font-style: italic; }  /* gray - comments */
+  .fn { color: #89b4fa; }   /* blue - functions/methods */
+  .cl { color: #fab387; }   /* orange - classes/types */
+  .var { color: #cdd6f4; }  /* white - vars */
+  .num { color: #f38ba8; }  /* red - numbers */
+  .at { color: #f5c2e7; }   /* pink - attributes */
+  .ns { color: #94e2d5; }   /* teal - namespaces */
+  .pm { color: #89dceb; }   /* sky - property/param */
+
+  .info-box { padding: 0.8rem 1rem; border-radius: 4px; border: 2px solid; font-size: 0.82rem; line-height: 1.6; margin: 0.5rem 0; }
+  .info-tip { background: #f0fff4; border-color: #06d6a0; }
+  .info-warn { background: #fff8e1; border-color: #fb8500; }
+  .info-note { background: var(--dotnet-light); border-color: var(--dotnet); }
+
+  /* NUGET PACKAGE TABLE */
+  .nuget-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; background: var(--panel-bg); border: var(--border); box-shadow: var(--shadow); }
+  .nuget-table th { background: var(--dotnet); color: #fff; font-family: var(--font-title); font-size: 0.95rem; letter-spacing: 1px; padding: 0.6rem 1rem; text-align: left; }
+  .nuget-table td { padding: 0.55rem 1rem; border-bottom: 1.5px solid #ddd; vertical-align: middle; }
+  .nuget-table tr:last-child td { border-bottom: none; }
+  .nuget-table tr:nth-child(even) td { background: var(--dotnet-light); }
+  .nuget-table code { background: var(--dotnet-light); padding: 1px 6px; border-radius: 3px; font-size: 0.78rem; color: var(--dotnet-dark); }
+  .nuget-badge { display: inline-block; background: var(--dotnet); color: #fff; font-size: 0.6rem; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-left: 4px; vertical-align: middle; }
+
+  .arch-flow { display: flex; flex-direction: column; gap: 0; background: var(--panel-bg); border: var(--border); border-radius: 4px; box-shadow: var(--shadow); overflow: hidden; }
+  .arch-row { display: grid; grid-template-columns: 40px 1fr; align-items: stretch; }
+  .arch-num { background: var(--dotnet); color: #fff; font-family: var(--font-title); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; border-right: 2.5px solid var(--ink); }
+  .arch-content { padding: 0.8rem 1rem; border-bottom: 1.5px solid #ddd; }
+  .arch-row:last-child .arch-content { border-bottom: none; }
+  .arch-label { font-family: var(--font-title); font-size: 1rem; letter-spacing: 1px; color: var(--dotnet-dark); margin-bottom: 0.2rem; }
+  .arch-desc { font-size: 0.78rem; color: #555; line-height: 1.5; }
+
+  .ad-banner { background: #fff8e1; border: 2px dashed #ccc; border-radius: 4px; text-align: center; padding: 1rem; color: #999; font-size: 0.8rem; position: relative; }
+  .ad-banner::before { content: 'Advertisement'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #fff8e1; padding: 0 6px; font-size: 0.7rem; color: #bbb; }
+  .ad-banner .ad-inner { min-height: 90px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; }
+  .ad-sidebar { background: #fff8e1; border: 2px dashed #ccc; border-radius: 4px; text-align: center; padding: 1rem 0.5rem; color: #999; font-size: 0.75rem; min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; position: relative; }
+  .ad-sidebar::before { content: 'Ad'; position: absolute; top: 6px; right: 8px; font-size: 0.6rem; color: #ccc; }
+
+  .zigzag { height: 20px; background: linear-gradient(135deg, var(--ink) 25%, transparent 25%) -10px 0, linear-gradient(225deg, var(--ink) 25%, transparent 25%) -10px 0, linear-gradient(315deg, var(--ink) 25%, transparent 25%), linear-gradient(45deg, var(--ink) 25%, transparent 25%); background-size: 20px 20px; background-color: var(--dotnet); margin: 1rem 0; }
+  footer { background: var(--ink); color: #ccc; text-align: center; padding: 1.5rem; font-size: 0.8rem; margin-top: 3rem; }
+  footer span { color: var(--accent3); font-family: var(--font-title); font-size: 1rem; letter-spacing: 1px; }
+
+  @media(max-width:768px) { .content-grid { grid-template-columns: 1fr; } .page-hero h1 { font-size: 2rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">AI<span>Cycle</span></div>
+  <div style="font-size:0.62rem;color:#aaa;font-family:var(--font-body);letter-spacing:0.3px;line-height:1.4;">
+      Built with 🧠 by <strong style="color:#ddd;">Ashish Sinha</strong> · AI Developer<br>
+      <a href="mailto:startvsnotes@gmail.com" style="color:var(--accent3);text-decoration:none;">✉️ startvsnotes@gmail.com</a><br>
+      <span style="color:#777;">Educational content · All rights reserved · 2025-30</span>
+    </div>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a>
+    <a href="intro.html">Intro</a>
+    <a href="ml.html">ML</a>
+    <a href="deeplearning.html">Deep Learning</a>
+    <a href="llms.html">LLMs</a>
+    <a href="rag.html">RAG</a>
+    <a href="agentic.html">Agentic AI</a>
+    <a href="python-rag.html" class="new-badge">Python RAG</a>
+    <a href="dotnet-rag.html" class="active new-badge">.NET RAG</a>
+    <a href="tools.html">AI Tools</a>
+    <a href="career.html">Career</a>
+  </div>
+</nav>
+
+<div style="max-width:1100px;margin:1rem auto;padding:0 2rem;">
+  <div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad Banner 728×90 — Replace with AdSense code</div></div></div>
+</div>
+
+<div class="page-hero">
+  <div class="badge">🟣 C# · .NET 8 · Step by Step</div>
+  <h1>RAG + AGENTIC AI<br>IN <em>.NET</em></h1>
+  <p class="sub">Build enterprise-grade RAG-based Agentic AI with <strong>Semantic Kernel</strong>, Azure OpenAI, NuGet packages, and Visual Studio — all in C# .NET 8.</p>
+</div>
+
+<div class="zigzag"></div>
+
+<div class="content-grid">
+<div class="main-col">
+
+<!-- OVERVIEW -->
+<div>
+  <div class="section-title" style="background:var(--dotnet);color:#fff;">🗺️ Architecture Overview</div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1.5rem;">
+    <p style="font-size:0.9rem;line-height:1.8;margin-bottom:1rem;">We'll use <strong>Microsoft Semantic Kernel</strong> — the enterprise-grade .NET framework for LLM integration. It handles plugins, planners, memory, and multi-agent orchestration natively in C#.</p>
+    <div class="arch-flow">
+      <div class="arch-row"><div class="arch-num">1</div><div class="arch-content"><div class="arch-label">📦 Project Setup + NuGet</div><div class="arch-desc">.NET 8 Console/Web API project, install Semantic Kernel NuGet packages</div></div></div>
+      <div class="arch-row"><div class="arch-num">2</div><div class="arch-content"><div class="arch-label">🔑 Configuration</div><div class="arch-desc">appsettings.json, user-secrets, Azure OpenAI or OpenAI keys</div></div></div>
+      <div class="arch-row"><div class="arch-num">3</div><div class="arch-content"><div class="arch-label">📄 Document Loading</div><div class="arch-desc">Load PDFs/text files, chunk with TextChunker</div></div></div>
+      <div class="arch-row"><div class="arch-num">4</div><div class="arch-content"><div class="arch-label">🧮 Embeddings + Memory</div><div class="arch-desc">VolatileMemoryStore or Qdrant/Azure AI Search for vector storage</div></div></div>
+      <div class="arch-row"><div class="arch-num">5</div><div class="arch-content"><div class="arch-label">🔍 RAG Plugin</div><div class="arch-desc">KernelPlugin with memory search function</div></div></div>
+      <div class="arch-row"><div class="arch-num">6</div><div class="arch-content"><div class="arch-label">⚡ Agent + Planner</div><div class="arch-desc">FunctionCallingStepwisePlanner for autonomous multi-step reasoning</div></div></div>
+      <div class="arch-row"><div class="arch-num">7</div><div class="arch-content"><div class="arch-label">🌐 ASP.NET Core Web API</div><div class="arch-desc">Expose agent via REST endpoint with minimal API</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NUGET PACKAGES -->
+<div>
+  <div class="section-title" style="background:var(--accent1);color:#fff;">📦 NuGet Packages</div>
+  <p style="margin-bottom:1rem;font-size:0.85rem;">Install these packages via <strong>Visual Studio NuGet Manager</strong> or the .NET CLI:</p>
+  <div class="code-box">
+    <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;Package Manager Console / dotnet CLI</div>
+    <div class="code-body">
+<span class="cm"># Via .NET CLI</span><br>
+dotnet add package Microsoft.SemanticKernel<br>
+dotnet add package Microsoft.SemanticKernel.Connectors.OpenAI<br>
+dotnet add package Microsoft.SemanticKernel.Plugins.Memory<br>
+dotnet add package Microsoft.SemanticKernel.Connectors.AzureAISearch<br>
+dotnet add package Microsoft.Extensions.Configuration.UserSecrets<br>
+dotnet add package PdfPig<br>
+dotnet add package Azure.AI.OpenAI<br>
+<br>
+<span class="cm"># Optional: for local vector store</span><br>
+dotnet add package Microsoft.SemanticKernel.Connectors.Qdrant<br>
+<span class="cm"># For ASP.NET Core Web API</span><br>
+dotnet add package Microsoft.AspNetCore.OpenApi
+    </div>
+  </div>
+
+  <table class="nuget-table" style="margin-top:1rem;">
+    <thead><tr><th>NuGet Package</th><th>Purpose</th><th>Publisher</th></tr></thead>
+    <tbody>
+      <tr><td><code>Microsoft.SemanticKernel</code> <span class="nuget-badge">Core</span></td><td>Main SK framework — kernel, plugins, planners</td><td>Microsoft</td></tr>
+      <tr><td><code>Microsoft.SemanticKernel.Connectors.OpenAI</code></td><td>OpenAI & Azure OpenAI chat/embedding connectors</td><td>Microsoft</td></tr>
+      <tr><td><code>Microsoft.SemanticKernel.Plugins.Memory</code></td><td>Volatile and persistent memory plugins</td><td>Microsoft</td></tr>
+      <tr><td><code>Microsoft.SemanticKernel.Connectors.AzureAISearch</code></td><td>Azure AI Search as vector store backend</td><td>Microsoft</td></tr>
+      <tr><td><code>Microsoft.SemanticKernel.Connectors.Qdrant</code></td><td>Qdrant open-source vector DB connector</td><td>Microsoft</td></tr>
+      <tr><td><code>PdfPig</code></td><td>Pure C# PDF reader — no native dependencies</td><td>Community</td></tr>
+      <tr><td><code>Azure.AI.OpenAI</code></td><td>Azure OpenAI SDK for embeddings & chat</td><td>Microsoft</td></tr>
+      <tr><td><code>Microsoft.Extensions.Configuration.UserSecrets</code></td><td>Safe local secret management in dev</td><td>Microsoft</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STEP 1: PROJECT SETUP -->
+<div class="step-card">
+  <div class="step-header" style="background:var(--dotnet-light);">
+    <div class="step-num">1</div>
+    <div>
+      <div class="step-title">📂 Project Setup</div>
+      <div class="step-subtitle">.NET 8 · Console or Web API · Visual Studio 2022</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p>Create a new .NET 8 project. For a REST API use <code>webapi</code>; for testing use <code>console</code>.</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;terminal</div>
+      <div class="code-body">
+<span class="cm"># Create Web API project</span><br>
+dotnet new webapi -n RagAgentApi -f net8.0<br>
+cd RagAgentApi<br>
+<br>
+<span class="cm"># Enable user secrets for API keys</span><br>
+dotnet user-secrets init<br>
+dotnet user-secrets set <span class="str">"OpenAI:ApiKey"</span> <span class="str">"sk-your-key-here"</span><br>
+dotnet user-secrets set <span class="str">"OpenAI:Model"</span> <span class="str">"gpt-4o"</span><br>
+dotnet user-secrets set <span class="str">"OpenAI:EmbeddingModel"</span> <span class="str">"text-embedding-3-small"</span>
+      </div>
+    </div>
+    <div class="info-note">📌 <strong>Visual Studio:</strong> Right-click project → Manage User Secrets to edit secrets.json directly.</div>
+  </div>
+</div>
+
+<!-- AD MID -->
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 468×60 — Replace with AdSense code</div></div></div>
+
+<!-- STEP 2: KERNEL SETUP -->
+<div class="step-card">
+  <div class="step-header" style="background:var(--dotnet-light);">
+    <div class="step-num">2</div>
+    <div>
+      <div class="step-title">🧠 Build the Semantic Kernel</div>
+      <div class="step-subtitle">Dependency Injection · OpenAI Connector · Kernel Builder</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;Program.cs — Kernel Setup</div>
+      <div class="code-body">
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel</span>;<br>
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel.Connectors.OpenAI</span>;<br>
+<br>
+<span class="kw">var</span> builder = WebApplication.<span class="fn">CreateBuilder</span>(args);<br>
+<span class="kw">var</span> config = builder.Configuration;<br>
+<br>
+<span class="cm">// Build Semantic Kernel with OpenAI</span><br>
+<span class="kw">var</span> kernel = <span class="cl">Kernel</span>.<span class="fn">CreateBuilder</span>()<br>
+    .<span class="fn">AddOpenAIChatCompletion</span>(<br>
+        modelId: config[<span class="str">"OpenAI:Model"</span>]!,<br>
+        apiKey: config[<span class="str">"OpenAI:ApiKey"</span>]!<br>
+    )<br>
+    .<span class="fn">AddOpenAITextEmbeddingGeneration</span>(<br>
+        modelId: config[<span class="str">"OpenAI:EmbeddingModel"</span>]!,<br>
+        apiKey: config[<span class="str">"OpenAI:ApiKey"</span>]!<br>
+    )<br>
+    .<span class="fn">Build</span>();<br>
+<br>
+<span class="cm">// Register kernel as singleton</span><br>
+builder.Services.<span class="fn">AddSingleton</span>(kernel);
+      </div>
+    </div>
+    <div class="info-tip">💡 For <strong>Azure OpenAI</strong>, replace <code>AddOpenAIChatCompletion</code> with <code>AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey)</code>.</div>
+  </div>
+</div>
+
+<!-- STEP 3: DOCUMENT LOADING -->
+<div class="step-card">
+  <div class="step-header" style="background:#fff3cd;">
+    <div class="step-num" style="background:var(--accent1);">3</div>
+    <div>
+      <div class="step-title">📄 Document Loading & Chunking</div>
+      <div class="step-subtitle">PdfPig · TextChunker · Memory Ingestion</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p>Use <strong>PdfPig</strong> to read PDFs and Semantic Kernel's <strong>TextChunker</strong> to split them.</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;DocumentLoader.cs</div>
+      <div class="code-body">
+<span class="kw">using</span> <span class="ns">UglyToad.PdfPig</span>;<br>
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel.Text</span>;<br>
+<br>
+<span class="kw">public static class</span> <span class="cl">DocumentLoader</span><br>
+{<br>
+    <span class="kw">public static</span> List&lt;string&gt; <span class="fn">LoadAndChunkPdf</span>(string path)<br>
+    {<br>
+        <span class="kw">var</span> text = <span class="kw">new</span> <span class="cl">StringBuilder</span>();<br>
+<br>
+        <span class="cm">        // Extract text from PDF using PdfPig</span><br>
+        <span class="kw">using var</span> doc = <span class="cl">PdfDocument</span>.<span class="fn">Open</span>(path);<br>
+        <span class="kw">foreach var</span> page <span class="kw">in</span> doc.GetPages()<br>
+            text.<span class="fn">AppendLine</span>(page.Text);<br>
+<br>
+        <span class="cm">        // Split into overlapping chunks</span><br>
+        <span class="kw">var</span> chunks = <span class="cl">TextChunker</span>.<span class="fn">SplitPlainTextLines</span>(<br>
+            text.<span class="fn">ToString</span>(),<br>
+            maxTokensPerLine: <span class="num">100</span><br>
+        );<br>
+<br>
+        <span class="kw">return</span> <span class="cl">TextChunker</span>.<span class="fn">SplitPlainTextParagraphs</span>(<br>
+            chunks, maxTokensPerParagraph: <span class="num">300</span>,<br>
+            overlapTokens: <span class="num">50</span><br>
+        );<br>
+    }<br>
+}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 4: MEMORY -->
+<div class="step-card">
+  <div class="step-header" style="background:var(--dotnet-light);">
+    <div class="step-num">4</div>
+    <div>
+      <div class="step-title">💾 Semantic Memory (Vector Store)</div>
+      <div class="step-subtitle">VolatileMemoryStore · Embeddings · SaveAsync</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;MemoryService.cs</div>
+      <div class="code-body">
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel.Memory</span>;<br>
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel.Connectors.OpenAI</span>;<br>
+<br>
+<span class="kw">public class</span> <span class="cl">MemoryService</span><br>
+{<br>
+    <span class="kw">private readonly</span> <span class="cl">ISemanticTextMemory</span> _memory;<br>
+    <span class="kw">private const string</span> <span class="var">Collection</span> = <span class="str">"documents"</span>;<br>
+<br>
+    <span class="kw">public</span> <span class="fn">MemoryService</span>(string apiKey, string embeddingModel)<br>
+    {<br>
+        _memory = <span class="kw">new</span> <span class="cl">MemoryBuilder</span>()<br>
+            .<span class="fn">WithOpenAITextEmbeddingGeneration</span>(embeddingModel, apiKey)<br>
+            .<span class="fn">WithMemoryStore</span>(<span class="kw">new</span> <span class="cl">VolatileMemoryStore</span>())<br>
+            .<span class="fn">Build</span>();<br>
+    }<br>
+<br>
+    <span class="kw">public async</span> <span class="cl">Task</span> <span class="fn">IngestDocumentsAsync</span>(List&lt;string&gt; chunks)<br>
+    {<br>
+        <span class="kw">for int</span> i = <span class="num">0</span>; i &lt; chunks.Count; i++<br>
+        {<br>
+            <span class="kw">await</span> _memory.<span class="fn">SaveInformationAsync</span>(<br>
+                collection: <span class="var">Collection</span>,<br>
+                text: chunks[i],<br>
+                id: $<span class="str">"chunk-{i}"</span><br>
+            );<br>
+        }<br>
+        <span class="cl">Console</span>.<span class="fn">WriteLine</span>($<span class="str">"✅ Ingested {chunks.Count} chunks"</span>);<br>
+    }<br>
+<br>
+    <span class="kw">public async</span> <span class="cl">Task</span>&lt;string&gt; <span class="fn">SearchAsync</span>(string query, <span class="kw">int</span> topK = <span class="num">4</span>)<br>
+    {<br>
+        <span class="kw">var</span> results = <span class="kw">await</span> _memory<br>
+            .<span class="fn">SearchAsync</span>(<span class="var">Collection</span>, query, limit: topK)<br>
+            .<span class="fn">ToListAsync</span>();<br>
+<br>
+        <span class="kw">return</span> string.<span class="fn">Join</span>(<span class="str">"\n\n"</span>, results.<span class="fn">Select</span>(r => r.Metadata.Text));<br>
+    }<br>
+}
+      </div>
+    </div>
+    <div class="info-note">📌 For production, replace <code>VolatileMemoryStore</code> with <code>QdrantMemoryStore</code> or <code>AzureAISearchMemoryStore</code> for persistent, scalable vector storage.</div>
+  </div>
+</div>
+
+<!-- STEP 5: RAG PLUGIN -->
+<div class="step-card">
+  <div class="step-header" style="background:#f0fff4;">
+    <div class="step-num" style="background:var(--accent2);color:var(--ink);">5</div>
+    <div>
+      <div class="step-title">🔌 RAG Kernel Plugin</div>
+      <div class="step-subtitle">KernelFunction · SKFunction Attribute · Plugin Registration</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p>In Semantic Kernel, <strong>Plugins</strong> are collections of <strong>KernelFunctions</strong> that the AI can call. Create a RAG plugin:</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;RagPlugin.cs</div>
+      <div class="code-body">
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel</span>;<br>
+<span class="kw">using</span> <span class="ns">System.ComponentModel</span>;<br>
+<br>
+<span class="kw">public class</span> <span class="cl">RagPlugin</span><br>
+{<br>
+    <span class="kw">private readonly</span> <span class="cl">MemoryService</span> _memoryService;<br>
+<br>
+    <span class="kw">public</span> <span class="fn">RagPlugin</span>(<span class="cl">MemoryService</span> memoryService)<br>
+        => _memoryService = memoryService;<br>
+<br>
+    <span class="at">[KernelFunction]</span><br>
+    <span class="at">[Description("Search the internal knowledge base for relevant information")]</span><br>
+    <span class="kw">public async</span> <span class="cl">Task</span>&lt;string&gt; <span class="fn">SearchDocumentsAsync</span>(<br>
+        <span class="at">[Description("The search query")]</span> string query)<br>
+    {<br>
+        <span class="kw">var</span> context = <span class="kw">await</span> _memoryService.<span class="fn">SearchAsync</span>(query);<br>
+        <span class="kw">return</span> string.<span class="fn">IsNullOrEmpty</span>(context)<br>
+            ? <span class="str">"No relevant information found in the knowledge base."</span><br>
+            : $<span class="str">"Relevant context:\n{context}"</span>;<br>
+    }<br>
+}<br>
+<br>
+<span class="cm">// Register plugin with kernel</span><br>
+kernel.Plugins.<span class="fn">AddFromObject</span>(<span class="kw">new</span> <span class="cl">RagPlugin</span>(memoryService), <span class="str">"RAGPlugin"</span>);
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 6: AGENT -->
+<div class="step-card">
+  <div class="step-header" style="background:#ffe0ef;">
+    <div class="step-num" style="background:#f72585;color:#fff;">6</div>
+    <div>
+      <div class="step-title">⚡ Agentic Planner</div>
+      <div class="step-subtitle">FunctionCallingStepwisePlanner · Multi-step Reasoning</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p>Semantic Kernel's <strong>FunctionCallingStepwisePlanner</strong> enables the agent to reason step-by-step and call plugins autonomously.</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;AgentService.cs</div>
+      <div class="code-body">
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel</span>;<br>
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel.Planning</span>;<br>
+<br>
+<span class="kw">public class</span> <span class="cl">AgentService</span><br>
+{<br>
+    <span class="kw">private readonly</span> <span class="cl">Kernel</span> _kernel;<br>
+<br>
+    <span class="kw">public</span> <span class="fn">AgentService</span>(<span class="cl">Kernel</span> kernel) => _kernel = kernel;<br>
+<br>
+    <span class="kw">public async</span> <span class="cl">Task</span>&lt;string&gt; <span class="fn">AskAsync</span>(string question)<br>
+    {<br>
+        <span class="cm">        // Create stepwise planner</span><br>
+        <span class="kw">var</span> planner = <span class="kw">new</span> <span class="cl">FunctionCallingStepwisePlanner</span>(<br>
+            <span class="kw">new</span> <span class="cl">FunctionCallingStepwisePlannerOptions</span><br>
+            {<br>
+                MaxIterations = <span class="num">10</span>,<br>
+                MaxTokens = <span class="num">4000</span><br>
+            }<br>
+        );<br>
+<br>
+        <span class="cm">        // Execute plan</span><br>
+        <span class="kw">var</span> result = <span class="kw">await</span> planner.<span class="fn">ExecuteAsync</span>(_kernel, question);<br>
+        <span class="kw">return</span> result.FinalAnswer ?? <span class="str">"I could not find an answer."</span>;<br>
+    }<br>
+}
+      </div>
+    </div>
+    <div class="info-tip">💡 The planner will automatically call <code>SearchDocumentsAsync</code> from our RAGPlugin when it needs to retrieve information — no extra code needed!</div>
+  </div>
+</div>
+
+<!-- STEP 7: WEB API -->
+<div class="step-card">
+  <div class="step-header" style="background:var(--dotnet-light);">
+    <div class="step-num">7</div>
+    <div>
+      <div class="step-title">🌐 ASP.NET Core Web API</div>
+      <div class="step-subtitle">Minimal API · REST Endpoint · Swagger UI</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;Program.cs — Complete API</div>
+      <div class="code-body">
+<span class="kw">using</span> <span class="ns">Microsoft.SemanticKernel</span>;<br>
+<br>
+<span class="kw">var</span> builder = WebApplication.<span class="fn">CreateBuilder</span>(args);<br>
+<span class="kw">var</span> config = builder.Configuration;<br>
+<br>
+<span class="cm">// 1. Build Kernel</span><br>
+<span class="kw">var</span> kernel = <span class="cl">Kernel</span>.<span class="fn">CreateBuilder</span>()<br>
+    .<span class="fn">AddOpenAIChatCompletion</span>(config[<span class="str">"OpenAI:Model"</span>]!, config[<span class="str">"OpenAI:ApiKey"</span>]!)<br>
+    .<span class="fn">AddOpenAITextEmbeddingGeneration</span>(config[<span class="str">"OpenAI:EmbeddingModel"</span>]!, config[<span class="str">"OpenAI:ApiKey"</span>]!)<br>
+    .<span class="fn">Build</span>();<br>
+<br>
+<span class="cm">// 2. Setup memory and ingest documents</span><br>
+<span class="kw">var</span> memSvc = <span class="kw">new</span> <span class="cl">MemoryService</span>(config[<span class="str">"OpenAI:ApiKey"</span>]!, config[<span class="str">"OpenAI:EmbeddingModel"</span>]!);<br>
+<span class="kw">var</span> chunks = <span class="cl">DocumentLoader</span>.<span class="fn">LoadAndChunkPdf</span>(<span class="str">"./docs/knowledge.pdf"</span>);<br>
+<span class="kw">await</span> memSvc.<span class="fn">IngestDocumentsAsync</span>(chunks);<br>
+<br>
+<span class="cm">// 3. Register RAG plugin</span><br>
+kernel.Plugins.<span class="fn">AddFromObject</span>(<span class="kw">new</span> <span class="cl">RagPlugin</span>(memSvc), <span class="str">"RAGPlugin"</span>);<br>
+<br>
+<span class="cm">// 4. Register services</span><br>
+builder.Services.<span class="fn">AddSingleton</span>(kernel);<br>
+builder.Services.<span class="fn">AddSingleton&lt;AgentService&gt;</span>();<br>
+builder.Services.<span class="fn">AddEndpointsApiExplorer</span>();<br>
+builder.Services.<span class="fn">AddSwaggerGen</span>();<br>
+<br>
+<span class="kw">var</span> app = builder.<span class="fn">Build</span>();<br>
+app.<span class="fn">UseSwagger</span>(); app.<span class="fn">UseSwaggerUI</span>();<br>
+<br>
+<span class="cm">// 5. Define endpoint</span><br>
+app.<span class="fn">MapPost</span>(<span class="str">"/ask"</span>, <span class="kw">async</span> (<span class="cl">QuestionRequest</span> req, <span class="cl">AgentService</span> agent) =&gt;<br>
+{<br>
+    <span class="kw">var</span> answer = <span class="kw">await</span> agent.<span class="fn">AskAsync</span>(req.Question);<br>
+    <span class="kw">return</span> <span class="cl">Results</span>.<span class="fn">Ok</span>(<span class="kw">new</span> { answer });<br>
+}).<span class="fn">WithOpenApi</span>();<br>
+<br>
+app.<span class="fn">Run</span>();<br>
+<br>
+<span class="kw">record</span> <span class="cl">QuestionRequest</span>(string Question);
+      </div>
+    </div>
+    <p>Test with Swagger UI at <code>https://localhost:5001/swagger</code> or call via <code>POST /ask</code>.</p>
+  </div>
+</div>
+
+<!-- VS STUDIO TIPS -->
+<div>
+  <div class="section-title" style="background:#5c2d91;color:#fff;">🖥️ Visual Studio Tips</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
+    <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+      <div style="font-size:1.5rem;margin-bottom:0.4rem;">📦</div>
+      <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;">NuGet Manager</strong>
+      <p style="font-size:0.78rem;color:#555;margin-top:0.3rem;">Right-click project → Manage NuGet Packages → Browse tab → Search "SemanticKernel"</p>
+    </div>
+    <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+      <div style="font-size:1.5rem;margin-bottom:0.4rem;">🔑</div>
+      <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;">User Secrets</strong>
+      <p style="font-size:0.78rem;color:#555;margin-top:0.3rem;">Right-click project → Manage User Secrets → Edit secrets.json directly in VS</p>
+    </div>
+    <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+      <div style="font-size:1.5rem;margin-bottom:0.4rem;">🐛</div>
+      <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;">Hot Reload</strong>
+      <p style="font-size:0.78rem;color:#555;margin-top:0.3rem;">Press F5 to debug with breakpoints. Use <code>dotnet watch</code> for hot reload during dev.</p>
+    </div>
+    <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+      <div style="font-size:1.5rem;margin-bottom:0.4rem;">📊</div>
+      <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;">Swagger UI</strong>
+      <p style="font-size:0.78rem;color:#555;margin-top:0.3rem;">Included by default. Hit F5 → browser opens Swagger — test your <code>/ask</code> endpoint instantly.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 728×90 — Replace with AdSense code</div></div></div>
+
+</div><!-- end main-col -->
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="ad-sidebar"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>300×250<br>AdSense</div></div>
+
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1.1rem;letter-spacing:1px;margin-bottom:0.8rem;color:var(--dotnet);">📋 Steps</div>
+    <ol style="font-size:0.78rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:0.4rem;line-height:1.5;">
+      <li>Project Setup + NuGet</li>
+      <li>API Keys & Config</li>
+      <li>Document Loading</li>
+      <li>Semantic Memory</li>
+      <li>RAG Plugin</li>
+      <li>Agentic Planner</li>
+      <li>Web API Endpoint</li>
+    </ol>
+  </div>
+
+  <div style="background:var(--ink);color:#fff;border-radius:4px;border:var(--border);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;color:var(--accent3);letter-spacing:1px;margin-bottom:0.5rem;">📦 NuGet Packages</div>
+    <ul style="font-size:0.72rem;list-style:none;display:flex;flex-direction:column;gap:0.3rem;">
+      <li>🟣 <code style="color:#c4b5fd;">SemanticKernel</code></li>
+      <li>🤖 <code style="color:#c4b5fd;">SK.Connectors.OpenAI</code></li>
+      <li>💾 <code style="color:#c4b5fd;">SK.Plugins.Memory</code></li>
+      <li>🔍 <code style="color:#c4b5fd;">SK.Connectors.Qdrant</code></li>
+      <li>📄 <code style="color:#c4b5fd;">PdfPig</code></li>
+      <li>☁️ <code style="color:#c4b5fd;">Azure.AI.OpenAI</code></li>
+    </ul>
+  </div>
+
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;margin-bottom:0.5rem;color:var(--accent1);">👉 Also See</div>
+    <a href="python-rag.html" style="display:block;font-size:0.82rem;color:#3a86ff;font-weight:700;margin-bottom:0.4rem;">🐍 Python RAG Tutorial</a>
+    <a href="agentic.html" style="display:block;font-size:0.82rem;color:#f72585;font-weight:700;">⚡ Agentic AI Concepts</a>
+  </div>
+
+  <div class="ad-sidebar" style="min-height:400px;"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>160×600<br>Skyscraper</div></div>
+</div>
+</div>
+
+<div class="zigzag"></div>
+<footer>
+  <span>AI Cycle</span> · Built with ❤️ by Ashish Sinha · AI Developer<br>
+  <span style="font-size:0.7rem;color:#888;font-family:var(--font-body);">Educational content · All rights reserved · 2025</span>
+</footer>
+</body>
+</html>

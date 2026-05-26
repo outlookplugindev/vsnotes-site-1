@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Learning | AI Cycle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#1a1a2e; --panel-bg:#fffef5; --ml:#4ecdc4; --ml-dark:#2ba5a0; --accent1:#ff6b35; --accent2:#4ecdc4; --accent3:#ffe66d; --accent4:#a855f7; --border:3px solid #1a1a2e; --shadow:5px 5px 0 #1a1a2e; --font-title:'Bangers',cursive; --font-body:'Space Grotesk',sans-serif; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#f0fffd; background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,#c8efec 39px,#c8efec 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,#c8efec 39px,#c8efec 40px); font-family:var(--font-body); color:var(--ink); }
+  nav { background:var(--ink); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; position:sticky; top:0; z-index:100; border-bottom:3px solid var(--ml); }
+  .nav-logo { font-family:var(--font-title); font-size:2rem; color:var(--accent3); letter-spacing:2px; padding:0.5rem 0; }
+  .nav-logo span { color:var(--ml); }
+  .nav-links { display:flex; gap:0.25rem; flex-wrap:wrap; padding:0.5rem 0; }
+  .nav-links a { color:#fff; text-decoration:none; font-size:0.78rem; font-weight:600; padding:0.3rem 0.7rem; border-radius:20px; border:2px solid transparent; transition:all 0.2s; text-transform:uppercase; }
+  .nav-links a:hover,.nav-links a.active { background:var(--ml); color:var(--ink); }
+  .nav-links a.new-badge::after { content:'NEW'; background:var(--accent1); color:#fff; font-size:0.55rem; padding:1px 4px; border-radius:3px; margin-left:4px; vertical-align:top; }
+  .page-hero { background:var(--ink); padding:3rem 2rem; text-align:center; position:relative; overflow:hidden; border-bottom:5px solid var(--ml); }
+  .page-hero::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(78,205,196,0.1) 1px,transparent 1px); background-size:18px 18px; }
+  .page-hero h1 { font-family:var(--font-title); font-size:3.8rem; letter-spacing:3px; position:relative; color:#fff; }
+  .page-hero h1 em { color:var(--ml); font-style:normal; }
+  .page-hero .sub { color:#ccc; font-size:1rem; max-width:600px; margin:0.8rem auto 0; position:relative; }
+  .chapter-badge { display:inline-block; background:var(--ml); color:var(--ink); font-family:var(--font-title); font-size:1rem; letter-spacing:2px; padding:0.3rem 1.2rem; border-radius:20px; border:2px solid var(--ink); margin-bottom:0.8rem; }
+  .content-grid { max-width:1100px; margin:0 auto; padding:2rem; display:grid; grid-template-columns:1fr 220px; gap:2rem; align-items:start; }
+  .main-col { display:flex; flex-direction:column; gap:2rem; }
+  .sidebar { display:flex; flex-direction:column; gap:1.5rem; }
+  .section-title { font-family:var(--font-title); font-size:1.8rem; letter-spacing:2px; padding:0.4rem 1rem; border:var(--border); display:inline-block; box-shadow:var(--shadow); border-radius:4px; margin-bottom:1rem; }
+  .panel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:1rem; }
+  .panel { background:var(--panel-bg); border:var(--border); border-radius:4px; box-shadow:var(--shadow); padding:1.2rem; position:relative; }
+  .panel h3 { font-family:var(--font-title); font-size:1.2rem; letter-spacing:1px; margin-bottom:0.4rem; }
+  .panel p { font-size:0.78rem; line-height:1.6; color:#444; }
+  .panel-emoji { font-size:2.2rem; margin-bottom:0.4rem; }
+  .algo-card { background:var(--panel-bg); border:var(--border); border-radius:4px; box-shadow:var(--shadow); overflow:hidden; }
+  .algo-header { padding:0.8rem 1rem; font-family:var(--font-title); font-size:1.2rem; letter-spacing:1px; display:flex; align-items:center; gap:0.6rem; }
+  .algo-body { padding:0.8rem 1rem; font-size:0.78rem; line-height:1.6; color:#444; }
+  .algo-use { margin-top:0.5rem; font-size:0.72rem; font-style:italic; color:#666; }
+  .concept-box { background:var(--panel-bg); border:var(--border); border-radius:4px; box-shadow:var(--shadow); padding:1.5rem; }
+  .code-box { background:#0d1117; border:var(--border); border-radius:4px; box-shadow:var(--shadow); overflow-x:auto; font-size:0.78rem; line-height:1.7; margin:0.8rem 0; }
+  .code-header { background:#161b22; color:var(--accent3); font-family:var(--font-title); font-size:0.9rem; letter-spacing:1px; padding:0.5rem 1rem; display:flex; align-items:center; gap:0.5rem; border-bottom:1.5px solid #30363d; }
+  .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .code-body { padding:1rem 1.2rem; font-family:'Courier New',monospace; color:#e6edf3; }
+  .kw{color:#ff7b72;} .str{color:#a5d6ff;} .cm{color:#6e7681;font-style:italic;} .fn{color:#d2a8ff;} .cl{color:#ffa657;} .var{color:#79c0ff;} .num{color:#f47067;}
+  .compare-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+  .compare-card { border:var(--border); border-radius:4px; box-shadow:var(--shadow); overflow:hidden; text-align:center; }
+  .compare-top { padding:1rem; font-family:var(--font-title); font-size:1.2rem; letter-spacing:1px; }
+  .compare-body { padding:1rem; font-size:0.78rem; line-height:1.6; color:#444; background:var(--panel-bg); }
+  .overfitting-demo { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+  .of-box { border:var(--border); border-radius:4px; box-shadow:var(--shadow); overflow:hidden; text-align:center; }
+  .of-top { padding:0.7rem 1rem; font-family:var(--font-title); font-size:1rem; letter-spacing:1px; }
+  .of-body { padding:0.8rem; font-size:0.75rem; line-height:1.5; color:#444; background:var(--panel-bg); }
+  .ad-banner { background:#fff8e1; border:2px dashed #ccc; border-radius:4px; text-align:center; padding:1rem; color:#999; font-size:0.8rem; position:relative; }
+  .ad-banner::before { content:'Advertisement'; position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:#fff8e1; padding:0 6px; font-size:0.7rem; color:#bbb; }
+  .ad-banner .ad-inner { min-height:90px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; }
+  .ad-sidebar { background:#fff8e1; border:2px dashed #ccc; border-radius:4px; text-align:center; padding:1rem 0.5rem; color:#999; font-size:0.75rem; min-height:250px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; position:relative; }
+  .ad-sidebar::before { content:'Ad'; position:absolute; top:6px; right:8px; font-size:0.6rem; color:#ccc; }
+  .zigzag { height:20px; background:linear-gradient(135deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(225deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(315deg,var(--ink) 25%,transparent 25%),linear-gradient(45deg,var(--ink) 25%,transparent 25%); background-size:20px 20px; background-color:var(--ml); margin:1rem 0; }
+  footer { background:var(--ink); color:#ccc; text-align:center; padding:1.5rem; font-size:0.8rem; margin-top:3rem; }
+  footer span { color:var(--accent3); font-family:var(--font-title); font-size:1rem; letter-spacing:1px; }
+  @media(max-width:768px) { .content-grid{grid-template-columns:1fr;} .page-hero h1{font-size:2.5rem;} .compare-grid,.overfitting-demo{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">AI<span>Cycle</span></div>
+  <div style="font-size:0.62rem;color:#aaa;font-family:var(--font-body);letter-spacing:0.3px;line-height:1.4;">
+      Built with 🧠 by <strong style="color:#ddd;">Ashish Sinha</strong> · AI Developer<br>
+      <a href="mailto:startvsnotes@gmail.com" style="color:var(--accent3);text-decoration:none;">✉️ startvsnotes@gmail.com</a><br>
+      <span style="color:#777;">Educational content · All rights reserved · 2025-30</span>
+    </div>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a><a href="intro.html">Intro</a><a href="ml.html" class="active">ML</a><a href="deeplearning.html">Deep Learning</a><a href="llms.html">LLMs</a><a href="rag.html">RAG</a><a href="agentic.html" class="new-badge">Agentic AI</a><a href="python-rag.html" class="new-badge">Python RAG</a><a href="dotnet-rag.html" class="new-badge">.NET RAG</a><a href="tools.html">AI Tools</a><a href="career.html">Career</a>
+  </div>
+</nav>
+<div style="max-width:1100px;margin:1rem auto;padding:0 2rem;"><div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad Banner 728×90 — Replace with AdSense code</div></div></div></div>
+<div class="page-hero">
+  <div class="chapter-badge">📊 Chapter 2 · Beginner → Intermediate</div>
+  <h1>MACHINE<br><em>LEARNING</em></h1>
+  <p class="sub">How machines learn from data — supervised, unsupervised, reinforcement learning, key algorithms, and Python code examples.</p>
+</div>
+<div class="zigzag"></div>
+<div class="content-grid">
+<div class="main-col">
+
+<!-- WHAT IS ML -->
+<div>
+  <div class="section-title" style="background:var(--ml);">📊 What is Machine Learning?</div>
+  <div class="concept-box">
+    <p style="font-size:0.9rem;line-height:1.8;margin-bottom:1rem;">Machine Learning is a subset of AI where programs <strong>learn from data</strong> instead of being explicitly programmed. Rather than writing rules, you show the machine examples and it figures out the rules itself.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;">
+      <div style="background:#fde8ef;border:var(--border);border-radius:4px;padding:1rem;box-shadow:3px 3px 0 var(--ink);">
+        <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;color:#c0392b;">❌ Traditional Programming</strong>
+        <p style="font-size:0.8rem;margin-top:0.4rem;line-height:1.6;">Data + Rules → <strong>Answers</strong><br>You write every rule by hand.</p>
+      </div>
+      <div style="background:#e8f5e9;border:var(--border);border-radius:4px;padding:1rem;box-shadow:3px 3px 0 var(--ink);">
+        <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;color:#1a7a1a;">✅ Machine Learning</strong>
+        <p style="font-size:0.8rem;margin-top:0.4rem;line-height:1.6;">Data + Answers → <strong>Rules</strong><br>The machine finds the rules.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3 TYPES -->
+<div>
+  <div class="section-title" style="background:var(--accent3);">🗂️ 3 Types of Machine Learning</div>
+  <div class="compare-grid">
+    <div class="compare-card">
+      <div class="compare-top" style="background:#e8f4fd;">🏷️ Supervised</div>
+      <div class="compare-body">
+        <strong>Labeled data.</strong> You give the model input+answer pairs. It learns to predict answers for new inputs.<br><br>
+        <em>Like a student with an answer key.</em><br><br>
+        <strong>Uses:</strong> Email spam, price prediction, image classification, medical diagnosis.
+      </div>
+    </div>
+    <div class="compare-card">
+      <div class="compare-top" style="background:#f3e8ff;">🔍 Unsupervised</div>
+      <div class="compare-body">
+        <strong>No labels.</strong> The model finds hidden structure and patterns in raw data on its own.<br><br>
+        <em>Like a student exploring without a teacher.</em><br><br>
+        <strong>Uses:</strong> Customer segmentation, anomaly detection, recommendation systems, topic modeling.
+      </div>
+    </div>
+    <div class="compare-card">
+      <div class="compare-top" style="background:#fff3cd;">🎮 Reinforcement</div>
+      <div class="compare-body">
+        <strong>Trial and error.</strong> An agent takes actions, gets rewards or penalties, and learns what to do.<br><br>
+        <em>Like training a dog with treats.</em><br><br>
+        <strong>Uses:</strong> Game playing (AlphaGo), robotics, trading bots, self-driving cars.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KEY ALGORITHMS -->
+<div>
+  <div class="section-title" style="background:var(--accent1);color:#fff;">⚙️ Key ML Algorithms</div>
+  <div class="panel-grid">
+    <div class="algo-card">
+      <div class="algo-header" style="background:#e8f4fd;">📉 Linear Regression</div>
+      <div class="algo-body">Fits a straight line through data to predict continuous values. Simple but powerful for many real-world problems.<div class="algo-use">Use: House price prediction, sales forecasting</div></div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-header" style="background:#fde8ef;">🔀 Logistic Regression</div>
+      <div class="algo-body">Despite the name, it's for classification! Outputs probability (0-1) of a category. Fast and interpretable.<div class="algo-use">Use: Spam detection, disease diagnosis (yes/no)</div></div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-header" style="background:#e8f5e9;">🌳 Decision Tree</div>
+      <div class="algo-body">Splits data using yes/no questions, like 20 questions. Highly interpretable — you can visualize every decision.<div class="algo-use">Use: Loan approval, fraud rules, customer churn</div></div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-header" style="background:#fff3cd;">🌲 Random Forest</div>
+      <div class="algo-body">An ensemble of many decision trees. Each tree votes, and the majority wins. Much more robust than a single tree.<div class="algo-use">Use: Credit scoring, feature importance analysis</div></div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-header" style="background:#f3e8ff;">🚀 Gradient Boosting (XGBoost)</div>
+      <div class="algo-body">Builds trees sequentially, each one fixing the errors of the last. Often wins Kaggle competitions.<div class="algo-use">Use: Ranking, search relevance, structured data</div></div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-header" style="background:#fff8e1;">📍 K-Nearest Neighbors</div>
+      <div class="algo-body">"You are who your neighbors are." Classifies by finding the K most similar examples in training data.<div class="algo-use">Use: Recommendation, anomaly detection, image recognition</div></div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-header" style="background:#e0f7fa;">⚔️ SVM</div>
+      <div class="algo-body">Support Vector Machine finds the best boundary (hyperplane) between classes, maximizing margin.<div class="algo-use">Use: Text classification, bioinformatics, face detection</div></div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-header" style="background:#fce4ec;">🎯 K-Means Clustering</div>
+      <div class="algo-body">Unsupervised. Groups data into K clusters by minimizing distance to cluster centers. Iterates until stable.<div class="algo-use">Use: Customer segmentation, image compression</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- AD MID -->
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 468×60 — Replace with AdSense code</div></div></div>
+
+<!-- ML PIPELINE -->
+<div>
+  <div class="section-title" style="background:var(--ink);color:var(--accent3);">🔄 The ML Pipeline</div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1.5rem;">
+    <div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr));">
+      <div style="text-align:center;padding:0.8rem;background:#e8f4fd;border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);">
+        <div style="font-size:1.8rem;">📦</div><div style="font-family:var(--font-title);font-size:0.9rem;letter-spacing:1px;margin-top:0.3rem;">1. Data Collection</div><div style="font-size:0.7rem;color:#555;margin-top:0.2rem;">Gather raw data from sources</div>
+      </div>
+      <div style="text-align:center;padding:0.8rem;background:#f3e8ff;border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);">
+        <div style="font-size:1.8rem;">🧹</div><div style="font-family:var(--font-title);font-size:0.9rem;letter-spacing:1px;margin-top:0.3rem;">2. Data Cleaning</div><div style="font-size:0.7rem;color:#555;margin-top:0.2rem;">Handle missing, noise, outliers</div>
+      </div>
+      <div style="text-align:center;padding:0.8rem;background:#e8f5e9;border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);">
+        <div style="font-size:1.8rem;">🔧</div><div style="font-family:var(--font-title);font-size:0.9rem;letter-spacing:1px;margin-top:0.3rem;">3. Feature Eng.</div><div style="font-size:0.7rem;color:#555;margin-top:0.2rem;">Create meaningful input features</div>
+      </div>
+      <div style="text-align:center;padding:0.8rem;background:#fff3cd;border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);">
+        <div style="font-size:1.8rem;">🤖</div><div style="font-family:var(--font-title);font-size:0.9rem;letter-spacing:1px;margin-top:0.3rem;">4. Model Training</div><div style="font-size:0.7rem;color:#555;margin-top:0.2rem;">Fit model on training data</div>
+      </div>
+      <div style="text-align:center;padding:0.8rem;background:#fde8ef;border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);">
+        <div style="font-size:1.8rem;">📊</div><div style="font-family:var(--font-title);font-size:0.9rem;letter-spacing:1px;margin-top:0.3rem;">5. Evaluation</div><div style="font-size:0.7rem;color:#555;margin-top:0.2rem;">Accuracy, F1, AUC metrics</div>
+      </div>
+      <div style="text-align:center;padding:0.8rem;background:#e0f7fa;border:2px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);">
+        <div style="font-size:1.8rem;">🚀</div><div style="font-family:var(--font-title);font-size:0.9rem;letter-spacing:1px;margin-top:0.3rem;">6. Deploy</div><div style="font-size:0.7rem;color:#555;margin-top:0.2rem;">Serve predictions in production</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERFITTING -->
+<div>
+  <div class="section-title" style="background:var(--accent4);color:#fff;">⚠️ Overfitting vs Underfitting</div>
+  <div class="overfitting-demo">
+    <div class="of-box">
+      <div class="of-top" style="background:#fde8ef;color:#c0392b;">😰 Underfitting</div>
+      <div class="of-body">Model is too simple. Fails to capture the pattern even in training data. High bias, low variance.<br><br><em>Fix: More complex model, more features, less regularization.</em></div>
+    </div>
+    <div class="of-box">
+      <div class="of-top" style="background:#e8f5e9;color:#1a7a1a;">😊 Just Right</div>
+      <div class="of-body">Model captures the true pattern. Generalizes well to new data. Good balance of bias and variance.<br><br><em>Goal: Cross-validation, proper train/val/test split.</em></div>
+    </div>
+    <div class="of-box">
+      <div class="of-top" style="background:#fff3cd;color:#b7770d;">😵 Overfitting</div>
+      <div class="of-body">Model memorizes training data including noise. Works great on training, fails on new data. High variance.<br><br><em>Fix: Regularization (L1/L2), dropout, more data, simpler model.</em></div>
+    </div>
+  </div>
+</div>
+
+<!-- PYTHON QUICK CODE -->
+<div>
+  <div class="section-title" style="background:var(--ink);color:var(--accent3);">🐍 Quick Python: ML in 10 Lines</div>
+  <div class="code-box">
+    <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;sklearn_example.py</div>
+    <div class="code-body">
+<span class="kw">from</span> <span class="cl">sklearn.datasets</span> <span class="kw">import</span> <span class="fn">load_iris</span><br>
+<span class="kw">from</span> <span class="cl">sklearn.model_selection</span> <span class="kw">import</span> <span class="fn">train_test_split</span><br>
+<span class="kw">from</span> <span class="cl">sklearn.ensemble</span> <span class="kw">import</span> <span class="fn">RandomForestClassifier</span><br>
+<span class="kw">from</span> <span class="cl">sklearn.metrics</span> <span class="kw">import</span> <span class="fn">accuracy_score</span><br>
+<br>
+<span class="cm"># 1. Load data</span><br>
+<span class="var">X</span>, <span class="var">y</span> = <span class="fn">load_iris</span>(return_X_y=<span class="kw">True</span>)<br>
+<br>
+<span class="cm"># 2. Split into train/test</span><br>
+<span class="var">X_train</span>, <span class="var">X_test</span>, <span class="var">y_train</span>, <span class="var">y_test</span> = <span class="fn">train_test_split</span>(<span class="var">X</span>, <span class="var">y</span>, test_size=<span class="num">0.2</span>)<br>
+<br>
+<span class="cm"># 3. Train model</span><br>
+<span class="var">model</span> = <span class="fn">RandomForestClassifier</span>(n_estimators=<span class="num">100</span>)<br>
+<span class="var">model</span>.<span class="fn">fit</span>(<span class="var">X_train</span>, <span class="var">y_train</span>)<br>
+<br>
+<span class="cm"># 4. Evaluate</span><br>
+<span class="var">preds</span> = <span class="var">model</span>.<span class="fn">predict</span>(<span class="var">X_test</span>)<br>
+<span class="fn">print</span>(f<span class="str">"Accuracy: {accuracy_score(y_test, preds):.2%}"</span>)  <span class="cm"># → ~97%</span>
+    </div>
+  </div>
+</div>
+
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 728×90 — Replace with AdSense code</div></div></div>
+
+</div><!-- main-col -->
+<div class="sidebar">
+  <div class="ad-sidebar"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>300×250</div></div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1.1rem;letter-spacing:1px;margin-bottom:0.8rem;color:var(--ml);">📋 On This Page</div>
+    <ul style="list-style:none;font-size:0.8rem;display:flex;flex-direction:column;gap:0.5rem;"><li>📊 What is ML?</li><li>🗂️ 3 Types of ML</li><li>⚙️ Key Algorithms</li><li>🔄 ML Pipeline</li><li>⚠️ Overfitting</li><li>🐍 Python Example</li></ul>
+  </div>
+  <div style="background:var(--ink);color:#fff;border-radius:4px;border:var(--border);padding:1.2rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;color:var(--accent3);letter-spacing:1px;margin-bottom:0.5rem;">💡 ML Metrics</div>
+    <dl style="font-size:0.75rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <div><dt style="color:var(--accent3);font-weight:700;">Accuracy</dt><dd style="color:#ccc;">% of correct predictions</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">Precision</dt><dd style="color:#ccc;">True positives / all positives predicted</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">Recall</dt><dd style="color:#ccc;">True positives / all actual positives</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">F1 Score</dt><dd style="color:#ccc;">Harmonic mean of precision &amp; recall</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">AUC-ROC</dt><dd style="color:#ccc;">Area under classifier curve</dd></div>
+    </dl>
+  </div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;margin-bottom:0.5rem;">👉 Next Up</div>
+    <a href="deeplearning.html" style="display:block;font-size:0.85rem;color:var(--accent1);font-weight:700;">🕸️ Deep Learning →</a>
+  </div>
+  <div class="ad-sidebar" style="min-height:400px;"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>160×600</div></div>
+</div>
+</div>
+
+<div class="zigzag" style="background:var(--ml);"></div>
+<footer><span>AI Cycle</span> · Built with ❤️ by Ashish Sinha · AI Developer<br><span style="font-size:0.7rem;color:#888;font-family:var(--font-body);">Educational content · All rights reserved · 2025</span></footer>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Learning | AI Cycle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#1a1a2e; --panel-bg:#fffef5; --dl:#f72585; --accent2:#4ecdc4; --accent3:#ffe66d; --border:3px solid #1a1a2e; --shadow:5px 5px 0 #1a1a2e; --font-title:'Bangers',cursive; --font-body:'Space Grotesk',sans-serif; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#fff0f5; background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,#f5c6d8 39px,#f5c6d8 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,#f5c6d8 39px,#f5c6d8 40px); font-family:var(--font-body); color:var(--ink); }
+  nav { background:var(--ink); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; position:sticky; top:0; z-index:100; border-bottom:3px solid var(--dl); }
+  .nav-logo { font-family:var(--font-title); font-size:2rem; color:var(--accent3); letter-spacing:2px; padding:0.5rem 0; }
+  .nav-logo span { color:var(--dl); }
+  .nav-links { display:flex; gap:0.25rem; flex-wrap:wrap; padding:0.5rem 0; }
+  .nav-links a { color:#fff; text-decoration:none; font-size:0.78rem; font-weight:600; padding:0.3rem 0.7rem; border-radius:20px; border:2px solid transparent; transition:all 0.2s; text-transform:uppercase; }
+  .nav-links a:hover,.nav-links a.active { background:var(--dl); color:#fff; }
+  .nav-links a.new-badge::after { content:'NEW'; background:var(--accent2); color:var(--ink); font-size:0.55rem; padding:1px 4px; border-radius:3px; margin-left:4px; vertical-align:top; }
+  .page-hero { background:var(--ink); padding:3rem 2rem; text-align:center; position:relative; overflow:hidden; border-bottom:5px solid var(--dl); }
+  .page-hero::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(247,37,133,0.1) 1px,transparent 1px); background-size:18px 18px; }
+  .page-hero h1 { font-family:var(--font-title); font-size:3.8rem; letter-spacing:3px; position:relative; color:#fff; }
+  .page-hero h1 em { color:var(--dl); font-style:normal; }
+  .page-hero .sub { color:#ccc; font-size:1rem; max-width:600px; margin:0.8rem auto 0; position:relative; }
+  .chapter-badge { display:inline-block; background:var(--dl); color:#fff; font-family:var(--font-title); font-size:1rem; letter-spacing:2px; padding:0.3rem 1.2rem; border-radius:20px; border:2px solid #fff; margin-bottom:0.8rem; }
+  .content-grid { max-width:1100px; margin:0 auto; padding:2rem; display:grid; grid-template-columns:1fr 220px; gap:2rem; align-items:start; }
+  .main-col { display:flex; flex-direction:column; gap:2rem; }
+  .sidebar { display:flex; flex-direction:column; gap:1.5rem; }
+  .section-title { font-family:var(--font-title); font-size:1.8rem; letter-spacing:2px; padding:0.4rem 1rem; border:var(--border); display:inline-block; box-shadow:var(--shadow); border-radius:4px; margin-bottom:1rem; }
+  .panel-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; }
+  .panel { background:var(--panel-bg); border:var(--border); border-radius:4px; box-shadow:var(--shadow); padding:1.2rem; }
+  .panel h3 { font-family:var(--font-title); font-size:1.2rem; letter-spacing:1px; margin-bottom:0.4rem; }
+  .panel p { font-size:0.78rem; line-height:1.6; color:#444; }
+  .panel-emoji { font-size:2.2rem; margin-bottom:0.4rem; }
+  .nn-visual { background:var(--ink); border:var(--border); border-radius:4px; box-shadow:var(--shadow); padding:1.5rem; position:relative; overflow:hidden; }
+  .nn-visual::after { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(247,37,133,0.08) 1px,transparent 1px); background-size:10px 10px; pointer-events:none; }
+  .nn-layers { display:flex; justify-content:space-around; align-items:center; gap:1rem; position:relative; flex-wrap:wrap; }
+  .nn-layer { text-align:center; }
+  .nn-layer-title { font-family:var(--font-title); font-size:0.8rem; color:var(--accent3); letter-spacing:1px; margin-bottom:0.5rem; }
+  .nn-nodes { display:flex; flex-direction:column; gap:0.5rem; align-items:center; }
+  .nn-node { width:36px; height:36px; border-radius:50%; border:2.5px solid rgba(255,255,255,0.4); display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:700; color:#fff; }
+  .code-box { background:#0d1117; border:var(--border); border-radius:4px; box-shadow:var(--shadow); overflow-x:auto; font-size:0.78rem; line-height:1.7; margin:0.8rem 0; }
+  .code-header { background:#161b22; color:var(--accent3); font-family:var(--font-title); font-size:0.9rem; letter-spacing:1px; padding:0.5rem 1rem; display:flex; align-items:center; gap:0.5rem; border-bottom:1.5px solid #30363d; }
+  .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .code-body { padding:1rem 1.2rem; font-family:'Courier New',monospace; color:#e6edf3; }
+  .kw{color:#ff7b72;} .str{color:#a5d6ff;} .cm{color:#6e7681;font-style:italic;} .fn{color:#d2a8ff;} .cl{color:#ffa657;} .var{color:#79c0ff;} .num{color:#f47067;}
+  .concept-box { background:var(--panel-bg); border:var(--border); border-radius:4px; box-shadow:var(--shadow); padding:1.5rem; }
+  .transformer-box { background:var(--ink); border:var(--border); border-radius:4px; box-shadow:var(--shadow); padding:1.5rem; color:#fff; }
+  .transformer-box .tb-title { font-family:var(--font-title); font-size:1.4rem; color:var(--accent3); letter-spacing:2px; margin-bottom:0.8rem; }
+  .tb-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:0.8rem; }
+  .tb-cell { background:rgba(255,255,255,0.07); border:1.5px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.8rem; text-align:center; }
+  .tb-cell .ti { font-size:1.5rem; }
+  .tb-cell .tl { color:var(--dl); font-family:var(--font-title); font-size:0.85rem; letter-spacing:1px; margin:0.3rem 0 0.2rem; }
+  .tb-cell .td { color:#ccc; font-size:0.7rem; line-height:1.4; }
+  .ad-banner { background:#fff8e1; border:2px dashed #ccc; border-radius:4px; text-align:center; padding:1rem; color:#999; font-size:0.8rem; position:relative; }
+  .ad-banner::before { content:'Advertisement'; position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:#fff8e1; padding:0 6px; font-size:0.7rem; color:#bbb; }
+  .ad-banner .ad-inner { min-height:90px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; }
+  .ad-sidebar { background:#fff8e1; border:2px dashed #ccc; border-radius:4px; text-align:center; padding:1rem 0.5rem; color:#999; font-size:0.75rem; min-height:250px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; position:relative; }
+  .ad-sidebar::before { content:'Ad'; position:absolute; top:6px; right:8px; font-size:0.6rem; color:#ccc; }
+  .zigzag { height:20px; background:linear-gradient(135deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(225deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(315deg,var(--ink) 25%,transparent 25%),linear-gradient(45deg,var(--ink) 25%,transparent 25%); background-size:20px 20px; background-color:var(--dl); margin:1rem 0; }
+  footer { background:var(--ink); color:#ccc; text-align:center; padding:1.5rem; font-size:0.8rem; margin-top:3rem; }
+  footer span { color:var(--accent3); font-family:var(--font-title); font-size:1rem; letter-spacing:1px; }
+  @media(max-width:768px) { .content-grid{grid-template-columns:1fr;} .page-hero h1{font-size:2.5rem;} }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">AI<span>Cycle</span></div>
+<div style="font-size:0.62rem;color:#aaa;font-family:var(--font-body);letter-spacing:0.3px;line-height:1.4;">
+      Built with 🧠 by <strong style="color:#ddd;">Ashish Sinha</strong> · AI Developer<br>
+      <a href="mailto:startvsnotes@gmail.com" style="color:var(--accent3);text-decoration:none;">✉️ startvsnotes@gmail.com</a><br>
+      <span style="color:#777;">Educational content · All rights reserved · 2025-30</span>
+    </div>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a><a href="intro.html">Intro</a><a href="ml.html">ML</a><a href="deeplearning.html" class="active">Deep Learning</a><a href="llms.html">LLMs</a><a href="rag.html">RAG</a><a href="agentic.html" class="new-badge">Agentic AI</a><a href="python-rag.html" class="new-badge">Python RAG</a><a href="dotnet-rag.html" class="new-badge">.NET RAG</a><a href="tools.html">AI Tools</a><a href="career.html">Career</a>
+  </div>
+</nav>
+<div style="max-width:1100px;margin:1rem auto;padding:0 2rem;"><div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad Banner 728×90</div></div></div></div>
+<div class="page-hero">
+  <div class="chapter-badge">🕸️ Chapter 3 · Intermediate</div>
+  <h1>DEEP<br><em>LEARNING</em></h1>
+  <p class="sub">Neural networks, CNNs, RNNs, and Transformers — the architectures that power every modern AI system.</p>
+</div>
+<div class="zigzag"></div>
+<div class="content-grid">
+<div class="main-col">
+
+<div>
+  <div class="section-title" style="background:var(--dl);color:#fff;">🧠 What is Deep Learning?</div>
+  <div class="concept-box">
+    <p style="font-size:0.9rem;line-height:1.8;margin-bottom:1rem;">Deep Learning is a subfield of ML that uses <strong>multi-layered neural networks</strong> (called deep networks) to learn hierarchical representations of data. Each layer learns increasingly abstract features.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;">
+      <div style="padding:1rem;background:#fde8ef;border:var(--border);border-radius:4px;box-shadow:3px 3px 0 var(--ink);">
+        <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;">🖼️ Image Example</strong>
+        <p style="font-size:0.78rem;margin-top:0.3rem;line-height:1.6;">Layer 1: edges → Layer 2: shapes → Layer 3: face parts → Layer 4: full face</p>
+      </div>
+      <div style="padding:1rem;background:#e8f4fd;border:var(--border);border-radius:4px;box-shadow:3px 3px 0 var(--ink);">
+        <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;">📝 Text Example</strong>
+        <p style="font-size:0.78rem;margin-top:0.3rem;line-height:1.6;">Layer 1: characters → Layer 2: words → Layer 3: phrases → Layer 4: meaning</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEURAL NETWORK VISUAL -->
+<div>
+  <div class="section-title" style="background:var(--accent3);">⚡ Neural Network Architecture</div>
+  <div class="nn-visual">
+    <div style="font-family:var(--font-title);font-size:1rem;color:var(--dl);letter-spacing:1px;text-align:center;margin-bottom:1rem;position:relative;">INPUT → HIDDEN LAYERS → OUTPUT</div>
+    <div class="nn-layers">
+      <div class="nn-layer">
+        <div class="nn-layer-title">INPUT</div>
+        <div class="nn-nodes">
+          <div class="nn-node" style="background:#4ecdc4;">x₁</div>
+          <div class="nn-node" style="background:#4ecdc4;">x₂</div>
+          <div class="nn-node" style="background:#4ecdc4;">x₃</div>
+          <div class="nn-node" style="background:#4ecdc4;">x₄</div>
+        </div>
+      </div>
+      <div style="color:rgba(255,255,255,0.4);font-size:1.5rem;position:relative;">→→→</div>
+      <div class="nn-layer">
+        <div class="nn-layer-title">HIDDEN 1</div>
+        <div class="nn-nodes">
+          <div class="nn-node" style="background:var(--dl);">h</div>
+          <div class="nn-node" style="background:var(--dl);">h</div>
+          <div class="nn-node" style="background:var(--dl);">h</div>
+          <div class="nn-node" style="background:var(--dl);">h</div>
+          <div class="nn-node" style="background:var(--dl);">h</div>
+        </div>
+      </div>
+      <div style="color:rgba(255,255,255,0.4);font-size:1.5rem;">→→→</div>
+      <div class="nn-layer">
+        <div class="nn-layer-title">HIDDEN 2</div>
+        <div class="nn-nodes">
+          <div class="nn-node" style="background:#a855f7;">h</div>
+          <div class="nn-node" style="background:#a855f7;">h</div>
+          <div class="nn-node" style="background:#a855f7;">h</div>
+          <div class="nn-node" style="background:#a855f7;">h</div>
+        </div>
+      </div>
+      <div style="color:rgba(255,255,255,0.4);font-size:1.5rem;">→→→</div>
+      <div class="nn-layer">
+        <div class="nn-layer-title">OUTPUT</div>
+        <div class="nn-nodes">
+          <div class="nn-node" style="background:var(--accent3);color:var(--ink);">y₁</div>
+          <div class="nn-node" style="background:var(--accent3);color:var(--ink);">y₂</div>
+        </div>
+      </div>
+    </div>
+    <p style="color:#aaa;font-size:0.75rem;text-align:center;margin-top:1rem;position:relative;">Each connection has a weight. Training adjusts weights via backpropagation + gradient descent.</p>
+  </div>
+</div>
+
+<!-- DL ARCHITECTURES -->
+<div>
+  <div class="section-title" style="background:var(--dl);color:#fff;">🗂️ Key Deep Learning Architectures</div>
+  <div class="panel-grid">
+    <div class="panel" style="border-top:5px solid var(--dl);">
+      <div class="panel-emoji">🖼️</div>
+      <h3>CNN</h3>
+      <p><strong>Convolutional Neural Networks.</strong> Specialized for grid data (images). Uses filters to detect local patterns like edges, textures, and shapes. Powers computer vision.<br><br><em>Used in: Image classification, object detection, medical imaging.</em></p>
+    </div>
+    <div class="panel" style="border-top:5px solid #3a86ff;">
+      <div class="panel-emoji">🔁</div>
+      <h3>RNN / LSTM</h3>
+      <p><strong>Recurrent Neural Networks.</strong> Processes sequences by maintaining hidden state (memory) across time steps. LSTMs solve the vanishing gradient problem.<br><br><em>Used in: Time series, speech recognition, text generation.</em></p>
+    </div>
+    <div class="panel" style="border-top:5px solid #06d6a0;">
+      <div class="panel-emoji">🔄</div>
+      <h3>Autoencoder</h3>
+      <p><strong>Encoder-Decoder architecture.</strong> Compresses data to a latent representation, then reconstructs it. Great for anomaly detection and generation.<br><br><em>Used in: Denoising, compression, anomaly detection.</em></p>
+    </div>
+    <div class="panel" style="border-top:5px solid var(--accent3);">
+      <div class="panel-emoji">🎭</div>
+      <h3>GAN</h3>
+      <p><strong>Generative Adversarial Network.</strong> Two networks compete: Generator creates fakes, Discriminator detects them. Results in photorealistic generation.<br><br><em>Used in: Deepfakes, image synthesis, data augmentation.</em></p>
+    </div>
+    <div class="panel" style="border-top:5px solid #fb8500;">
+      <div class="panel-emoji">🌊</div>
+      <h3>Diffusion Models</h3>
+      <p><strong>Gradually add noise, then learn to denoise.</strong> State-of-the-art for image and audio generation. More stable training than GANs.<br><br><em>Used in: Stable Diffusion, DALL-E, Sora.</em></p>
+    </div>
+    <div class="panel" style="border-top:5px solid #a855f7;">
+      <div class="panel-emoji">⚡</div>
+      <h3>Transformer</h3>
+      <p><strong>Self-attention mechanism.</strong> Processes all tokens in parallel, not sequentially. Scales massively. Foundation of all modern LLMs.<br><br><em>Used in: GPT, Claude, Gemini, BERT, Whisper.</em></p>
+    </div>
+  </div>
+</div>
+
+<!-- AD MID -->
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 468×60</div></div></div>
+
+<!-- TRANSFORMER DEEP DIVE -->
+<div>
+  <div class="section-title" style="background:var(--accent3);">⚡ The Transformer — How It Works</div>
+  <p style="margin-bottom:1rem;font-size:0.85rem;line-height:1.7;">The <strong>Transformer</strong> (2017, Google) is the most important architecture in modern AI. It uses <strong>self-attention</strong> to understand relationships between all words in a sentence simultaneously.</p>
+  <div class="transformer-box">
+    <div class="tb-title">🔍 TRANSFORMER COMPONENTS</div>
+    <div class="tb-row">
+      <div class="tb-cell"><div class="ti">📥</div><div class="tl">Input Embedding</div><div class="td">Convert tokens to vectors of numbers</div></div>
+      <div class="tb-cell"><div class="ti">📍</div><div class="tl">Positional Encoding</div><div class="td">Encode position of each token in sequence</div></div>
+      <div class="tb-cell"><div class="ti">👁️</div><div class="tl">Self-Attention</div><div class="td">Each token attends to all others — the key innovation</div></div>
+      <div class="tb-cell"><div class="ti">🔀</div><div class="tl">Multi-Head Attention</div><div class="td">Run attention in parallel from multiple "perspectives"</div></div>
+      <div class="tb-cell"><div class="ti">🧮</div><div class="tl">Feed-Forward Layer</div><div class="td">Dense network applied to each position independently</div></div>
+      <div class="tb-cell"><div class="ti">📤</div><div class="tl">Output Layer</div><div class="td">Project back to vocabulary size, predict next token</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PYTORCH QUICK CODE -->
+<div>
+  <div class="section-title" style="background:var(--ink);color:var(--accent3);">🔥 PyTorch: Simple Neural Network</div>
+  <div class="code-box">
+    <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;pytorch_nn.py</div>
+    <div class="code-body">
+<span class="kw">import</span> torch<br>
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn<br>
+<span class="kw">import</span> torch.optim <span class="kw">as</span> optim<br>
+<br>
+<span class="cm"># Define a 3-layer neural network</span><br>
+<span class="kw">class</span> <span class="cl">SimpleNet</span>(nn.<span class="cl">Module</span>):<br>
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):<br>
+        <span class="fn">super</span>().<span class="fn">__init__</span>()<br>
+        self.layers = nn.<span class="fn">Sequential</span>(<br>
+            nn.<span class="fn">Linear</span>(<span class="num">784</span>, <span class="num">256</span>),   <span class="cm"># input → hidden</span><br>
+            nn.<span class="fn">ReLU</span>(),<br>
+            nn.<span class="fn">Dropout</span>(<span class="num">0.3</span>),        <span class="cm"># prevent overfitting</span><br>
+            nn.<span class="fn">Linear</span>(<span class="num">256</span>, <span class="num">64</span>),    <span class="cm"># hidden → hidden</span><br>
+            nn.<span class="fn">ReLU</span>(),<br>
+            nn.<span class="fn">Linear</span>(<span class="num">64</span>, <span class="num">10</span>)      <span class="cm"># hidden → output</span><br>
+        )<br>
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):<br>
+        <span class="kw">return</span> self.layers(x)<br>
+<br>
+<span class="var">model</span> = <span class="fn">SimpleNet</span>()<br>
+<span class="var">optimizer</span> = optim.<span class="fn">Adam</span>(<span class="var">model</span>.<span class="fn">parameters</span>(), lr=<span class="num">0.001</span>)<br>
+<span class="var">loss_fn</span> = nn.<span class="fn">CrossEntropyLoss</span>()<br>
+<span class="fn">print</span>(<span class="var">model</span>)  <span class="cm"># → shows layer structure</span>
+    </div>
+  </div>
+</div>
+
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 728×90</div></div></div>
+</div>
+<div class="sidebar">
+  <div class="ad-sidebar"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>300×250</div></div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1.1rem;letter-spacing:1px;margin-bottom:0.8rem;color:var(--dl);">📋 On This Page</div>
+    <ul style="list-style:none;font-size:0.8rem;display:flex;flex-direction:column;gap:0.5rem;"><li>🧠 What is DL?</li><li>⚡ Neural Networks</li><li>🗂️ Key Architectures</li><li>⚡ Transformers</li><li>🔥 PyTorch Code</li></ul>
+  </div>
+  <div style="background:var(--ink);color:#fff;border-radius:4px;border:var(--border);padding:1.2rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;color:var(--accent3);letter-spacing:1px;margin-bottom:0.5rem;">💡 Key Terms</div>
+    <dl style="font-size:0.75rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <div><dt style="color:var(--accent3);font-weight:700;">Backpropagation</dt><dd style="color:#ccc;">Algorithm to compute gradients for training</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">Gradient Descent</dt><dd style="color:#ccc;">Optimization: move weights in direction of steepest loss reduction</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">Activation Function</dt><dd style="color:#ccc;">ReLU, sigmoid — adds non-linearity to layers</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">Epoch</dt><dd style="color:#ccc;">One full pass through all training data</dd></div>
+    </dl>
+  </div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;margin-bottom:0.5rem;">👉 Next Up</div>
+    <a href="llms.html" style="display:block;font-size:0.85rem;color:var(--dl);font-weight:700;">💬 LLMs →</a>
+  </div>
+  <div class="ad-sidebar" style="min-height:400px;"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>160×600</div></div>
+</div>
+</div>
+<div class="zigzag"></div>
+<footer><span>AI Cycle</span> · Built with ❤️ by Ashish Sinha · AI Developer<br><span style="font-size:0.7rem;color:#888;font-family:var(--font-body);">Educational content · All rights reserved · 2025</span></footer>
+</body>
+</html>

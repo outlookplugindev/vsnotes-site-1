@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tools – Best AI Apps Today | AI Cycle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1a1a2e;--panel-bg:#fffef5;--tools:#fb8500;--accent3:#ffe66d;--accent2:#4ecdc4;--accent1:#ff6b35;--border:3px solid #1a1a2e;--shadow:5px 5px 0 #1a1a2e;--font-title:'Bangers',cursive;--font-comic:'Comic Neue',cursive;--font-body:'Space Grotesk',sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#fff8f0;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,#f5e0c0 39px,#f5e0c0 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,#f5e0c0 39px,#f5e0c0 40px);font-family:var(--font-body);color:var(--ink);}
+  nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--tools);}
+  .nav-logo{font-family:var(--font-title);font-size:2rem;color:var(--accent3);letter-spacing:2px;padding:0.5rem 0;}
+  .nav-logo span{color:var(--tools);}
+  .nav-links{display:flex;gap:0.25rem;flex-wrap:wrap;padding:0.5rem 0;}
+  .nav-links a{color:#fff;text-decoration:none;font-size:0.78rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:20px;border:2px solid transparent;transition:all 0.2s;text-transform:uppercase;}
+  .nav-links a:hover,.nav-links a.active{background:var(--tools);color:#fff;}
+  .nav-links a.new-badge::after{content:'NEW';background:var(--accent2);color:var(--ink);font-size:0.55rem;padding:1px 4px;border-radius:3px;margin-left:4px;vertical-align:top;}
+  .page-hero{background:var(--ink);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden;border-bottom:5px solid var(--tools);}
+  .page-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(251,133,0,0.1) 1px,transparent 1px);background-size:18px 18px;}
+  .page-hero h1{font-family:var(--font-title);font-size:3.8rem;letter-spacing:3px;position:relative;color:#fff;}
+  .page-hero h1 em{color:var(--tools);font-style:normal;}
+  .page-hero .sub{color:#ccc;font-size:1rem;max-width:650px;margin:0.8rem auto 0;position:relative;}
+  .chapter-badge{display:inline-block;background:var(--tools);color:#fff;font-family:var(--font-title);font-size:1rem;letter-spacing:2px;padding:0.3rem 1.2rem;border-radius:20px;border:2px solid #fff;margin-bottom:0.8rem;}
+  .content-grid{max-width:1100px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:1fr 220px;gap:2rem;align-items:start;}
+  .main-col{display:flex;flex-direction:column;gap:2rem;}
+  .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+  .section-title{font-family:var(--font-title);font-size:1.8rem;letter-spacing:2px;padding:0.4rem 1rem;border:var(--border);display:inline-block;box-shadow:var(--shadow);border-radius:4px;margin-bottom:1rem;}
+
+  /* TOOL CARDS */
+  .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.2rem;}
+  .tool-card{background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);overflow:hidden;transition:transform 0.15s,box-shadow 0.15s;text-decoration:none;color:var(--ink);display:block;}
+  .tool-card:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--ink);}
+  .tool-header{padding:1rem 1.2rem;display:flex;align-items:center;gap:0.8rem;}
+  .tool-icon{font-size:2rem;flex-shrink:0;}
+  .tool-name{font-family:var(--font-title);font-size:1.3rem;letter-spacing:1px;}
+  .tool-maker{font-size:0.72rem;color:#777;}
+  .tool-body{padding:0 1.2rem 1.2rem;font-size:0.78rem;line-height:1.6;color:#444;}
+  .tool-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.8rem;}
+  .tag{display:inline-block;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:20px;border:1.5px solid var(--ink);text-transform:uppercase;}
+  .rating{display:flex;align-items:center;gap:0.3rem;margin-top:0.6rem;font-size:0.78rem;font-weight:700;}
+  .stars{color:#ffc107;}
+
+  /* CATEGORY DIVIDER */
+  .cat-divider{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+  .cat-divider::before,.cat-divider::after{content:'';flex:1;height:2.5px;background:var(--ink);}
+  .cat-label{font-family:var(--font-title);font-size:1.1rem;letter-spacing:2px;padding:0.3rem 1rem;background:var(--tools);color:#fff;border:var(--border);border-radius:20px;box-shadow:3px 3px 0 var(--ink);white-space:nowrap;}
+
+  /* COMPARISON TABLE */
+  .compare-table{width:100%;border-collapse:collapse;font-size:0.82rem;background:var(--panel-bg);border:var(--border);box-shadow:var(--shadow);}
+  .compare-table th{background:var(--ink);color:var(--accent3);font-family:var(--font-title);font-size:0.95rem;letter-spacing:1px;padding:0.6rem 1rem;text-align:left;}
+  .compare-table td{padding:0.55rem 1rem;border-bottom:1.5px solid #ddd;vertical-align:middle;}
+  .compare-table tr:last-child td{border-bottom:none;}
+  .compare-table tr:nth-child(even) td{background:#fff8f0;}
+  .check{color:#06d6a0;font-size:1.1rem;} .cross{color:#e63946;font-size:1.1rem;} .partial{color:#fb8500;font-size:1.1rem;}
+
+  /* TIP BOX */
+  .tip-box{background:var(--accent3);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem 1.2rem;}
+  .tip-title{font-family:var(--font-title);font-size:1.2rem;letter-spacing:1px;margin-bottom:0.4rem;}
+  .tip-box p{font-size:0.82rem;line-height:1.6;}
+
+  /* DARK BOX */
+  .dark-box{background:var(--ink);color:#fff;padding:1.5rem;border-radius:4px;border:var(--border);box-shadow:var(--shadow);position:relative;overflow:hidden;}
+  .dark-box::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(251,133,0,0.06) 1px,transparent 1px);background-size:10px 10px;pointer-events:none;}
+  .dark-box .db-title{font-family:var(--font-title);font-size:1.3rem;color:var(--accent3);letter-spacing:2px;margin-bottom:0.8rem;position:relative;}
+  .dark-box p,.dark-box li{font-size:0.82rem;line-height:1.7;color:#ddd;position:relative;}
+  .dark-box ul{padding-left:1.2rem;}
+
+  .ad-banner{background:#fff8e1;border:2px dashed #ccc;border-radius:4px;text-align:center;padding:1rem;color:#999;font-size:0.8rem;position:relative;}
+  .ad-banner::before{content:'Advertisement';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff8e1;padding:0 6px;font-size:0.7rem;color:#bbb;}
+  .ad-banner .ad-inner{min-height:90px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
+  .ad-sidebar{background:#fff8e1;border:2px dashed #ccc;border-radius:4px;text-align:center;padding:1rem 0.5rem;color:#999;font-size:0.75rem;min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;position:relative;}
+  .ad-sidebar::before{content:'Ad';position:absolute;top:6px;right:8px;font-size:0.6rem;color:#ccc;}
+  .zigzag{height:20px;background:linear-gradient(135deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(225deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(315deg,var(--ink) 25%,transparent 25%),linear-gradient(45deg,var(--ink) 25%,transparent 25%);background-size:20px 20px;background-color:var(--tools);margin:1rem 0;}
+  footer{background:var(--ink);color:#ccc;text-align:center;padding:1.5rem;font-size:0.8rem;margin-top:3rem;}
+  footer span{color:var(--accent3);font-family:var(--font-title);font-size:1rem;letter-spacing:1px;}
+  @media(max-width:768px){.content-grid{grid-template-columns:1fr;}.page-hero h1{font-size:2.5rem;}.tools-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">AI<span>Cycle</span></div>
+<div style="font-size:0.62rem;color:#aaa;font-family:var(--font-body);letter-spacing:0.3px;line-height:1.4;">
+      Built with 🧠 by <strong style="color:#ddd;">Ashish Sinha</strong> · AI Developer<br>
+      <a href="mailto:startvsnotes@gmail.com" style="color:var(--accent3);text-decoration:none;">✉️ startvsnotes@gmail.com</a><br>
+      <span style="color:#777;">Educational content · All rights reserved · 2025-30</span>
+    </div>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a><a href="intro.html">Intro</a><a href="ml.html">ML</a><a href="deeplearning.html">Deep Learning</a><a href="llms.html">LLMs</a><a href="rag.html">RAG</a><a href="agentic.html" class="new-badge">Agentic AI</a><a href="python-rag.html" class="new-badge">Python RAG</a><a href="dotnet-rag.html" class="new-badge">.NET RAG</a><a href="tools.html" class="active">AI Tools</a><a href="career.html">Career</a>
+  </div>
+</nav>
+
+<div style="max-width:1100px;margin:1rem auto;padding:0 2rem;">
+  <div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad Banner 728×90 — Replace with AdSense code</div></div></div>
+</div>
+
+<div class="page-hero">
+  <div class="chapter-badge">🛠️ Chapter 8 · All Levels</div>
+  <h1>THE BEST<br><em>AI TOOLS</em><br>RIGHT NOW</h1>
+  <p class="sub">The definitive visual guide to today's most powerful AI apps — for writing, coding, design, productivity, research, and building. Updated 2025.</p>
+</div>
+
+<div class="zigzag"></div>
+
+<div class="content-grid">
+<div class="main-col">
+
+<!-- CHAT AI -->
+<div>
+  <div class="section-title" style="background:var(--tools);color:#fff;">💬 Chat & General AI Assistants</div>
+  <div class="cat-divider"><div class="cat-label">🏆 The Big 4</div></div>
+  <div class="tools-grid">
+    <a href="https://chat.openai.com" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f5e9;">
+        <div class="tool-icon">💚</div>
+        <div><div class="tool-name">ChatGPT</div><div class="tool-maker">OpenAI · GPT-4o</div></div>
+      </div>
+      <div class="tool-body">
+        The world's most-used AI assistant. Brilliant at reasoning, coding, writing, math, and image generation. GPT-4o handles voice, vision, and files.
+        <div class="rating"><span class="stars">★★★★★</span> 5.0 · 200M+ users</div>
+        <div class="tool-tags"><span class="tag" style="background:#e8f5e9;">Free tier</span><span class="tag" style="background:#fff3cd;">Plus $20/mo</span><span class="tag" style="background:#e8f4fd;">Multimodal</span></div>
+      </div>
+    </a>
+    <a href="https://claude.ai" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#f3e8ff;">
+        <div class="tool-icon">🟠</div>
+        <div><div class="tool-name">Claude</div><div class="tool-maker">Anthropic · Claude 3.5</div></div>
+      </div>
+      <div class="tool-body">
+        Best for long-form writing, coding, nuanced analysis, and following complex instructions. 200K token context window — can process entire books.
+        <div class="rating"><span class="stars">★★★★★</span> 4.9 · Best for writing</div>
+        <div class="tool-tags"><span class="tag" style="background:#f3e8ff;">Free tier</span><span class="tag" style="background:#e8f5e9;">200K context</span><span class="tag" style="background:#fff3cd;">Safe AI</span></div>
+      </div>
+    </a>
+    <a href="https://gemini.google.com" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f4fd;">
+        <div class="tool-icon">💎</div>
+        <div><div class="tool-name">Gemini</div><div class="tool-maker">Google · Gemini 1.5 Pro</div></div>
+      </div>
+      <div class="tool-body">
+        Google's flagship AI with 1M token context. Best for research with Google Search integration, multimodal tasks, and Google Workspace.
+        <div class="rating"><span class="stars">★★★★½</span> 4.7 · Best for research</div>
+        <div class="tool-tags"><span class="tag" style="background:#e8f4fd;">Free</span><span class="tag" style="background:#e8f5e9;">Google Search</span><span class="tag" style="background:#fde8ef;">1M Context</span></div>
+      </div>
+    </a>
+    <a href="https://copilot.microsoft.com" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#fff3cd;">
+        <div class="tool-icon">🪁</div>
+        <div><div class="tool-name">Microsoft Copilot</div><div class="tool-maker">Microsoft · GPT-4</div></div>
+      </div>
+      <div class="tool-body">
+        Integrated into Windows, Edge, Microsoft 365. Best for Office productivity — write emails in Outlook, analyze data in Excel, summarize in Teams.
+        <div class="rating"><span class="stars">★★★★</span> 4.5 · Best for Office users</div>
+        <div class="tool-tags"><span class="tag" style="background:#fff3cd;">Free</span><span class="tag" style="background:#e8f4fd;">Office 365</span><span class="tag" style="background:#e8f5e9;">Windows</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- CODING AI -->
+<div>
+  <div class="section-title" style="background:#3a86ff;color:#fff;">💻 AI Coding Assistants</div>
+  <div class="tools-grid">
+    <a href="https://github.com/features/copilot" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f4fd;">
+        <div class="tool-icon">🐙</div>
+        <div><div class="tool-name">GitHub Copilot</div><div class="tool-maker">GitHub · GPT-4 Turbo</div></div>
+      </div>
+      <div class="tool-body">
+        The OG AI coding assistant. Real-time autocomplete in VS Code, JetBrains, Neovim. Now includes chat, code review, and PR summaries.
+        <div class="rating"><span class="stars">★★★★★</span> Best overall coding AI</div>
+        <div class="tool-tags"><span class="tag" style="background:#e8f4fd;">$10/mo</span><span class="tag" style="background:#e8f5e9;">VS Code</span><span class="tag" style="background:#f3e8ff;">JetBrains</span></div>
+      </div>
+    </a>
+    <a href="https://cursor.com" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#fde8ef;">
+        <div class="tool-icon">🖱️</div>
+        <div><div class="tool-name">Cursor</div><div class="tool-maker">Anysphere · Multi-model</div></div>
+      </div>
+      <div class="tool-body">
+        VS Code fork with AI built-in. Edit entire codebases with natural language. Understands your whole repo context, not just open files. ⚡ Developer favorite.
+        <div class="rating"><span class="stars">★★★★★</span> Best AI code editor</div>
+        <div class="tool-tags"><span class="tag" style="background:#fde8ef;">Free tier</span><span class="tag" style="background:#fff3cd;">$20/mo Pro</span><span class="tag" style="background:#e8f5e9;">Codebase AI</span></div>
+      </div>
+    </a>
+    <a href="https://codeium.com" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f5e9;">
+        <div class="tool-icon">🟢</div>
+        <div><div class="tool-name">Codeium / Windsurf</div><div class="tool-maker">Codeium · Free</div></div>
+      </div>
+      <div class="tool-body">
+        Free alternative to Copilot. Supports 70+ languages, 40+ IDEs. Windsurf is their standalone AI editor with agentic coding flows.
+        <div class="rating"><span class="stars">★★★★</span> Best free option</div>
+        <div class="tool-tags"><span class="tag" style="background:#e8f5e9;">Free</span><span class="tag" style="background:#e8f4fd;">70+ languages</span></div>
+      </div>
+    </a>
+    <a href="https://v0.dev" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#f3e8ff;">
+        <div class="tool-icon">⚡</div>
+        <div><div class="tool-name">v0 by Vercel</div><div class="tool-maker">Vercel · React/UI</div></div>
+      </div>
+      <div class="tool-body">
+        Describe a UI → get production-ready React + Tailwind code instantly. Best tool for rapid frontend prototyping and component generation.
+        <div class="rating"><span class="stars">★★★★½</span> Best for UI</div>
+        <div class="tool-tags"><span class="tag" style="background:#f3e8ff;">Free tier</span><span class="tag" style="background:#e8f4fd;">React</span><span class="tag" style="background:#e8f5e9;">Tailwind</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- AD MID -->
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 468×60 — Replace with AdSense code</div></div></div>
+
+<!-- IMAGE AI -->
+<div>
+  <div class="section-title" style="background:#f72585;color:#fff;">🎨 AI Image Generation</div>
+  <div class="tools-grid">
+    <a href="https://midjourney.com" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f4fd;">
+        <div class="tool-icon">🌊</div>
+        <div><div class="tool-name">Midjourney</div><div class="tool-maker">Midjourney Inc.</div></div>
+      </div>
+      <div class="tool-body">
+        The gold standard for artistic AI imagery. Stunning aesthetics, unmatched quality for editorial, concept art, and creative work. Now has a web app.
+        <div class="rating"><span class="stars">★★★★★</span> Best image quality</div>
+        <div class="tool-tags"><span class="tag" style="background:#e8f4fd;">$10/mo</span><span class="tag" style="background:#f3e8ff;">Discord + Web</span></div>
+      </div>
+    </a>
+    <a href="https://openai.com/dall-e-3" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f5e9;">
+        <div class="tool-icon">🎨</div>
+        <div><div class="tool-name">DALL-E 3</div><div class="tool-maker">OpenAI</div></div>
+      </div>
+      <div class="tool-body">
+        Best at following precise text descriptions. Integrated with ChatGPT — describe an image in conversation and get it instantly. Great for accurate text in images.
+        <div class="rating"><span class="stars">★★★★</span> Best prompt accuracy</div>
+        <div class="tool-tags"><span class="tag" style="background:#e8f5e9;">In ChatGPT</span><span class="tag" style="background:#fff3cd;">API</span></div>
+      </div>
+    </a>
+    <a href="https://stability.ai" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#fff3cd;">
+        <div class="tool-icon">🔥</div>
+        <div><div class="tool-name">Stable Diffusion</div><div class="tool-maker">Stability AI · Open Source</div></div>
+      </div>
+      <div class="tool-body">
+        Free, open-source, and runs locally. Full control — fine-tune on your style, run offline, unlimited generations. Huge community of custom models.
+        <div class="rating"><span class="stars">★★★★</span> Best for power users</div>
+        <div class="tool-tags"><span class="tag" style="background:#e8f5e9;">Free</span><span class="tag" style="background:#fff3cd;">Open Source</span><span class="tag" style="background:#fde8ef;">Local</span></div>
+      </div>
+    </a>
+    <a href="https://adobe.com/products/firefly" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#fde8ef;">
+        <div class="tool-icon">🦋</div>
+        <div><div class="tool-name">Adobe Firefly</div><div class="tool-maker">Adobe · Commercial safe</div></div>
+      </div>
+      <div class="tool-body">
+        Trained only on licensed content — safe for commercial use. Integrated into Photoshop, Illustrator. Generative Fill is a game-changer for designers.
+        <div class="rating"><span class="stars">★★★★½</span> Best for commercial use</div>
+        <div class="tool-tags"><span class="tag" style="background:#fde8ef;">Adobe CC</span><span class="tag" style="background:#e8f5e9;">Commercial safe</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- PRODUCTIVITY AI -->
+<div>
+  <div class="section-title" style="background:var(--accent2);color:var(--ink);">⚡ Productivity & Research AI</div>
+  <div class="tools-grid">
+    <a href="https://notion.com/product/ai" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#f5f5f5;">
+        <div class="tool-icon">📝</div>
+        <div><div class="tool-name">Notion AI</div><div class="tool-maker">Notion</div></div>
+      </div>
+      <div class="tool-body">
+        AI built into your workspace. Summarize pages, draft docs, generate action items from meeting notes, answer questions across your entire Notion workspace.
+        <div class="tool-tags"><span class="tag" style="background:#f5f5f5;">$10/mo add-on</span><span class="tag" style="background:#e8f5e9;">Workspace</span></div>
+      </div>
+    </a>
+    <a href="https://perplexity.ai" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f4fd;">
+        <div class="tool-icon">🔭</div>
+        <div><div class="tool-name">Perplexity AI</div><div class="tool-maker">Perplexity Inc.</div></div>
+      </div>
+      <div class="tool-body">
+        AI-powered search engine with real-time web results and citations. Ask complex questions, get sourced answers. Best replacement for traditional search.
+        <div class="rating"><span class="stars">★★★★★</span> Best AI search</div>
+        <div class="tool-tags"><span class="tag" style="background:#e8f4fd;">Free</span><span class="tag" style="background:#fff3cd;">Pro $20/mo</span><span class="tag" style="background:#e8f5e9;">Citations</span></div>
+      </div>
+    </a>
+    <a href="https://otter.ai" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f5e9;">
+        <div class="tool-icon">🦦</div>
+        <div><div class="tool-name">Otter.ai</div><div class="tool-maker">Otter.ai</div></div>
+      </div>
+      <div class="tool-body">
+        Real-time meeting transcription and AI summaries. Joins Zoom, Teams, and Google Meet automatically. Generates action items and key takeaways.
+        <div class="tool-tags"><span class="tag" style="background:#e8f5e9;">Free tier</span><span class="tag" style="background:#fff3cd;">Meetings</span></div>
+      </div>
+    </a>
+    <a href="https://gamma.app" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#f3e8ff;">
+        <div class="tool-icon">🎯</div>
+        <div><div class="tool-name">Gamma</div><div class="tool-maker">Gamma App</div></div>
+      </div>
+      <div class="tool-body">
+        Turn a prompt or document into a beautiful presentation in seconds. Smart layouts, AI-generated visuals, export to PowerPoint or PDF.
+        <div class="tool-tags"><span class="tag" style="background:#f3e8ff;">Free tier</span><span class="tag" style="background:#e8f4fd;">Presentations</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- VIDEO & AUDIO AI -->
+<div>
+  <div class="section-title" style="background:var(--accent3);color:var(--ink);">🎬 Video, Audio & Voice AI</div>
+  <div class="tools-grid">
+    <a href="https://sora.com" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f5e9;">
+        <div class="tool-icon">🎥</div>
+        <div><div class="tool-name">Sora</div><div class="tool-maker">OpenAI · Text-to-Video</div></div>
+      </div>
+      <div class="tool-body">
+        OpenAI's text-to-video model. Generate up to 20-second photorealistic videos from text prompts. Industry-leading video generation quality.
+        <div class="tool-tags"><span class="tag" style="background:#e8f5e9;">ChatGPT Plus</span><span class="tag" style="background:#fff3cd;">Video AI</span></div>
+      </div>
+    </a>
+    <a href="https://elevenlabs.io" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#fff3cd;">
+        <div class="tool-icon">🔊</div>
+        <div><div class="tool-name">ElevenLabs</div><div class="tool-maker">ElevenLabs · Voice AI</div></div>
+      </div>
+      <div class="tool-body">
+        The best AI voice generator. Clone any voice with 1 minute of audio. 29 languages, ultra-realistic narration. Used for audiobooks, videos, podcasts.
+        <div class="rating"><span class="stars">★★★★★</span> Best voice AI</div>
+        <div class="tool-tags"><span class="tag" style="background:#fff3cd;">Free tier</span><span class="tag" style="background:#e8f5e9;">Voice Clone</span></div>
+      </div>
+    </a>
+    <a href="https://runwayml.com" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#e8f4fd;">
+        <div class="tool-icon">🛫</div>
+        <div><div class="tool-name">Runway Gen-3</div><div class="tool-maker">Runway ML</div></div>
+      </div>
+      <div class="tool-body">
+        Professional video AI studio. Text-to-video, image-to-video, video-to-video style transfer, background removal, rotoscoping. Used in Hollywood productions.
+        <div class="tool-tags"><span class="tag" style="background:#e8f4fd;">$15/mo</span><span class="tag" style="background:#f3e8ff;">Pro Video</span></div>
+      </div>
+    </a>
+    <a href="https://openai.com/research/whisper" target="_blank" class="tool-card">
+      <div class="tool-header" style="background:#fde8ef;">
+        <div class="tool-icon">🎙️</div>
+        <div><div class="tool-name">Whisper</div><div class="tool-maker">OpenAI · Open Source</div></div>
+      </div>
+      <div class="tool-body">
+        Best-in-class speech-to-text. Free, open-source, runs locally. 99 languages, handles accents and background noise. Powers many AI apps.
+        <div class="tool-tags"><span class="tag" style="background:#e8f5e9;">Free</span><span class="tag" style="background:#fff3cd;">Open Source</span><span class="tag" style="background:#fde8ef;">99 languages</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div>
+  <div class="section-title" style="background:var(--ink);color:var(--accent3);">⚖️ Chat AI Quick Comparison</div>
+  <table class="compare-table">
+    <thead><tr><th>Feature</th><th>💚 ChatGPT</th><th>🟠 Claude</th><th>💎 Gemini</th><th>🪁 Copilot</th></tr></thead>
+    <tbody>
+      <tr><td>Free Tier</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+      <tr><td>Image Understanding</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+      <tr><td>Image Generation</td><td class="check">✔ DALL-E</td><td class="cross">✗</td><td class="check">✔ Imagen</td><td class="check">✔ DALL-E</td></tr>
+      <tr><td>Context Window</td><td>128K</td><td>200K</td><td>1M</td><td>128K</td></tr>
+      <tr><td>Web Search</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+      <tr><td>Code Execution</td><td class="check">✔</td><td class="partial">⚡ Limited</td><td class="partial">⚡ Limited</td><td class="cross">✗</td></tr>
+      <tr><td>API Access</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔ Azure</td></tr>
+      <tr><td>Best For</td><td>General + Code</td><td>Writing + Long docs</td><td>Research + Search</td><td>Office 365</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- TIP BOX -->
+<div class="tip-box">
+  <div class="tip-title">💡 Pro Tip: Mix Your Tools</div>
+  <p>Don't pick just one AI tool! Use <strong>Perplexity</strong> for research with citations, <strong>Claude</strong> for writing and long documents, <strong>GitHub Copilot</strong> for code, and <strong>Midjourney</strong> for visuals. Each model has different strengths — the pros use them all.</p>
+</div>
+
+<!-- HOW TO CHOOSE -->
+<div>
+  <div class="section-title" style="background:var(--tools);color:#fff;">🎯 Which AI Tool Should You Use?</div>
+  <div class="dark-box">
+    <div class="db-title">🗺️ QUICK GUIDE</div>
+    <ul style="display:flex;flex-direction:column;gap:0.5rem;">
+      <li>📝 <strong style="color:var(--accent3);">Writing essays/reports</strong> → Claude (best nuance, long context)</li>
+      <li>💻 <strong style="color:var(--accent3);">Coding help</strong> → GitHub Copilot (in-editor) or Cursor (editor)</li>
+      <li>🔍 <strong style="color:var(--accent3);">Research with citations</strong> → Perplexity AI</li>
+      <li>🎨 <strong style="color:var(--accent3);">Artistic images</strong> → Midjourney</li>
+      <li>🖼️ <strong style="color:var(--accent3);">Accurate image from description</strong> → DALL-E 3 (via ChatGPT)</li>
+      <li>📊 <strong style="color:var(--accent3);">Excel / Word / Email</strong> → Microsoft Copilot</li>
+      <li>🎙️ <strong style="color:var(--accent3);">Meeting notes</strong> → Otter.ai</li>
+      <li>🎬 <strong style="color:var(--accent3);">Video from text</strong> → Sora or Runway Gen-3</li>
+      <li>🔊 <strong style="color:var(--accent3);">AI narration / voice clone</strong> → ElevenLabs</li>
+      <li>🖥️ <strong style="color:var(--accent3);">Build a UI fast</strong> → v0.dev or Bolt.new</li>
+      <li>🏗️ <strong style="color:var(--accent3);">General everything</strong> → ChatGPT GPT-4o</li>
+    </ul>
+  </div>
+</div>
+
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 728×90 — Replace with AdSense code</div></div></div>
+
+</div><!-- end main-col -->
+
+<div class="sidebar">
+  <div class="ad-sidebar"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>300×250<br>AdSense</div></div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1.1rem;letter-spacing:1px;margin-bottom:0.8rem;color:var(--tools);">🛠️ Categories</div>
+    <ul style="list-style:none;font-size:0.8rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <li>💬 Chat AI</li><li>💻 Coding AI</li><li>🎨 Image AI</li><li>⚡ Productivity</li><li>🎬 Video & Audio</li><li>⚖️ Comparison</li><li>🎯 How to Choose</li>
+    </ul>
+  </div>
+  <div style="background:var(--ink);color:#fff;border-radius:4px;border:var(--border);padding:1.2rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;color:var(--accent3);letter-spacing:1px;margin-bottom:0.5rem;">⚡ Quick Picks</div>
+    <dl style="font-size:0.75rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <div><dt style="color:var(--tools);">Best Overall</dt><dd style="color:#ccc;">ChatGPT GPT-4o</dd></div>
+      <div><dt style="color:var(--tools);">Best Writer</dt><dd style="color:#ccc;">Claude 3.5 Sonnet</dd></div>
+      <div><dt style="color:var(--tools);">Best Coder</dt><dd style="color:#ccc;">Cursor + Claude</dd></div>
+      <div><dt style="color:var(--tools);">Best Images</dt><dd style="color:#ccc;">Midjourney v6</dd></div>
+      <div><dt style="color:var(--tools);">Best Search</dt><dd style="color:#ccc;">Perplexity AI</dd></div>
+      <div><dt style="color:var(--tools);">Best Voice</dt><dd style="color:#ccc;">ElevenLabs</dd></div>
+    </dl>
+  </div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;margin-bottom:0.5rem;">👉 Next Up</div>
+    <a href="career.html" style="display:block;font-size:0.85rem;color:var(--tools);font-weight:700;">🎯 AI Career Guide →</a>
+  </div>
+  <div class="ad-sidebar" style="min-height:600px;"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>160×600<br>Skyscraper</div></div>
+</div>
+</div>
+
+<div class="zigzag"></div>
+<footer><span>AI Cycle</span> · Built with ❤️ by Ashish Sinha · AI Developer<br><span style="font-size:0.7rem;color:#888;font-family:var(--font-body);">Educational content · Tool info current as of 2025 · All rights reserved</span></footer>
+</body>
+</html>

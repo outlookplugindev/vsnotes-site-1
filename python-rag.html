@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python RAG + Agentic AI Tutorial | AI Cycle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --panel-bg: #fffef5;
+    --py: #3a86ff;
+    --py-dark: #1d4ed8;
+    --py-light: #dbeafe;
+    --accent1: #f72585;
+    --accent2: #06d6a0;
+    --accent3: #ffe66d;
+    --border: 3px solid #1a1a2e;
+    --shadow: 5px 5px 0 #1a1a2e;
+    --font-title: 'Bangers', cursive;
+    --font-comic: 'Comic Neue', cursive;
+    --font-body: 'Space Grotesk', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #f0f7ff;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, #d0e4f7 39px, #d0e4f7 40px),
+                      repeating-linear-gradient(90deg, transparent, transparent 39px, #d0e4f7 39px, #d0e4f7 40px);
+    font-family: var(--font-body);
+    color: var(--ink);
+  }
+  nav { background: var(--ink); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--py); }
+  .nav-logo { font-family: var(--font-title); font-size: 2rem; color: var(--accent3); letter-spacing: 2px; padding: 0.5rem 0; }
+  .nav-logo span { color: var(--py); }
+  .nav-links { display: flex; gap: 0.25rem; flex-wrap: wrap; padding: 0.5rem 0; }
+  .nav-links a { color: #fff; text-decoration: none; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 20px; border: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; }
+  .nav-links a:hover, .nav-links a.active { background: var(--py); color: #fff; border-color: var(--py); }
+  .nav-links a.new-badge::after { content: 'NEW'; background: var(--accent2); color: var(--ink); font-size: 0.55rem; padding: 1px 4px; border-radius: 3px; margin-left: 4px; vertical-align: top; }
+
+  .page-hero { background: linear-gradient(135deg, #1d4ed8, #3a86ff); padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 0, transparent 50%); background-size: 20px 20px; }
+  .page-hero h1 { font-family: var(--font-title); font-size: 3.5rem; color: #fff; letter-spacing: 3px; position: relative; }
+  .page-hero h1 em { color: var(--accent3); font-style: normal; }
+  .page-hero .sub { color: rgba(255,255,255,0.85); font-size: 1rem; max-width: 650px; margin: 0.8rem auto 0; position: relative; }
+  .page-hero .badge { display: inline-block; background: var(--accent3); color: var(--ink); font-family: var(--font-title); font-size: 1rem; letter-spacing: 2px; padding: 0.3rem 1.2rem; border-radius: 20px; border: 2px solid var(--ink); margin-bottom: 0.8rem; }
+
+  .content-grid { max-width: 1100px; margin: 0 auto; padding: 2rem; display: grid; grid-template-columns: 1fr 220px; gap: 2rem; align-items: start; }
+  .main-col { display: flex; flex-direction: column; gap: 2rem; }
+  .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .section-title { font-family: var(--font-title); font-size: 1.8rem; letter-spacing: 2px; padding: 0.4rem 1rem; border: var(--border); display: inline-block; box-shadow: var(--shadow); border-radius: 4px; margin-bottom: 1rem; }
+
+  /* STEP CARDS */
+  .step-card {
+    background: var(--panel-bg);
+    border: var(--border);
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border-bottom: 2.5px solid var(--ink);
+  }
+  .step-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 3px solid var(--ink);
+    background: var(--py);
+    color: #fff;
+    font-family: var(--font-title);
+    font-size: 1.4rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .step-title { font-family: var(--font-title); font-size: 1.4rem; letter-spacing: 1px; }
+  .step-subtitle { font-size: 0.78rem; color: #555; }
+  .step-body { padding: 1.2rem; }
+  .step-body p { font-size: 0.85rem; line-height: 1.7; margin-bottom: 0.8rem; }
+  .step-body ul, .step-body ol { font-size: 0.83rem; line-height: 1.8; padding-left: 1.2rem; margin-bottom: 0.8rem; }
+
+  /* CODE BOX */
+  .code-box { background: #0d1117; border: var(--border); border-radius: 4px; box-shadow: var(--shadow); overflow-x: auto; font-size: 0.78rem; line-height: 1.7; margin: 0.8rem 0; }
+  .code-header { background: #161b22; color: var(--accent3); font-family: var(--font-title); font-size: 0.9rem; letter-spacing: 1px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1.5px solid #30363d; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .code-body { padding: 1rem 1.2rem; font-family: 'Courier New', monospace; color: #e6edf3; }
+  .kw { color: #ff7b72; }
+  .str { color: #a5d6ff; }
+  .cm { color: #6e7681; font-style: italic; }
+  .fn { color: #d2a8ff; }
+  .cl { color: #ffa657; }
+  .var { color: #79c0ff; }
+  .num { color: #f47067; }
+  .dec { color: #d2a8ff; }
+
+  /* INFO BOX */
+  .info-box { padding: 0.8rem 1rem; border-radius: 4px; border: 2px solid; font-size: 0.82rem; line-height: 1.6; margin: 0.5rem 0; }
+  .info-tip { background: #f0fff4; border-color: #06d6a0; }
+  .info-warn { background: #fff8e1; border-color: #fb8500; }
+  .info-note { background: #e8f4fd; border-color: var(--py); }
+
+  /* PACKAGE TABLE */
+  .pkg-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; background: var(--panel-bg); border: var(--border); box-shadow: var(--shadow); }
+  .pkg-table th { background: var(--ink); color: var(--accent3); font-family: var(--font-title); font-size: 0.95rem; letter-spacing: 1px; padding: 0.6rem 1rem; text-align: left; }
+  .pkg-table td { padding: 0.55rem 1rem; border-bottom: 1.5px solid #ddd; vertical-align: middle; }
+  .pkg-table tr:last-child td { border-bottom: none; }
+  .pkg-table tr:nth-child(even) td { background: #f0f7ff; }
+  .pkg-table code { background: #e8f4fd; padding: 1px 6px; border-radius: 3px; font-size: 0.78rem; color: var(--py-dark); }
+
+  /* FLOW */
+  .arch-flow { display: flex; flex-direction: column; gap: 0; background: var(--panel-bg); border: var(--border); border-radius: 4px; box-shadow: var(--shadow); overflow: hidden; }
+  .arch-row { display: grid; grid-template-columns: 40px 1fr; align-items: stretch; }
+  .arch-num { background: var(--py); color: #fff; font-family: var(--font-title); font-size: 1.2rem; display: flex; align-items: center; justify-content: center; border-right: 2.5px solid var(--ink); }
+  .arch-content { padding: 0.8rem 1rem; border-bottom: 1.5px solid #ddd; }
+  .arch-row:last-child .arch-content { border-bottom: none; }
+  .arch-label { font-family: var(--font-title); font-size: 1rem; letter-spacing: 1px; color: var(--py-dark); margin-bottom: 0.2rem; }
+  .arch-desc { font-size: 0.78rem; color: #555; line-height: 1.5; }
+
+  /* AD */
+  .ad-banner { background: #fff8e1; border: 2px dashed #ccc; border-radius: 4px; text-align: center; padding: 1rem; color: #999; font-size: 0.8rem; position: relative; }
+  .ad-banner::before { content: 'Advertisement'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #fff8e1; padding: 0 6px; font-size: 0.7rem; color: #bbb; }
+  .ad-banner .ad-inner { min-height: 90px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; }
+  .ad-sidebar { background: #fff8e1; border: 2px dashed #ccc; border-radius: 4px; text-align: center; padding: 1rem 0.5rem; color: #999; font-size: 0.75rem; min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; position: relative; }
+  .ad-sidebar::before { content: 'Ad'; position: absolute; top: 6px; right: 8px; font-size: 0.6rem; color: #ccc; }
+
+  .zigzag { height: 20px; background: linear-gradient(135deg, var(--ink) 25%, transparent 25%) -10px 0, linear-gradient(225deg, var(--ink) 25%, transparent 25%) -10px 0, linear-gradient(315deg, var(--ink) 25%, transparent 25%), linear-gradient(45deg, var(--ink) 25%, transparent 25%); background-size: 20px 20px; background-color: var(--py); margin: 1rem 0; }
+  footer { background: var(--ink); color: #ccc; text-align: center; padding: 1.5rem; font-size: 0.8rem; margin-top: 3rem; }
+  footer span { color: var(--accent3); font-family: var(--font-title); font-size: 1rem; letter-spacing: 1px; }
+
+  @media(max-width:768px) { .content-grid { grid-template-columns: 1fr; } .page-hero h1 { font-size: 2.2rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">AI<span>Cycle</span></div>
+<div style="font-size:0.62rem;color:#aaa;font-family:var(--font-body);letter-spacing:0.3px;line-height:1.4;">
+      Built with 🧠 by <strong style="color:#ddd;">Ashish Sinha</strong> · AI Developer<br>
+      <a href="mailto:startvsnotes@gmail.com" style="color:var(--accent3);text-decoration:none;">✉️ startvsnotes@gmail.com</a><br>
+      <span style="color:#777;">Educational content · All rights reserved · 2025-30</span>
+    </div>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a>
+    <a href="intro.html">Intro</a>
+    <a href="ml.html">ML</a>
+    <a href="deeplearning.html">Deep Learning</a>
+    <a href="llms.html">LLMs</a>
+    <a href="rag.html">RAG</a>
+    <a href="agentic.html">Agentic AI</a>
+    <a href="python-rag.html" class="active new-badge">Python RAG</a>
+    <a href="dotnet-rag.html" class="new-badge">.NET RAG</a>
+    <a href="tools.html">AI Tools</a>
+    <a href="career.html">Career</a>
+  </div>
+</nav>
+
+<div style="max-width:1100px;margin:1rem auto;padding:0 2rem;">
+  <div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad Banner 728×90 — Replace with AdSense code</div></div></div>
+</div>
+
+<div class="page-hero">
+  <div class="badge">🐍 Python · Step by Step</div>
+  <h1>BUILD <em>RAG-BASED</em><br>AGENTIC AI</h1>
+  <p class="sub">A complete hands-on guide: from zero to a production-ready RAG + Agentic AI system in Python. LangChain · FAISS · OpenAI · ChromaDB · LangGraph.</p>
+</div>
+
+<div class="zigzag"></div>
+
+<div class="content-grid">
+<div class="main-col">
+
+<!-- OVERVIEW -->
+<div>
+  <div class="section-title" style="background:var(--py);color:#fff;">🗺️ What We're Building</div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1.5rem;">
+    <p style="font-size:0.9rem;line-height:1.8;margin-bottom:1rem;">We'll build a <strong>RAG-based Agentic AI</strong> — an autonomous AI that can search your documents AND the web, remember context, reason across multiple steps, and give grounded, accurate answers.</p>
+    <div class="arch-flow">
+      <div class="arch-row">
+        <div class="arch-num">1</div>
+        <div class="arch-content"><div class="arch-label">📦 Environment Setup</div><div class="arch-desc">Python 3.11+, virtual environment, install packages</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">2</div>
+        <div class="arch-content"><div class="arch-label">🔑 API Keys & Config</div><div class="arch-desc">OpenAI API key, environment variables, .env setup</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">3</div>
+        <div class="arch-content"><div class="arch-label">📄 Document Loading & Chunking</div><div class="arch-desc">Load PDFs/text, split into chunks with overlap</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">4</div>
+        <div class="arch-content"><div class="arch-label">🧮 Embeddings & Vector Store</div><div class="arch-desc">Convert chunks to vectors, store in FAISS/ChromaDB</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">5</div>
+        <div class="arch-content"><div class="arch-label">🔍 Retriever Setup</div><div class="arch-desc">Similarity search retriever to fetch relevant chunks</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">6</div>
+        <div class="arch-content"><div class="arch-label">🤖 Build the RAG Chain</div><div class="arch-desc">Connect retriever + LLM with prompt template</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">7</div>
+        <div class="arch-content"><div class="arch-label">⚡ Add Agentic Tools</div><div class="arch-desc">Web search, calculator, code executor tools</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">8</div>
+        <div class="arch-content"><div class="arch-label">🕸️ LangGraph Agent Loop</div><div class="arch-desc">Build stateful agent with ReAct loop and memory</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">9</div>
+        <div class="arch-content"><div class="arch-label">🧪 Test & Debug</div><div class="arch-desc">Run queries, inspect reasoning traces, fix issues</div></div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-num">10</div>
+        <div class="arch-content"><div class="arch-label">🚀 Deploy</div><div class="arch-desc">FastAPI endpoint, Streamlit UI, or Docker container</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 1 -->
+<div class="step-card">
+  <div class="step-header" style="background:#e8f4fd;">
+    <div class="step-num">1</div>
+    <div>
+      <div class="step-title">📦 Environment Setup</div>
+      <div class="step-subtitle">Python 3.11+ · Virtual Environment · Requirements</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p>Start by creating a clean Python virtual environment. This isolates dependencies and avoids conflicts.</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;terminal / bash</div>
+      <div class="code-body">
+<span class="cm"># Create project folder</span><br>
+mkdir rag-agent && cd rag-agent<br>
+<br>
+<span class="cm"># Create virtual environment</span><br>
+python -m venv venv<br>
+<br>
+<span class="cm"># Activate it</span><br>
+<span class="cm"># On Windows:</span><br>
+venv\Scripts\activate<br>
+<span class="cm"># On Mac/Linux:</span><br>
+source venv/bin/activate<br>
+<br>
+<span class="cm"># Upgrade pip</span><br>
+pip install --upgrade pip
+      </div>
+    </div>
+    <p>Now install all required packages:</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;requirements.txt</div>
+      <div class="code-body">
+pip install langchain langchain-openai langchain-community<br>
+pip install faiss-cpu chromadb<br>
+pip install openai tiktoken<br>
+pip install python-dotenv pypdf<br>
+pip install langchain-text-splitters<br>
+pip install langgraph duckduckgo-search<br>
+pip install fastapi uvicorn streamlit  <span class="cm"># for serving</span>
+      </div>
+    </div>
+    <table class="pkg-table" style="margin-top:1rem;">
+      <thead><tr><th>Package</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>langchain</code></td><td>Core framework for chains and agents</td></tr>
+        <tr><td><code>langchain-openai</code></td><td>OpenAI LLM and embedding connectors</td></tr>
+        <tr><td><code>faiss-cpu</code></td><td>Fast vector similarity search (local)</td></tr>
+        <tr><td><code>chromadb</code></td><td>Persistent vector database (alternative)</td></tr>
+        <tr><td><code>langgraph</code></td><td>Stateful agent loops and workflows</td></tr>
+        <tr><td><code>duckduckgo-search</code></td><td>Free web search tool for agents</td></tr>
+        <tr><td><code>python-dotenv</code></td><td>Load .env API keys safely</td></tr>
+        <tr><td><code>pypdf</code></td><td>Load and parse PDF documents</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step-card">
+  <div class="step-header" style="background:#f0fff4;">
+    <div class="step-num" style="background:var(--accent2);color:var(--ink);">2</div>
+    <div>
+      <div class="step-title">🔑 API Keys & Configuration</div>
+      <div class="step-subtitle">.env file · OpenAI key · Never hardcode secrets!</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="info-warn">⚠️ <strong>Security:</strong> Never paste API keys directly in code. Always use environment variables.</div>
+    <div class="code-box" style="margin-top:0.8rem;">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;.env</div>
+      <div class="code-body">
+OPENAI_API_KEY=sk-your-openai-key-here<br>
+OPENAI_MODEL=gpt-4o<br>
+EMBEDDING_MODEL=text-embedding-3-small<br>
+VECTOR_STORE_PATH=./vectorstore
+      </div>
+    </div>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;config.py</div>
+      <div class="code-body">
+<span class="kw">import</span> os<br>
+<span class="kw">from</span> <span class="cl">dotenv</span> <span class="kw">import</span> <span class="fn">load_dotenv</span><br>
+<br>
+<span class="fn">load_dotenv</span>()  <span class="cm"># loads .env file</span><br>
+<br>
+<span class="var">OPENAI_API_KEY</span> = os.<span class="fn">getenv</span>(<span class="str">"OPENAI_API_KEY"</span>)<br>
+<span class="var">OPENAI_MODEL</span> = os.<span class="fn">getenv</span>(<span class="str">"OPENAI_MODEL"</span>, <span class="str">"gpt-4o"</span>)<br>
+<span class="var">EMBEDDING_MODEL</span> = os.<span class="fn">getenv</span>(<span class="str">"EMBEDDING_MODEL"</span>, <span class="str">"text-embedding-3-small"</span>)<br>
+<span class="var">VECTOR_STORE_PATH</span> = os.<span class="fn">getenv</span>(<span class="str">"VECTOR_STORE_PATH"</span>, <span class="str">"./vectorstore"</span>)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AD MID -->
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 468×60 — Replace with AdSense code</div></div></div>
+
+<!-- STEP 3 -->
+<div class="step-card">
+  <div class="step-header" style="background:#fff8e1;">
+    <div class="step-num" style="background:#fb8500;">3</div>
+    <div>
+      <div class="step-title">📄 Document Loading & Chunking</div>
+      <div class="step-subtitle">Load PDFs · Split text · Overlapping chunks</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p>Load your knowledge base documents and split them into overlapping chunks. Overlap ensures context isn't lost at chunk boundaries.</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;document_loader.py</div>
+      <div class="code-body">
+<span class="kw">from</span> <span class="cl">langchain_community.document_loaders</span> <span class="kw">import</span> <span class="fn">PyPDFLoader</span>, <span class="fn">DirectoryLoader</span><br>
+<span class="kw">from</span> <span class="cl">langchain_text_splitters</span> <span class="kw">import</span> <span class="fn">RecursiveCharacterTextSplitter</span><br>
+<br>
+<span class="kw">def</span> <span class="fn">load_and_split_documents</span>(path: str):<br>
+    <span class="cm">    # Load all PDFs from a directory</span><br>
+    <span class="var">    loader</span> = <span class="fn">DirectoryLoader</span>(path, glob=<span class="str">"**/*.pdf"</span>, loader_cls=<span class="fn">PyPDFLoader</span>)<br>
+    <span class="var">    documents</span> = <span class="var">loader</span>.<span class="fn">load</span>()<br>
+    <br>
+    <span class="cm">    # Split into chunks (512 chars, 64 char overlap)</span><br>
+    <span class="var">    splitter</span> = <span class="fn">RecursiveCharacterTextSplitter</span>(<br>
+        chunk_size=<span class="num">512</span>,<br>
+        chunk_overlap=<span class="num">64</span>,<br>
+        separators=[<span class="str">"\n\n"</span>, <span class="str">"\n"</span>, <span class="str">". "</span>, <span class="str">" "</span>, <span class="str">""</span>]<br>
+    )<br>
+    <span class="var">    chunks</span> = <span class="var">splitter</span>.<span class="fn">split_documents</span>(<span class="var">documents</span>)<br>
+    <br>
+    <span class="fn">    print</span>(f<span class="str">"Loaded {len(documents)} docs → {len(chunks)} chunks"</span>)<br>
+    <span class="kw">    return</span> <span class="var">chunks</span>
+      </div>
+    </div>
+    <div class="info-tip">💡 <strong>Tip:</strong> chunk_size=512 works well for most QA tasks. Use 256 for precise retrieval, 1024 for broader context.</div>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step-card">
+  <div class="step-header" style="background:#f3e8ff;">
+    <div class="step-num" style="background:#a855f7;">4</div>
+    <div>
+      <div class="step-title">🧮 Embeddings & Vector Store</div>
+      <div class="step-subtitle">OpenAI Embeddings · FAISS · ChromaDB</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p>Convert text chunks into vector embeddings and store them for similarity search.</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;vectorstore.py</div>
+      <div class="code-body">
+<span class="kw">from</span> <span class="cl">langchain_openai</span> <span class="kw">import</span> <span class="fn">OpenAIEmbeddings</span><br>
+<span class="kw">from</span> <span class="cl">langchain_community.vectorstores</span> <span class="kw">import</span> <span class="fn">FAISS</span><br>
+<span class="kw">from</span> <span class="cl">config</span> <span class="kw">import</span> <span class="var">EMBEDDING_MODEL</span>, <span class="var">VECTOR_STORE_PATH</span><br>
+<br>
+<span class="kw">def</span> <span class="fn">create_vectorstore</span>(chunks):<br>
+    <span class="cm">    # Initialize embedding model</span><br>
+    <span class="var">    embeddings</span> = <span class="fn">OpenAIEmbeddings</span>(model=<span class="var">EMBEDDING_MODEL</span>)<br>
+    <br>
+    <span class="cm">    # Create FAISS vector store from chunks</span><br>
+    <span class="var">    vectorstore</span> = <span class="fn">FAISS</span>.<span class="fn">from_documents</span>(<span class="var">chunks</span>, <span class="var">embeddings</span>)<br>
+    <br>
+    <span class="cm">    # Save locally for reuse</span><br>
+    <span class="var">    vectorstore</span>.<span class="fn">save_local</span>(<span class="var">VECTOR_STORE_PATH</span>)<br>
+    <span class="fn">    print</span>(<span class="str">"✅ Vector store saved!"</span>)<br>
+    <span class="kw">    return</span> <span class="var">vectorstore</span><br>
+<br>
+<span class="kw">def</span> <span class="fn">load_vectorstore</span>():<br>
+    <span class="var">    embeddings</span> = <span class="fn">OpenAIEmbeddings</span>(model=<span class="var">EMBEDDING_MODEL</span>)<br>
+    <span class="kw">    return</span> <span class="fn">FAISS</span>.<span class="fn">load_local</span>(<span class="var">VECTOR_STORE_PATH</span>, <span class="var">embeddings</span>,<br>
+                              allow_dangerous_deserialization=<span class="kw">True</span>)
+      </div>
+    </div>
+    <div class="info-note">📌 <strong>FAISS vs ChromaDB:</strong> FAISS is faster for local/in-memory use. ChromaDB is better for persistent, production vector stores with metadata filtering.</div>
+  </div>
+</div>
+
+<!-- STEP 5 + 6 -->
+<div class="step-card">
+  <div class="step-header" style="background:#f0fff4;">
+    <div class="step-num" style="background:var(--accent2);color:var(--ink);">5-6</div>
+    <div>
+      <div class="step-title">🔍 Retriever + RAG Chain</div>
+      <div class="step-subtitle">Similarity Search · Prompt Template · LLM Chain</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;rag_chain.py</div>
+      <div class="code-body">
+<span class="kw">from</span> <span class="cl">langchain_openai</span> <span class="kw">import</span> <span class="fn">ChatOpenAI</span><br>
+<span class="kw">from</span> <span class="cl">langchain.prompts</span> <span class="kw">import</span> <span class="fn">ChatPromptTemplate</span><br>
+<span class="kw">from</span> <span class="cl">langchain.chains</span> <span class="kw">import</span> <span class="fn">create_retrieval_chain</span><br>
+<span class="kw">from</span> <span class="cl">langchain.chains.combine_documents</span> <span class="kw">import</span> <span class="fn">create_stuff_documents_chain</span><br>
+<span class="kw">from</span> <span class="cl">vectorstore</span> <span class="kw">import</span> <span class="fn">load_vectorstore</span><br>
+<span class="kw">from</span> <span class="cl">config</span> <span class="kw">import</span> <span class="var">OPENAI_MODEL</span><br>
+<br>
+<span class="cm"># System prompt that instructs the LLM</span><br>
+<span class="var">SYSTEM_PROMPT</span> = <span class="str">"""You are a helpful AI assistant.<br>
+Use the following retrieved context to answer the question.<br>
+If you don't know the answer, say so honestly.<br>
+Context: {context}"""</span><br>
+<br>
+<span class="kw">def</span> <span class="fn">build_rag_chain</span>():<br>
+    <span class="cm">    # 1. Load the vector store</span><br>
+    <span class="var">    vs</span> = <span class="fn">load_vectorstore</span>()<br>
+    <span class="cm">    # 2. Create retriever (top-4 similar chunks)</span><br>
+    <span class="var">    retriever</span> = <span class="var">vs</span>.<span class="fn">as_retriever</span>(search_kwargs={<span class="str">"k"</span>: <span class="num">4</span>})<br>
+    <br>
+    <span class="cm">    # 3. Build prompt</span><br>
+    <span class="var">    prompt</span> = <span class="fn">ChatPromptTemplate</span>.<span class="fn">from_messages</span>([<br>
+        (<span class="str">"system"</span>, <span class="var">SYSTEM_PROMPT</span>),<br>
+        (<span class="str">"human"</span>, <span class="str">"{input}"</span>),<br>
+    ])<br>
+    <br>
+    <span class="cm">    # 4. Build LLM + chain</span><br>
+    <span class="var">    llm</span> = <span class="fn">ChatOpenAI</span>(model=<span class="var">OPENAI_MODEL</span>, temperature=<span class="num">0</span>)<br>
+    <span class="var">    qa_chain</span> = <span class="fn">create_stuff_documents_chain</span>(<span class="var">llm</span>, <span class="var">prompt</span>)<br>
+    <kw>    return</kw> <span class="fn">create_retrieval_chain</span>(<span class="var">retriever</span>, <span class="var">qa_chain</span>)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 7 + 8 -->
+<div class="step-card">
+  <div class="step-header" style="background:#ffe0ef;">
+    <div class="step-num" style="background:var(--accent1);color:#fff;">7-8</div>
+    <div>
+      <div class="step-title">⚡ Build the Agentic Layer</div>
+      <div class="step-subtitle">LangGraph · Tools · ReAct Agent · Memory</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p>Now we upgrade from a simple RAG chain to a full <strong>Agentic AI</strong> that can use multiple tools, reason across steps, and maintain memory.</p>
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;agent.py — Full Agentic AI</div>
+      <div class="code-body">
+<span class="kw">from</span> <span class="cl">langchain_openai</span> <span class="kw">import</span> <span class="fn">ChatOpenAI</span><br>
+<span class="kw">from</span> <span class="cl">langchain.tools.retriever</span> <span class="kw">import</span> <span class="fn">create_retriever_tool</span><br>
+<span class="kw">from</span> <span class="cl">langchain_community.tools</span> <span class="kw">import</span> <span class="fn">DuckDuckGoSearchRun</span><br>
+<span class="kw">from</span> <span class="cl">langchain_core.messages</span> <span class="kw">import</span> <span class="fn">HumanMessage</span><br>
+<span class="kw">from</span> <span class="cl">langgraph.prebuilt</span> <span class="kw">import</span> <span class="fn">create_react_agent</span><br>
+<span class="kw">from</span> <span class="cl">langgraph.checkpoint.memory</span> <span class="kw">import</span> <span class="fn">MemorySaver</span><br>
+<span class="kw">from</span> <span class="cl">vectorstore</span> <span class="kw">import</span> <span class="fn">load_vectorstore</span><br>
+<span class="kw">from</span> <span class="cl">config</span> <span class="kw">import</span> <span class="var">OPENAI_MODEL</span><br>
+<br>
+<span class="kw">def</span> <span class="fn">build_agent</span>():<br>
+    <span class="cm">    # 1. Load vectorstore retriever as a tool</span><br>
+    <span class="var">    vs</span> = <span class="fn">load_vectorstore</span>()<br>
+    <span class="var">    retriever</span> = <span class="var">vs</span>.<span class="fn">as_retriever</span>(search_kwargs={<span class="str">"k"</span>: <span class="num">5</span>})<br>
+    <span class="var">    rag_tool</span> = <span class="fn">create_retriever_tool</span>(<br>
+        <span class="var">retriever</span>,<br>
+        name=<span class="str">"document_search"</span>,<br>
+        description=<span class="str">"Search internal knowledge base documents"</span><br>
+    )<br>
+<br>
+    <span class="cm">    # 2. Add web search tool</span><br>
+    <span class="var">    web_search</span> = <span class="fn">DuckDuckGoSearchRun</span>(<br>
+        name=<span class="str">"web_search"</span>,<br>
+        description=<span class="str">"Search the web for current information"</span><br>
+    )<br>
+<br>
+    <span class="cm">    # 3. Bundle all tools</span><br>
+    <span class="var">    tools</span> = [<span class="var">rag_tool</span>, <span class="var">web_search</span>]<br>
+<br>
+    <span class="cm">    # 4. Create LLM</span><br>
+    <span class="var">    llm</span> = <span class="fn">ChatOpenAI</span>(model=<span class="var">OPENAI_MODEL</span>, temperature=<span class="num">0</span>)<br>
+<br>
+    <span class="cm">    # 5. Memory (persists across turns)</span><br>
+    <span class="var">    memory</span> = <span class="fn">MemorySaver</span>()<br>
+<br>
+    <span class="cm">    # 6. Create ReAct agent with memory</span><br>
+    <span class="var">    agent</span> = <span class="fn">create_react_agent</span>(<span class="var">llm</span>, <span class="var">tools</span>, checkpointer=<span class="var">memory</span>)<br>
+    <span class="kw">    return</span> <span class="var">agent</span><br>
+<br>
+<br>
+<span class="cm"># ---- Run the agent ----</span><br>
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:<br>
+    <span class="var">    agent</span> = <span class="fn">build_agent</span>()<br>
+    <span class="var">    config</span> = {<span class="str">"configurable"</span>: {<span class="str">"thread_id"</span>: <span class="str">"session-1"</span>}}<br>
+<br>
+    <span class="cm">    # Ask a question</span><br>
+    <span class="var">    response</span> = <span class="var">agent</span>.<span class="fn">invoke</span>(<br>
+        {<span class="str">"messages"</span>: [<span class="fn">HumanMessage</span>(<span class="str">"What does our policy say about refunds?"</span>)]},<br>
+        config=<span class="var">config</span><br>
+    )<br>
+    <span class="fn">    print</span>(<span class="var">response</span>[<span class="str">"messages"</span>][-<span class="num">1</span>].content)
+      </div>
+    </div>
+    <div class="info-tip">💡 The <code>thread_id</code> in config gives the agent memory within a conversation session. Different thread IDs = different conversations.</div>
+  </div>
+</div>
+
+<!-- STEP 9: STREAMLIT UI -->
+<div class="step-card">
+  <div class="step-header" style="background:#e8f4fd;">
+    <div class="step-num" style="background:var(--py);">9</div>
+    <div>
+      <div class="step-title">🖥️ Streamlit Chat UI</div>
+      <div class="step-subtitle">Simple web interface for your agent</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;app.py (Streamlit)</div>
+      <div class="code-body">
+<span class="kw">import</span> streamlit <span class="kw">as</span> st<br>
+<span class="kw">from</span> <span class="cl">langchain_core.messages</span> <span class="kw">import</span> <span class="fn">HumanMessage</span><br>
+<span class="kw">from</span> <span class="cl">agent</span> <span class="kw">import</span> <span class="fn">build_agent</span><br>
+<br>
+st.title(<span class="str">"🤖 RAG Agentic AI Assistant"</span>)<br>
+<br>
+<span class="cm"># Build agent once and cache</span><br>
+<span class="dec">@st.cache_resource</span><br>
+<span class="kw">def</span> <span class="fn">get_agent</span>(): <span class="kw">return</span> <span class="fn">build_agent</span>()<br>
+<span class="var">agent</span> = <span class="fn">get_agent</span>()<br>
+<br>
+<span class="cm"># Chat history</span><br>
+<span class="kw">if</span> <span class="str">"messages"</span> <span class="kw">not in</span> st.session_state:<br>
+    st.session_state.messages = []<br>
+<br>
+<span class="kw">for</span> msg <span class="kw">in</span> st.session_state.messages:<br>
+    <span class="kw">with</span> st.chat_message(msg[<span class="str">"role"</span>]):<br>
+        st.write(msg[<span class="str">"content"</span>])<br>
+<br>
+<span class="kw">if</span> prompt := st.chat_input(<span class="str">"Ask anything..."</span>):<br>
+    st.session_state.messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: prompt})<br>
+    <span class="kw">with</span> st.chat_message(<span class="str">"user"</span>): st.write(prompt)<br>
+<br>
+    config = {<span class="str">"configurable"</span>: {<span class="str">"thread_id"</span>: <span class="str">"ui-session"</span>}}<br>
+    resp = agent.invoke({<span class="str">"messages"</span>: [<span class="fn">HumanMessage</span>(prompt)]}, config=config)<br>
+    answer = resp[<span class="str">"messages"</span>][-<span class="num">1</span>].content<br>
+<br>
+    st.session_state.messages.append({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: answer})<br>
+    <span class="kw">with</span> st.chat_message(<span class="str">"assistant"</span>): st.write(answer)
+      </div>
+    </div>
+    <p>Run it: <code style="background:#e8f4fd;padding:2px 8px;border-radius:3px;">streamlit run app.py</code></p>
+  </div>
+</div>
+
+<!-- STEP 10: FastAPI -->
+<div class="step-card">
+  <div class="step-header" style="background:#fff3cd;">
+    <div class="step-num" style="background:#fb8500;">10</div>
+    <div>
+      <div class="step-title">🚀 FastAPI REST Endpoint</div>
+      <div class="step-subtitle">Production API for your RAG Agent</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="code-box">
+      <div class="code-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;api.py (FastAPI)</div>
+      <div class="code-body">
+<span class="kw">from</span> <span class="cl">fastapi</span> <span class="kw">import</span> <span class="fn">FastAPI</span><br>
+<span class="kw">from</span> <span class="cl">pydantic</span> <span class="kw">import</span> <span class="fn">BaseModel</span><br>
+<span class="kw">from</span> <span class="cl">langchain_core.messages</span> <span class="kw">import</span> <span class="fn">HumanMessage</span><br>
+<span class="kw">from</span> <span class="cl">agent</span> <span class="kw">import</span> <span class="fn">build_agent</span><br>
+<br>
+<span class="var">app</span> = <span class="fn">FastAPI</span>(title=<span class="str">"RAG Agent API"</span>)<br>
+<span class="var">agent</span> = <span class="fn">build_agent</span>()<br>
+<br>
+<span class="kw">class</span> <span class="cl">Query</span>(<span class="fn">BaseModel</span>):<br>
+    question: str<br>
+    session_id: str = <span class="str">"default"</span><br>
+<br>
+<span class="dec">@app.post</span>(<span class="str">"/ask"</span>)<br>
+<span class="kw">async def</span> <span class="fn">ask</span>(query: <span class="cl">Query</span>):<br>
+    config = {<span class="str">"configurable"</span>: {<span class="str">"thread_id"</span>: query.session_id}}<br>
+    resp = agent.<span class="fn">invoke</span>(<br>
+        {<span class="str">"messages"</span>: [<span class="fn">HumanMessage</span>(query.question)]}, config=config<br>
+    )<br>
+    <span class="kw">return</span> {<span class="str">"answer"</span>: resp[<span class="str">"messages"</span>][-<span class="num">1</span>].content}<br>
+<br>
+<span class="cm"># Run: uvicorn api:app --reload</span>
+      </div>
+    </div>
+    <div class="info-tip">🚀 <strong>Deploy to cloud:</strong> Run on Railway, Render, AWS Lambda, or Azure App Service for production access.</div>
+  </div>
+</div>
+
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 728×90 — Replace with AdSense code</div></div></div>
+
+</div><!-- end main-col -->
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="ad-sidebar"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>300×250<br>AdSense</div></div>
+
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1.1rem;letter-spacing:1px;margin-bottom:0.8rem;color:var(--py);">📋 Steps</div>
+    <ol style="font-size:0.78rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:0.4rem;line-height:1.5;">
+      <li>Environment Setup</li>
+      <li>API Keys & Config</li>
+      <li>Document Loading</li>
+      <li>Embeddings & FAISS</li>
+      <li>Retriever Setup</li>
+      <li>RAG Chain</li>
+      <li>Agentic Tools</li>
+      <li>LangGraph Agent</li>
+      <li>Streamlit UI</li>
+      <li>FastAPI Deploy</li>
+    </ol>
+  </div>
+
+  <div style="background:var(--ink);color:#fff;border-radius:4px;border:var(--border);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;color:var(--accent3);letter-spacing:1px;margin-bottom:0.5rem;">🗂️ Key Packages</div>
+    <ul style="font-size:0.75rem;list-style:none;display:flex;flex-direction:column;gap:0.35rem;">
+      <li>🦜 <code style="color:var(--accent3);">langchain</code></li>
+      <li>🧠 <code style="color:var(--accent3);">langgraph</code></li>
+      <li>🔍 <code style="color:var(--accent3);">faiss-cpu</code></li>
+      <li>🗃️ <code style="color:var(--accent3);">chromadb</code></li>
+      <li>🤖 <code style="color:var(--accent3);">langchain-openai</code></li>
+      <li>🌐 <code style="color:var(--accent3);">duckduckgo-search</code></li>
+      <li>📄 <code style="color:var(--accent3);">pypdf</code></li>
+      <li>🖥️ <code style="color:var(--accent3);">streamlit</code></li>
+      <li>⚡ <code style="color:var(--accent3);">fastapi</code></li>
+    </ul>
+  </div>
+
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;margin-bottom:0.5rem;color:var(--accent1);">👉 Also See</div>
+    <a href="dotnet-rag.html" style="display:block;font-size:0.82rem;color:#fb8500;font-weight:700;margin-bottom:0.4rem;">🟣 .NET RAG Tutorial</a>
+    <a href="agentic.html" style="display:block;font-size:0.82rem;color:var(--accent1);font-weight:700;">⚡ Agentic AI Concepts</a>
+  </div>
+
+  <div class="ad-sidebar" style="min-height:400px;"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>160×600<br>Skyscraper</div></div>
+</div>
+</div>
+
+<div class="zigzag"></div>
+<footer>
+  <span>AI Cycle</span> · Built with ❤️ by Ashish Sinha · AI Developer<br>
+  <span style="font-size:0.7rem;color:#888;font-family:var(--font-body);">Educational content · All rights reserved · 2025</span>
+</footer>
+</body>
+</html>

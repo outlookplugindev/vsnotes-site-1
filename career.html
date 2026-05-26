@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career in AI – Jobs, Roadmap, Skills | AI Cycle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1a1a2e;--panel-bg:#fffef5;--career:#ff6b35;--accent3:#ffe66d;--accent2:#4ecdc4;--accent4:#a855f7;--border:3px solid #1a1a2e;--shadow:5px 5px 0 #1a1a2e;--font-title:'Bangers',cursive;--font-comic:'Comic Neue',cursive;--font-body:'Space Grotesk',sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#fff5f0;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,#f5d5c0 39px,#f5d5c0 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,#f5d5c0 39px,#f5d5c0 40px);font-family:var(--font-body);color:var(--ink);}
+  nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--career);}
+  .nav-logo{font-family:var(--font-title);font-size:2rem;color:var(--accent3);letter-spacing:2px;padding:0.5rem 0;}
+  .nav-logo span{color:var(--career);}
+  .nav-links{display:flex;gap:0.25rem;flex-wrap:wrap;padding:0.5rem 0;}
+  .nav-links a{color:#fff;text-decoration:none;font-size:0.78rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:20px;border:2px solid transparent;transition:all 0.2s;text-transform:uppercase;}
+  .nav-links a:hover,.nav-links a.active{background:var(--career);color:#fff;}
+  .nav-links a.new-badge::after{content:'NEW';background:var(--accent2);color:var(--ink);font-size:0.55rem;padding:1px 4px;border-radius:3px;margin-left:4px;vertical-align:top;}
+  .page-hero{background:var(--ink);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden;border-bottom:5px solid var(--career);}
+  .page-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,107,53,0.1) 1px,transparent 1px);background-size:18px 18px;}
+  .page-hero h1{font-family:var(--font-title);font-size:3.8rem;letter-spacing:3px;position:relative;color:#fff;}
+  .page-hero h1 em{color:var(--career);font-style:normal;}
+  .page-hero .sub{color:#ccc;font-size:1rem;max-width:650px;margin:0.8rem auto 0;position:relative;}
+  .chapter-badge{display:inline-block;background:var(--career);color:#fff;font-family:var(--font-title);font-size:1rem;letter-spacing:2px;padding:0.3rem 1.2rem;border-radius:20px;border:2px solid #fff;margin-bottom:0.8rem;}
+  .content-grid{max-width:1100px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:1fr 220px;gap:2rem;align-items:start;}
+  .main-col{display:flex;flex-direction:column;gap:2rem;}
+  .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+  .section-title{font-family:var(--font-title);font-size:1.8rem;letter-spacing:2px;padding:0.4rem 1rem;border:var(--border);display:inline-block;box-shadow:var(--shadow);border-radius:4px;margin-bottom:1rem;}
+
+  /* JOB CARDS */
+  .jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.2rem;}
+  .job-card{background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);overflow:hidden;}
+  .job-header{padding:1rem 1.2rem;display:flex;align-items:center;gap:0.8rem;}
+  .job-icon{font-size:2rem;flex-shrink:0;}
+  .job-title{font-family:var(--font-title);font-size:1.2rem;letter-spacing:1px;}
+  .job-salary{font-size:0.72rem;font-weight:700;color:#1a7a1a;margin-top:0.2rem;}
+  .job-body{padding:0 1.2rem 1.2rem;font-size:0.78rem;line-height:1.6;color:#444;}
+  .skill-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.8rem;}
+  .chip{display:inline-block;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:20px;border:1.5px solid var(--ink);text-transform:uppercase;}
+  .demand-bar{margin-top:0.8rem;}
+  .demand-label{font-size:0.7rem;font-weight:700;margin-bottom:0.3rem;color:#555;}
+  .bar-outer{background:#eee;border-radius:20px;height:8px;border:1.5px solid #ccc;}
+  .bar-inner{height:100%;border-radius:20px;}
+
+  /* ROADMAP */
+  .roadmap{display:flex;flex-direction:column;gap:0;}
+  .rm-item{display:grid;grid-template-columns:50px 1fr;align-items:stretch;}
+  .rm-num{background:var(--career);color:#fff;font-family:var(--font-title);font-size:1.3rem;display:flex;align-items:flex-start;justify-content:center;padding-top:0.9rem;border-right:2.5px solid var(--ink);}
+  .rm-content{padding:0.9rem 1rem;border-bottom:1.5px solid #ddd;background:var(--panel-bg);}
+  .rm-item:last-child .rm-content{border-bottom:none;}
+  .rm-label{font-family:var(--font-title);font-size:1rem;letter-spacing:1px;color:var(--career);}
+  .rm-desc{font-size:0.78rem;color:#555;line-height:1.5;margin-top:0.2rem;}
+  .rm-time{display:inline-block;font-size:0.65rem;font-weight:700;padding:1px 8px;border-radius:20px;background:var(--accent3);border:1.5px solid var(--ink);margin-top:0.4rem;}
+
+  /* SKILLS GRID */
+  .skills-2col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .skill-section{background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1.2rem;}
+  .skill-section h3{font-family:var(--font-title);font-size:1.1rem;letter-spacing:1px;margin-bottom:0.8rem;}
+  .skill-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;}
+  .skill-name{font-size:0.78rem;font-weight:600;}
+  .skill-bar{width:100px;height:8px;background:#eee;border-radius:20px;border:1.5px solid #ccc;overflow:hidden;}
+  .skill-fill{height:100%;border-radius:20px;}
+
+  /* CERTS */
+  .certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;}
+  .cert-card{background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1.2rem;}
+  .cert-icon{font-size:2rem;margin-bottom:0.4rem;}
+  .cert-name{font-family:var(--font-title);font-size:1rem;letter-spacing:1px;margin-bottom:0.3rem;}
+  .cert-body{font-size:0.75rem;line-height:1.5;color:#444;}
+  .cert-level{display:inline-block;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:20px;border:1.5px solid var(--ink);margin-top:0.5rem;text-transform:uppercase;}
+
+  /* SALARY TABLE */
+  .salary-table{width:100%;border-collapse:collapse;font-size:0.82rem;background:var(--panel-bg);border:var(--border);box-shadow:var(--shadow);}
+  .salary-table th{background:var(--ink);color:var(--accent3);font-family:var(--font-title);font-size:0.95rem;letter-spacing:1px;padding:0.6rem 1rem;text-align:left;}
+  .salary-table td{padding:0.55rem 1rem;border-bottom:1.5px solid #ddd;}
+  .salary-table tr:last-child td{border-bottom:none;}
+  .salary-table tr:nth-child(even) td{background:#fff5f0;}
+  .salary-high{color:#1a7a1a;font-weight:700;}
+  .salary-mid{color:#b7770d;font-weight:700;}
+
+  /* DARK BOX */
+  .dark-box{background:var(--ink);color:#fff;padding:1.5rem;border-radius:4px;border:var(--border);box-shadow:var(--shadow);position:relative;overflow:hidden;}
+  .dark-box::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,107,53,0.06) 1px,transparent 1px);background-size:10px 10px;pointer-events:none;}
+  .dark-box .db-title{font-family:var(--font-title);font-size:1.3rem;color:var(--accent3);letter-spacing:2px;margin-bottom:0.8rem;position:relative;}
+  .dark-box p,.dark-box li{font-size:0.82rem;line-height:1.7;color:#ddd;position:relative;}
+  .dark-box ul{padding-left:1.2rem;}
+
+  .ad-banner{background:#fff8e1;border:2px dashed #ccc;border-radius:4px;text-align:center;padding:1rem;color:#999;font-size:0.8rem;position:relative;}
+  .ad-banner::before{content:'Advertisement';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff8e1;padding:0 6px;font-size:0.7rem;color:#bbb;}
+  .ad-banner .ad-inner{min-height:90px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
+  .ad-sidebar{background:#fff8e1;border:2px dashed #ccc;border-radius:4px;text-align:center;padding:1rem 0.5rem;color:#999;font-size:0.75rem;min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;position:relative;}
+  .ad-sidebar::before{content:'Ad';position:absolute;top:6px;right:8px;font-size:0.6rem;color:#ccc;}
+  .zigzag{height:20px;background:linear-gradient(135deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(225deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(315deg,var(--ink) 25%,transparent 25%),linear-gradient(45deg,var(--ink) 25%,transparent 25%);background-size:20px 20px;background-color:var(--career);margin:1rem 0;}
+  footer{background:var(--ink);color:#ccc;text-align:center;padding:1.5rem;font-size:0.8rem;margin-top:3rem;}
+  footer span{color:var(--accent3);font-family:var(--font-title);font-size:1rem;letter-spacing:1px;}
+  @media(max-width:768px){.content-grid{grid-template-columns:1fr;}.page-hero h1{font-size:2.5rem;}.skills-2col{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">AI<span>Cycle</span></div>
+  <div style="font-size:0.62rem;color:#aaa;font-family:var(--font-body);letter-spacing:0.3px;line-height:1.4;">
+      Built with 🧠 by <strong style="color:#ddd;">Ashish Sinha</strong> · AI Developer<br>
+      <a href="mailto:startvsnotes@gmail.com" style="color:var(--accent3);text-decoration:none;">✉️ startvsnotes@gmail.com</a><br>
+      <span style="color:#777;">Educational content · All rights reserved · 2025-30</span>
+    </div>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a><a href="intro.html">Intro</a><a href="ml.html">ML</a><a href="deeplearning.html">Deep Learning</a><a href="llms.html">LLMs</a><a href="rag.html">RAG</a><a href="agentic.html" class="new-badge">Agentic AI</a><a href="python-rag.html" class="new-badge">Python RAG</a><a href="dotnet-rag.html" class="new-badge">.NET RAG</a><a href="tools.html">AI Tools</a><a href="career.html" class="active">Career</a>
+  </div>
+</nav>
+
+<div style="max-width:1100px;margin:1rem auto;padding:0 2rem;">
+  <div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad Banner 728×90 — Replace with AdSense code</div></div></div>
+</div>
+
+<div class="page-hero">
+  <div class="chapter-badge">🎯 Chapter 9 · Career Guide</div>
+  <h1>LAND YOUR<br><em>AI CAREER</em></h1>
+  <p class="sub">Every AI job role explained, salary ranges, required skills, certifications, and your step-by-step roadmap to break into the most in-demand field of the decade.</p>
+</div>
+
+<div class="zigzag"></div>
+
+<div class="content-grid">
+<div class="main-col">
+
+<!-- JOB LANDSCAPE -->
+<div>
+  <div class="section-title" style="background:var(--career);color:#fff;">💼 AI Job Roles in 2025</div>
+  <div class="jobs-grid">
+    <div class="job-card">
+      <div class="job-header" style="background:#e8f4fd;">
+        <div class="job-icon">🧠</div>
+        <div><div class="job-title">ML Engineer</div><div class="job-salary">$120K – $250K / year</div></div>
+      </div>
+      <div class="job-body">
+        Build and deploy machine learning models in production. Bridge between data science and software engineering. Design ML pipelines, optimize model inference, monitor production systems.
+        <div class="demand-label">🔥 Demand</div>
+        <div class="bar-outer"><div class="bar-inner" style="width:92%;background:#3a86ff;"></div></div>
+        <div class="skill-chips">
+          <span class="chip" style="background:#e8f4fd;">Python</span>
+          <span class="chip" style="background:#fff3cd;">PyTorch</span>
+          <span class="chip" style="background:#e8f5e9;">MLOps</span>
+          <span class="chip" style="background:#f3e8ff;">Docker</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header" style="background:#f3e8ff;">
+        <div class="job-icon">💬</div>
+        <div><div class="job-title">AI/LLM Engineer</div><div class="job-salary">$130K – $280K / year</div></div>
+      </div>
+      <div class="job-body">
+        The hottest role right now. Build RAG systems, fine-tune LLMs, create agents and workflows using LangChain, Semantic Kernel, or custom solutions.
+        <div class="demand-label">🔥🔥 Hottest Role 2025</div>
+        <div class="bar-outer"><div class="bar-inner" style="width:98%;background:var(--career);"></div></div>
+        <div class="skill-chips">
+          <span class="chip" style="background:#f3e8ff;">LangChain</span>
+          <span class="chip" style="background:#e8f4fd;">RAG</span>
+          <span class="chip" style="background:#fff3cd;">Prompt Eng.</span>
+          <span class="chip" style="background:#fde8ef;">Agents</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header" style="background:#e8f5e9;">
+        <div class="job-icon">📊</div>
+        <div><div class="job-title">Data Scientist</div><div class="job-salary">$100K – $200K / year</div></div>
+      </div>
+      <div class="job-body">
+        Analyze data to extract business insights, build predictive models, conduct A/B tests, create dashboards. Heavy on statistics and storytelling with data.
+        <div class="demand-label">📈 High Demand</div>
+        <div class="bar-outer"><div class="bar-inner" style="width:85%;background:#06d6a0;"></div></div>
+        <div class="skill-chips">
+          <span class="chip" style="background:#e8f5e9;">Python</span>
+          <span class="chip" style="background:#fff3cd;">SQL</span>
+          <span class="chip" style="background:#e8f4fd;">Statistics</span>
+          <span class="chip" style="background:#f3e8ff;">Tableau</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header" style="background:#fff3cd;">
+        <div class="job-icon">🔬</div>
+        <div><div class="job-title">AI Research Scientist</div><div class="job-salary">$150K – $400K / year</div></div>
+      </div>
+      <div class="job-body">
+        Push the frontiers of AI — new architectures, training methods, alignment research. Typically at FAANG, AI labs, or top universities. Requires PhD or equivalent.
+        <div class="demand-label">🎓 PhD often required</div>
+        <div class="bar-outer"><div class="bar-inner" style="width:70%;background:var(--accent3);"></div></div>
+        <div class="skill-chips">
+          <span class="chip" style="background:#fff3cd;">PhD</span>
+          <span class="chip" style="background:#e8f4fd;">Math</span>
+          <span class="chip" style="background:#f3e8ff;">Research</span>
+          <span class="chip" style="background:#e8f5e9;">Papers</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header" style="background:#fde8ef;">
+        <div class="job-icon">🛠️</div>
+        <div><div class="job-title">MLOps Engineer</div><div class="job-salary">$110K – $210K / year</div></div>
+      </div>
+      <div class="job-body">
+        DevOps for ML — build CI/CD for models, monitor drift, manage infrastructure (Kubernetes, cloud). Ensure ML models stay healthy in production.
+        <div class="demand-label">⚙️ Growing Fast</div>
+        <div class="bar-outer"><div class="bar-inner" style="width:80%;background:var(--accent4);"></div></div>
+        <div class="skill-chips">
+          <span class="chip" style="background:#fde8ef;">Kubernetes</span>
+          <span class="chip" style="background:#e8f4fd;">MLflow</span>
+          <span class="chip" style="background:#e8f5e9;">AWS/GCP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header" style="background:#e0f7fa;">
+        <div class="job-icon">✍️</div>
+        <div><div class="job-title">Prompt Engineer</div><div class="job-salary">$80K – $175K / year</div></div>
+      </div>
+      <div class="job-body">
+        Design and optimize prompts for LLM-powered applications. Part art, part science. Strong writing + technical understanding required. Entry point for non-coders.
+        <div class="demand-label">📝 Entry-friendly</div>
+        <div class="bar-outer"><div class="bar-inner" style="width:75%;background:var(--accent2);"></div></div>
+        <div class="skill-chips">
+          <span class="chip" style="background:#e0f7fa;">Writing</span>
+          <span class="chip" style="background:#e8f4fd;">LLMs</span>
+          <span class="chip" style="background:#f3e8ff;">Testing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SALARY TABLE -->
+<div>
+  <div class="section-title" style="background:var(--ink);color:var(--accent3);">💰 AI Salary Guide (Global)</div>
+  <table class="salary-table">
+    <thead><tr><th>Role</th><th>India (LPA)</th><th>UK (£/yr)</th><th>USA ($/yr)</th><th>Experience</th></tr></thead>
+    <tbody>
+      <tr><td>LLM / AI Engineer</td><td class="salary-high">₹18–45L</td><td class="salary-high">£70–140K</td><td class="salary-high">$130–280K</td><td>2–5 yrs</td></tr>
+      <tr><td>ML Engineer</td><td class="salary-high">₹15–40L</td><td class="salary-high">£65–130K</td><td class="salary-high">$120–250K</td><td>2–5 yrs</td></tr>
+      <tr><td>Data Scientist</td><td class="salary-mid">₹10–25L</td><td class="salary-mid">£55–110K</td><td class="salary-high">$100–200K</td><td>1–4 yrs</td></tr>
+      <tr><td>AI Research Scientist</td><td class="salary-high">₹25–80L</td><td class="salary-high">£90–200K</td><td class="salary-high">$150–400K</td><td>PhD + 3 yrs</td></tr>
+      <tr><td>MLOps Engineer</td><td class="salary-mid">₹12–30L</td><td class="salary-mid">£60–120K</td><td class="salary-high">$110–210K</td><td>2–4 yrs</td></tr>
+      <tr><td>Prompt Engineer</td><td class="salary-mid">₹8–18L</td><td class="salary-mid">£45–80K</td><td class="salary-mid">$80–175K</td><td>0–2 yrs</td></tr>
+      <tr><td>Data Engineer</td><td class="salary-mid">₹10–22L</td><td class="salary-mid">£55–100K</td><td class="salary-mid">$95–180K</td><td>2–4 yrs</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- AD MID -->
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 468×60 — Replace with AdSense code</div></div></div>
+
+<!-- SKILLS MAP -->
+<div>
+  <div class="section-title" style="background:var(--accent2);color:var(--ink);">🧰 Skills You Need</div>
+  <div class="skills-2col">
+    <div class="skill-section">
+      <h3 style="color:var(--career);">💻 Technical Skills</h3>
+      <div class="skill-item"><span class="skill-name">Python</span><div class="skill-bar"><div class="skill-fill" style="width:95%;background:#3a86ff;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Machine Learning</span><div class="skill-bar"><div class="skill-fill" style="width:88%;background:#06d6a0;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Deep Learning / PyTorch</span><div class="skill-bar"><div class="skill-fill" style="width:80%;background:var(--career);"></div></div></div>
+      <div class="skill-item"><span class="skill-name">LLMs / Prompt Eng.</span><div class="skill-bar"><div class="skill-fill" style="width:85%;background:var(--accent4);"></div></div></div>
+      <div class="skill-item"><span class="skill-name">RAG / Vector DBs</span><div class="skill-bar"><div class="skill-fill" style="width:78%;background:#f72585;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">SQL & Data Wrangling</span><div class="skill-bar"><div class="skill-fill" style="width:75%;background:#fb8500;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Cloud (AWS/Azure/GCP)</span><div class="skill-bar"><div class="skill-fill" style="width:72%;background:#4ecdc4;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Git & Docker</span><div class="skill-bar"><div class="skill-fill" style="width:80%;background:#aaa;"></div></div></div>
+    </div>
+    <div class="skill-section">
+      <h3 style="color:#3a86ff;">🧠 Soft Skills</h3>
+      <div class="skill-item"><span class="skill-name">Problem Solving</span><div class="skill-bar"><div class="skill-fill" style="width:95%;background:var(--career);"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Communication</span><div class="skill-bar"><div class="skill-fill" style="width:88%;background:#06d6a0;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Critical Thinking</span><div class="skill-bar"><div class="skill-fill" style="width:90%;background:#3a86ff;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Curiosity / Self-Learning</span><div class="skill-bar"><div class="skill-fill" style="width:95%;background:var(--accent4);"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Experimentation Mindset</span><div class="skill-bar"><div class="skill-fill" style="width:85%;background:#f72585;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Business Understanding</span><div class="skill-bar"><div class="skill-fill" style="width:70%;background:#fb8500;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Storytelling with Data</span><div class="skill-bar"><div class="skill-fill" style="width:75%;background:#4ecdc4;"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Ethics Awareness</span><div class="skill-bar"><div class="skill-fill" style="width:80%;background:#aaa;"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div>
+  <div class="section-title" style="background:var(--career);color:#fff;">🗺️ 12-Month AI Career Roadmap</div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);overflow:hidden;">
+    <div class="roadmap">
+      <div class="rm-item"><div class="rm-num">1</div><div class="rm-content"><div class="rm-label">📖 Learn Python Fundamentals</div><div class="rm-desc">Variables, functions, OOP, Pandas, NumPy. Use freeCodeCamp, Python.org, or CS50P.</div><div class="rm-time">Month 1–2</div></div></div>
+      <div class="rm-item"><div class="rm-num">2</div><div class="rm-content"><div class="rm-label">📊 Master Machine Learning</div><div class="rm-desc">Scikit-learn, supervised/unsupervised learning, model evaluation. Andrew Ng's ML Specialization is the gold standard.</div><div class="rm-time">Month 2–4</div></div></div>
+      <div class="rm-item"><div class="rm-num">3</div><div class="rm-content"><div class="rm-label">🧠 Deep Learning & Neural Nets</div><div class="rm-desc">PyTorch, CNNs, RNNs, Transformers. Deep Learning Specialization by Andrew Ng, Fast.ai.</div><div class="rm-time">Month 3–5</div></div></div>
+      <div class="rm-item"><div class="rm-num">4</div><div class="rm-content"><div class="rm-label">💬 LLMs & Prompt Engineering</div><div class="rm-desc">OpenAI API, Anthropic API, prompt patterns, fine-tuning basics, tokenization deep dive.</div><div class="rm-time">Month 4–6</div></div></div>
+      <div class="rm-item"><div class="rm-num">5</div><div class="rm-content"><div class="rm-label">🔍 Build RAG Systems</div><div class="rm-desc">LangChain or Semantic Kernel, FAISS/Chroma, build a document QA app. Follow this site's tutorials!</div><div class="rm-time">Month 5–7</div></div></div>
+      <div class="rm-item"><div class="rm-num">6</div><div class="rm-content"><div class="rm-label">⚡ Agentic AI Projects</div><div class="rm-desc">Build agents with LangGraph or AutoGen. Tool-calling, multi-step reasoning, memory systems.</div><div class="rm-time">Month 6–8</div></div></div>
+      <div class="rm-item"><div class="rm-num">7</div><div class="rm-content"><div class="rm-label">🚀 Build a Portfolio (3 Projects)</div><div class="rm-desc">RAG chatbot, ML web app, Agentic AI tool. Deploy on HuggingFace Spaces, Streamlit Cloud, or Vercel.</div><div class="rm-time">Month 7–10</div></div></div>
+      <div class="rm-item"><div class="rm-num">8</div><div class="rm-content"><div class="rm-label">📜 Get Certified</div><div class="rm-desc">AWS ML Specialty, Google Cloud Professional ML Engineer, or DeepLearning.AI certificates.</div><div class="rm-time">Month 8–11</div></div></div>
+      <div class="rm-item"><div class="rm-num">9</div><div class="rm-content"><div class="rm-label">🎯 Apply, Network, and Land the Job</div><div class="rm-desc">Optimize LinkedIn, contribute to open-source, write technical blogs, reach out to recruiters.</div><div class="rm-time">Month 10–12</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div>
+  <div class="section-title" style="background:var(--accent4);color:#fff;">📜 Top AI Certifications</div>
+  <div class="certs-grid">
+    <div class="cert-card" style="border-top:5px solid var(--career);">
+      <div class="cert-icon">🤖</div>
+      <div class="cert-name">DeepLearning.AI Specializations</div>
+      <div class="cert-body">Andrew Ng's courses on Coursera. ML, DL, LLMOps, MLOps specializations. Most recommended for beginners to intermediate.</div>
+      <div class="cert-level" style="background:#fff3cd;">Beginner → Advanced</div>
+    </div>
+    <div class="cert-card" style="border-top:5px solid #fb8500;">
+      <div class="cert-icon">☁️</div>
+      <div class="cert-name">AWS ML Specialty</div>
+      <div class="cert-body">Amazon's ML certification. Covers SageMaker, ML services, deployment. Highly valued by cloud and enterprise employers.</div>
+      <div class="cert-level" style="background:#fde8ef;">Intermediate</div>
+    </div>
+    <div class="cert-card" style="border-top:5px solid #3a86ff;">
+      <div class="cert-icon">🔷</div>
+      <div class="cert-name">Google Cloud ML Engineer</div>
+      <div class="cert-body">Professional-level certification for Google Cloud AI services, Vertex AI, BigQuery ML. Strong for GCP-heavy organizations.</div>
+      <div class="cert-level" style="background:#e8f4fd;">Advanced</div>
+    </div>
+    <div class="cert-card" style="border-top:5px solid #512bd4;">
+      <div class="cert-icon">🟣</div>
+      <div class="cert-name">Microsoft AI Engineer (AI-102)</div>
+      <div class="cert-body">Azure AI services, Cognitive Services, Azure OpenAI, Bot Framework. Best for .NET developers and Microsoft shop environments.</div>
+      <div class="cert-level" style="background:#f3e8ff;">Intermediate</div>
+    </div>
+    <div class="cert-card" style="border-top:5px solid var(--accent2);">
+      <div class="cert-icon">🤗</div>
+      <div class="cert-name">HuggingFace Certifications</div>
+      <div class="cert-body">Free and paid courses on Transformers, Diffusion, NLP, and Agents directly from the team behind the most-used AI library.</div>
+      <div class="cert-level" style="background:#e8f5e9;">Free · All levels</div>
+    </div>
+    <div class="cert-card" style="border-top:5px solid #f72585;">
+      <div class="cert-icon">🔥</div>
+      <div class="cert-name">Fast.ai Practical DL</div>
+      <div class="cert-body">Free, top-down practical approach to deep learning. Used by many practitioners who prefer hands-on learning over theory.</div>
+      <div class="cert-level" style="background:#fde8ef;">Free · Practical</div>
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="dark-box">
+  <div class="db-title">💡 CAREER PRO TIPS</div>
+  <ul>
+    <li><strong style="color:var(--accent3);">Build in public.</strong> Share your projects on GitHub and LinkedIn. AI hiring is highly portfolio-driven.</li>
+    <li><strong style="color:var(--accent3);">Start with LLM Engineering.</strong> It's the fastest-growing, highest-paying entry point in 2025 — no PhD needed.</li>
+    <li><strong style="color:var(--accent3);">Contribute to open-source.</strong> LangChain, HuggingFace, Ollama — even small PRs build credibility.</li>
+    <li><strong style="color:var(--accent3);">Write about what you learn.</strong> A blog post explaining RAG gets you more interviews than a certificate.</li>
+    <li><strong style="color:var(--accent3);">Learn the business side.</strong> AI engineers who understand why a model matters to the business are 10× more valuable.</li>
+    <li><strong style="color:var(--accent3);">Network at AI meetups.</strong> Most jobs are still filled through connections. Attend local and virtual AI events.</li>
+    <li><strong style="color:var(--accent3);">Don't wait until you're "ready."</strong> Start applying when you have 2–3 solid projects. You'll learn more on the job.</li>
+  </ul>
+</div>
+
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 728×90 — Replace with AdSense code</div></div></div>
+
+</div><!-- end main-col -->
+
+<div class="sidebar">
+  <div class="ad-sidebar"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>300×250<br>AdSense</div></div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1.1rem;letter-spacing:1px;margin-bottom:0.8rem;color:var(--career);">📋 On This Page</div>
+    <ul style="list-style:none;font-size:0.8rem;display:flex;flex-direction:column;gap:0.5rem;"><li>💼 AI Job Roles</li><li>💰 Salary Guide</li><li>🧰 Skills Map</li><li>🗺️ 12-Month Roadmap</li><li>📜 Certifications</li><li>💡 Pro Tips</li></ul>
+  </div>
+  <div style="background:var(--ink);color:#fff;border-radius:4px;border:var(--border);padding:1.2rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;color:var(--accent3);letter-spacing:1px;margin-bottom:0.5rem;">🔥 Hottest Skills 2025</div>
+    <ul style="font-size:0.75rem;list-style:none;display:flex;flex-direction:column;gap:0.4rem;">
+      <li style="color:#ccc;">⚡ LLM Engineering</li>
+      <li style="color:#ccc;">🔍 RAG + Vector DBs</li>
+      <li style="color:#ccc;">🤖 Agentic AI (LangGraph)</li>
+      <li style="color:#ccc;">☁️ Azure / AWS AI Services</li>
+      <li style="color:#ccc;">🐍 Python + PyTorch</li>
+      <li style="color:#ccc;">📊 Data + SQL</li>
+    </ul>
+  </div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;margin-bottom:0.5rem;color:var(--career);">📚 Learn More</div>
+    <a href="python-rag.html" style="display:block;font-size:0.82rem;color:#3a86ff;font-weight:700;margin-bottom:0.4rem;">🐍 Build in Python →</a>
+    <a href="dotnet-rag.html" style="display:block;font-size:0.82rem;color:#512bd4;font-weight:700;margin-bottom:0.4rem;">🟣 Build in .NET →</a>
+    <a href="agentic.html" style="display:block;font-size:0.82rem;color:#f72585;font-weight:700;">⚡ Master Agentic AI →</a>
+  </div>
+  <div class="ad-sidebar" style="min-height:600px;"><div style="font-size:1.5rem;">📢</div><div>Google Ad<br>160×600<br>Skyscraper</div></div>
+</div>
+</div>
+
+<div class="zigzag"></div>
+<footer><span>AI Cycle</span> · Built with ❤️ by Ashish Sinha · AI Developer<br><span style="font-size:0.7rem;color:#888;font-family:var(--font-body);">Educational content · Salary data approximate · All rights reserved · 2025</span></footer>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLMs | AI Cycle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1a1a2e;--panel-bg:#fffef5;--llm:#a855f7;--accent3:#ffe66d;--accent1:#ff6b35;--accent2:#4ecdc4;--border:3px solid #1a1a2e;--shadow:5px 5px 0 #1a1a2e;--font-title:'Bangers',cursive;--font-body:'Space Grotesk',sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#f5f0ff;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,#ddd6f7 39px,#ddd6f7 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,#ddd6f7 39px,#ddd6f7 40px);font-family:var(--font-body);color:var(--ink);}
+  nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--llm);}
+  .nav-logo{font-family:var(--font-title);font-size:2rem;color:var(--accent3);letter-spacing:2px;padding:0.5rem 0;}
+  .nav-logo span{color:var(--llm);}
+  .nav-links{display:flex;gap:0.25rem;flex-wrap:wrap;padding:0.5rem 0;}
+  .nav-links a{color:#fff;text-decoration:none;font-size:0.78rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:20px;border:2px solid transparent;transition:all 0.2s;text-transform:uppercase;}
+  .nav-links a:hover,.nav-links a.active{background:var(--llm);color:#fff;}
+  .nav-links a.new-badge::after{content:'NEW';background:var(--accent1);color:#fff;font-size:0.55rem;padding:1px 4px;border-radius:3px;margin-left:4px;vertical-align:top;}
+  .page-hero{background:var(--ink);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden;border-bottom:5px solid var(--llm);}
+  .page-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(168,85,247,0.1) 1px,transparent 1px);background-size:18px 18px;}
+  .page-hero h1{font-family:var(--font-title);font-size:3.8rem;letter-spacing:3px;position:relative;color:#fff;}
+  .page-hero h1 em{color:var(--llm);font-style:normal;}
+  .page-hero .sub{color:#ccc;font-size:1rem;max-width:600px;margin:0.8rem auto 0;position:relative;}
+  .chapter-badge{display:inline-block;background:var(--llm);color:#fff;font-family:var(--font-title);font-size:1rem;letter-spacing:2px;padding:0.3rem 1.2rem;border-radius:20px;border:2px solid #fff;margin-bottom:0.8rem;}
+  .content-grid{max-width:1100px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:1fr 220px;gap:2rem;align-items:start;}
+  .main-col{display:flex;flex-direction:column;gap:2rem;}
+  .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+  .section-title{font-family:var(--font-title);font-size:1.8rem;letter-spacing:2px;padding:0.4rem 1rem;border:var(--border);display:inline-block;box-shadow:var(--shadow);border-radius:4px;margin-bottom:1rem;}
+  .concept-box{background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1.5rem;}
+  .panel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;}
+  .panel{background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1.2rem;}
+  .panel h3{font-family:var(--font-title);font-size:1.2rem;letter-spacing:1px;margin-bottom:0.4rem;}
+  .panel p{font-size:0.78rem;line-height:1.6;color:#444;}
+  .panel-emoji{font-size:2.2rem;margin-bottom:0.4rem;}
+  .token-demo{background:var(--ink);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1.5rem;}
+  .token-demo .td-title{font-family:var(--font-title);font-size:1rem;color:var(--accent3);letter-spacing:1px;margin-bottom:0.8rem;}
+  .token-row{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.8rem;}
+  .token{display:inline-block;padding:0.3rem 0.6rem;border-radius:4px;font-family:'Courier New',monospace;font-size:0.78rem;border:1.5px solid;font-weight:700;}
+  .models-table{width:100%;border-collapse:collapse;font-size:0.82rem;background:var(--panel-bg);border:var(--border);box-shadow:var(--shadow);}
+  .models-table th{background:var(--ink);color:var(--accent3);font-family:var(--font-title);font-size:0.95rem;letter-spacing:1px;padding:0.6rem 1rem;text-align:left;}
+  .models-table td{padding:0.55rem 1rem;border-bottom:1.5px solid #ddd;vertical-align:middle;}
+  .models-table tr:last-child td{border-bottom:none;}
+  .models-table tr:nth-child(even) td{background:#f5f0ff;}
+  .prompt-box{background:#0d1117;border:var(--border);border-radius:4px;box-shadow:var(--shadow);overflow-x:auto;font-size:0.78rem;line-height:1.7;margin:0.8rem 0;}
+  .prompt-header{background:#161b22;color:var(--accent3);font-family:var(--font-title);font-size:0.9rem;letter-spacing:1px;padding:0.5rem 1rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1.5px solid #30363d;}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .prompt-body{padding:1rem 1.2rem;font-family:'Courier New',monospace;color:#e6edf3;}
+  .usr{color:#79c0ff;} .sys{color:#a5d6ff;} .ast{color:#a8ff78;}
+  .ad-banner{background:#fff8e1;border:2px dashed #ccc;border-radius:4px;text-align:center;padding:1rem;color:#999;font-size:0.8rem;position:relative;}
+  .ad-banner::before{content:'Advertisement';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff8e1;padding:0 6px;font-size:0.7rem;color:#bbb;}
+  .ad-banner .ad-inner{min-height:90px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;}
+  .ad-sidebar{background:#fff8e1;border:2px dashed #ccc;border-radius:4px;text-align:center;padding:1rem 0.5rem;color:#999;font-size:0.75rem;min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;position:relative;}
+  .ad-sidebar::before{content:'Ad';position:absolute;top:6px;right:8px;font-size:0.6rem;color:#ccc;}
+  .zigzag{height:20px;background:linear-gradient(135deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(225deg,var(--ink) 25%,transparent 25%) -10px 0,linear-gradient(315deg,var(--ink) 25%,transparent 25%),linear-gradient(45deg,var(--ink) 25%,transparent 25%);background-size:20px 20px;background-color:var(--llm);margin:1rem 0;}
+  footer{background:var(--ink);color:#ccc;text-align:center;padding:1.5rem;font-size:0.8rem;margin-top:3rem;}
+  footer span{color:var(--accent3);font-family:var(--font-title);font-size:1rem;letter-spacing:1px;}
+  @media(max-width:768px){.content-grid{grid-template-columns:1fr;}.page-hero h1{font-size:2.5rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">AI<span>Cycle</span></div>
+<div style="font-size:0.62rem;color:#aaa;font-family:var(--font-body);letter-spacing:0.3px;line-height:1.4;">
+      Built with 🧠 by <strong style="color:#ddd;">Ashish Sinha</strong> · AI Developer<br>
+      <a href="mailto:startvsnotes@gmail.com" style="color:var(--accent3);text-decoration:none;">✉️ startvsnotes@gmail.com</a><br>
+      <span style="color:#777;">Educational content · All rights reserved · 2025-30</span>
+    </div>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a><a href="intro.html">Intro</a><a href="ml.html">ML</a><a href="deeplearning.html">Deep Learning</a><a href="llms.html" class="active">LLMs</a><a href="rag.html">RAG</a><a href="agentic.html" class="new-badge">Agentic AI</a><a href="python-rag.html" class="new-badge">Python RAG</a><a href="dotnet-rag.html" class="new-badge">.NET RAG</a><a href="tools.html">AI Tools</a><a href="career.html">Career</a>
+  </div>
+</nav>
+<div style="max-width:1100px;margin:1rem auto;padding:0 2rem;"><div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad 728×90</div></div></div></div>
+<div class="page-hero">
+  <div class="chapter-badge">💬 Chapter 4 · Intermediate</div>
+  <h1>LARGE LANGUAGE<br><em>MODELS</em></h1>
+  <p class="sub">How GPT, Claude, and Gemini work — tokenization, embeddings, attention, prompting, and the era of foundation models.</p>
+</div>
+<div class="zigzag"></div>
+<div class="content-grid">
+<div class="main-col">
+
+<div>
+  <div class="section-title" style="background:var(--llm);color:#fff;">💬 What is an LLM?</div>
+  <div class="concept-box">
+    <p style="font-size:0.9rem;line-height:1.8;margin-bottom:1rem;">A <strong>Large Language Model (LLM)</strong> is a deep learning model trained on massive amounts of text (trillions of tokens) to predict the next most likely word/token. The emergent result is a system that can write, reason, code, translate, and converse at near-human level.</p>
+    <div style="background:#f3e8ff;border:var(--border);border-radius:4px;padding:1rem;box-shadow:3px 3px 0 var(--ink);">
+      <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;">🎯 Core Insight:</strong>
+      <p style="font-size:0.83rem;margin-top:0.3rem;line-height:1.6;">A model trained to predict text with enough data and compute also learns <em>world knowledge, reasoning, math, code, and logic</em> as byproducts. Intelligence emerges from prediction at scale.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TOKENIZATION -->
+<div>
+  <div class="section-title" style="background:var(--accent3);">🔤 Step 1: Tokenization</div>
+  <div class="concept-box" style="margin-bottom:1rem;">
+    <p style="font-size:0.85rem;line-height:1.7;margin-bottom:1rem;">LLMs don't read words — they read <strong>tokens</strong>. Tokens are chunks of text (subwords, words, or characters) mapped to IDs. GPT-4 uses ~100K tokens; the average word is ~1.3 tokens.</p>
+  </div>
+  <div class="token-demo">
+    <div class="td-title">🔍 How "Hello World!" is tokenized:</div>
+    <div class="token-row">
+      <span class="token" style="background:#1e3a5f;color:#79c0ff;border-color:#79c0ff;">Hello</span>
+      <span class="token" style="background:#1e3a2f;color:#a8ff78;border-color:#a8ff78;">&nbsp;World</span>
+      <span class="token" style="background:#3a1e2f;color:#f72585;border-color:#f72585;">!</span>
+    </div>
+    <div class="td-title">🔢 Token IDs:</div>
+    <div class="token-row">
+      <span class="token" style="background:#333;color:#ccc;border-color:#555;">9906</span>
+      <span class="token" style="background:#333;color:#ccc;border-color:#555;">3146</span>
+      <span class="token" style="background:#333;color:#ccc;border-color:#555;">0</span>
+    </div>
+    <p style="color:#aaa;font-size:0.75rem;margin-top:0.5rem;">Each token ID maps to a row in the model's embedding matrix (a lookup table of vectors).</p>
+  </div>
+</div>
+
+<!-- HOW LLMs WORK -->
+<div>
+  <div class="section-title" style="background:var(--accent1);color:#fff;">⚙️ How LLMs Generate Text</div>
+  <div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));">
+    <div class="panel">
+      <div class="panel-emoji">🔤</div>
+      <h3>1. Tokenize</h3>
+      <p>Input text split into tokens and converted to integer IDs.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-emoji">📐</div>
+      <h3>2. Embed</h3>
+      <p>Each token ID → high-dimensional vector (e.g. 4096-dim for GPT-4) via embedding lookup.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-emoji">👁️</div>
+      <h3>3. Attention</h3>
+      <p>Self-attention layers relate each token to all others, building contextual representations.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-emoji">🧮</div>
+      <h3>4. Transform</h3>
+      <p>Many stacked Transformer blocks process the representations (GPT-4 has ~120 layers).</p>
+    </div>
+    <div class="panel">
+      <div class="panel-emoji">🎲</div>
+      <h3>5. Sample</h3>
+      <p>Final layer outputs probability distribution over all tokens. Sample next token using temperature.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-emoji">🔁</div>
+      <h3>6. Repeat</h3>
+      <p>Add sampled token to context and repeat until end-of-sequence token is generated.</p>
+    </div>
+  </div>
+</div>
+
+<!-- AD MID -->
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 468×60</div></div></div>
+
+<!-- MAJOR MODELS -->
+<div>
+  <div class="section-title" style="background:var(--ink);color:var(--accent3);">🏆 Major LLMs Compared</div>
+  <table class="models-table">
+    <thead><tr><th>Model</th><th>Creator</th><th>Context Window</th><th>Strength</th></tr></thead>
+    <tbody>
+      <tr><td>💬 GPT-4o</td><td>OpenAI</td><td>128K tokens</td><td>General reasoning, multimodal, coding</td></tr>
+      <tr><td>🤖 Claude 3.5 Sonnet</td><td>Anthropic</td><td>200K tokens</td><td>Long context, safety, nuanced writing</td></tr>
+      <tr><td>💎 Gemini 1.5 Pro</td><td>Google</td><td>1M tokens</td><td>Massive context, multimodal, search</td></tr>
+      <tr><td>🦙 Llama 3.3</td><td>Meta</td><td>128K tokens</td><td>Open source, self-hosted, fine-tunable</td></tr>
+      <tr><td>🔮 Mistral Large</td><td>Mistral AI</td><td>32K tokens</td><td>Efficient, European, strong reasoning</td></tr>
+      <tr><td>🌐 Qwen 2.5</td><td>Alibaba</td><td>128K tokens</td><td>Multilingual, code, math, open</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PROMPT ENGINEERING -->
+<div>
+  <div class="section-title" style="background:var(--llm);color:#fff;">✍️ Prompt Engineering</div>
+  <p style="margin-bottom:1rem;font-size:0.85rem;line-height:1.7;">The art of crafting inputs to get the best outputs from LLMs. Key techniques:</p>
+  <div class="prompt-box">
+    <div class="prompt-header"><span class="dot" style="background:#ff5f57;"></span><span class="dot" style="background:#febc2e;"></span><span class="dot" style="background:#28c840;"></span>&nbsp;prompt_patterns.txt</div>
+    <div class="prompt-body">
+<span class="sys">SYSTEM:</span> <span style="color:#a5d6ff;">You are an expert Python developer. Be concise and precise.</span><br>
+<br>
+<span class="usr">USER (Zero-Shot):</span><br>
+<span style="color:#e6edf3;">Write a function to reverse a linked list.</span><br>
+<br>
+<span class="usr">USER (Few-Shot with examples):</span><br>
+<span style="color:#e6edf3;">Classify sentiment. Positive/Negative/Neutral:<br>
+"Great product!" → Positive<br>
+"Terrible service" → Negative<br>
+"It arrived today" → ?</span><br>
+<br>
+<span class="usr">USER (Chain-of-Thought):</span><br>
+<span style="color:#e6edf3;">Solve step by step: A bat and ball cost $1.10 total.<br>
+The bat costs $1 more than the ball. What does the ball cost?<br>
+Think through this carefully before answering.</span><br>
+<br>
+<span class="ast">ASSISTANT:</span> <span style="color:#a8ff78;">Let me think step by step...</span>
+    </div>
+  </div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;margin-top:0.8rem;">
+    <strong style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;">🎯 Top Prompt Tips:</strong>
+    <ul style="margin-top:0.5rem;font-size:0.8rem;line-height:1.9;padding-left:1.2rem;">
+      <li>Be specific — vague prompts get vague answers</li>
+      <li>Give examples (few-shot) for complex formats</li>
+      <li>Ask it to think step-by-step (Chain-of-Thought)</li>
+      <li>Assign a role: "You are an expert in..."</li>
+      <li>Specify output format: JSON, bullet list, table</li>
+      <li>Use temperature=0 for deterministic, factual answers</li>
+    </ul>
+  </div>
+</div>
+
+<div class="ad-banner"><div class="ad-inner"><div>📢 Google Ad — 728×90</div></div></div>
+
+</div>
+<div class="sidebar">
+  <div class="ad-sidebar"><div style="font-size:1.5rem;">📢</div><div>Google Ad 300×250</div></div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1.1rem;letter-spacing:1px;margin-bottom:0.8rem;color:var(--llm);">📋 On This Page</div>
+    <ul style="list-style:none;font-size:0.8rem;display:flex;flex-direction:column;gap:0.5rem;"><li>💬 What is an LLM?</li><li>🔤 Tokenization</li><li>⚙️ How LLMs Generate</li><li>🏆 Models Compared</li><li>✍️ Prompt Engineering</li></ul>
+  </div>
+  <div style="background:var(--ink);color:#fff;border-radius:4px;border:var(--border);padding:1.2rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;color:var(--accent3);letter-spacing:1px;margin-bottom:0.5rem;">💡 Key Terms</div>
+    <dl style="font-size:0.75rem;display:flex;flex-direction:column;gap:0.5rem;">
+      <div><dt style="color:var(--accent3);font-weight:700;">Token</dt><dd style="color:#ccc;">Text chunk; ~0.75 words on average</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">Context Window</dt><dd style="color:#ccc;">Max tokens the model can process at once</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">Temperature</dt><dd style="color:#ccc;">0=deterministic, 1=creative/random</dd></div>
+      <div><dt style="color:var(--accent3);font-weight:700;">RLHF</dt><dd style="color:#ccc;">Reinforcement Learning from Human Feedback — how LLMs are aligned</dd></div>
+    </dl>
+  </div>
+  <div style="background:var(--panel-bg);border:var(--border);border-radius:4px;box-shadow:var(--shadow);padding:1rem;">
+    <div style="font-family:var(--font-title);font-size:1rem;letter-spacing:1px;margin-bottom:0.5rem;">👉 Next Up</div>
+    <a href="rag.html" style="display:block;font-size:0.85rem;color:var(--llm);font-weight:700;">🔍 RAG →</a>
+  </div>
+  <div class="ad-sidebar" style="min-height:400px;"><div style="font-size:1.5rem;">📢</div><div>Google Ad 160×600</div></div>
+</div>
+</div>
+<div class="zigzag"></div>
+<footer><span>AI Cycle</span> · Built with ❤️ by Ashish Sinha · AI Developer<br><span style="font-size:0.7rem;color:#888;font-family:var(--font-body);">Educational content · All rights reserved · 2025</span></footer>
+</body>
+</html>
